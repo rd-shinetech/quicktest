@@ -10,7 +10,7 @@ import java.util.Arrays;
  *
  */
 public class User implements Domain {
-	private long id;
+	private final long id;
 	private String login;
 	private char[] password;
 	private Profile profile;
