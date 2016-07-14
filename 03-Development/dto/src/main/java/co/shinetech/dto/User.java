@@ -74,6 +74,9 @@ public class User implements Domain {
 		return true;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", login=" + login + ", password="
+			+ Arrays.toString(password) + ", profile=" + profile + "]";
+	}
 }
