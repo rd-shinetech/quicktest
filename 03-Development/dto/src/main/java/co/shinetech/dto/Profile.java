@@ -27,16 +27,17 @@ public class Profile implements Domain{
 	
 	@Override
 	public String toString(){
-
+		return "id: " + id + ", Name: " + name;
 	}
 	
 	@Override
 	public boolean equals(Object other){
 		if(other instanceof Profile){
-			Profile p = (Profile other);
-			return this.id == p.getPk() && this.name.equals(p.getName());
+			Profile p = (Profile) other;
+			return (this.id == p.getPk()) && this.name.equals(p.getName());
 		}
 		return false;
+		
 	}
 	
 }
