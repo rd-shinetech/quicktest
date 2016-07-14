@@ -9,5 +9,5 @@ package co.shinetech.domain;
  *
  */
 public enum ActivityType {
-
+	EXAME, EXERCISE
 }
