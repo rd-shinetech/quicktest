@@ -3,8 +3,8 @@
  */
 package co.shinetech.domain;
 
-
 /**
+ * 
  * @author Robin
  *
  */
