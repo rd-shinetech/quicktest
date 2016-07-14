@@ -8,5 +8,9 @@ import java.io.Serializable;
  *
  */
 public interface Domain extends Serializable {
+	/**
+	 * Returns this object id.
+	 * @return id
+	 */
 	public long getPk();
 }
