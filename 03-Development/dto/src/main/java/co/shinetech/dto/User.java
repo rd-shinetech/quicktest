@@ -13,9 +13,39 @@ public class User implements Domain {
 	private long id;
 	private String login;
 	private char[] password;
+	private Profile profile;
 	
 	public User(long id) {
 		this.id = id;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	
+	public char[] getPassword() {
+		return password;
+	}
+
+	
+	public void setPassword(char[] password) {
+		this.password = password;
+	}
+
+	
+	public Profile getProfile() {
+		return profile;
+	}
+
+	
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 
 	public long getPk() {
@@ -44,10 +74,6 @@ public class User implements Domain {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", login=" + login + ", password="
-			+ Arrays.toString(password) + "]";
-	}
+	
 	
 }
