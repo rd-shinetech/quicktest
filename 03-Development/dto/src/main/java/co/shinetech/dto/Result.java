@@ -1,7 +1,7 @@
 /**
  * 
  */
-
+package co.shinetech.dto;
 /**
  * @author Ricardo
  *
