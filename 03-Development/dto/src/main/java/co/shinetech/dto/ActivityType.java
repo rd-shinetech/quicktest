@@ -1,7 +1,7 @@
 /**
  * 
  */
-package co.shinetech.domain;
+package co.shinetech.dto;
 
 /**
  * 
