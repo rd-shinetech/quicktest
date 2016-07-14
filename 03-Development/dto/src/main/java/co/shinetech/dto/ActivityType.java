@@ -1,7 +1,7 @@
 /**
  * 
  */
-package co.shinetech.domain;
+package co.shinetech.dto;
 
 /**
  * 
@@ -9,5 +9,5 @@ package co.shinetech.domain;
  *
  */
 public enum ActivityType {
-
+	EXAME, EXERCISE
 }
