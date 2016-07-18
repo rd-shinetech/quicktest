@@ -1,6 +1,8 @@
 package co.shinetech.dto;
 
 public class Profile implements Domain{
+
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
 	
