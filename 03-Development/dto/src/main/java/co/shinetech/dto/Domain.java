@@ -1,14 +1,16 @@
-/**
- * 
- */
 package co.shinetech.dto;
 
+import java.io.Serializable;
+
 /**
- * @author rdinis
+ * 
+ * @author Robin
  *
  */
-public class Domain {
-	public static void main(String[] args) {
-		System.out.println("Hello");
-	}	
+public interface Domain extends Serializable {
+	/**
+	 * Returns this object id.
+	 * @return id
+	 */
+	public long getPk();
 }
