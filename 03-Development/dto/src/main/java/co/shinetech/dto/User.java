@@ -18,6 +18,24 @@ public class User implements Domain {
 	public User(long id) {
 		this.id = id;
 	}
+	
+	public User(long id, Profile profile) {
+		super();
+		this.id = id;
+		this.profile = profile;
+	}
+
+
+
+	public User(long id, String login, char[] password, Profile profile) {
+		super();
+		this.id = id;
+		this.login = login;
+		this.password = password;
+		this.profile = profile;
+	}
+
+
 
 	public String getLogin() {
 		return login;
