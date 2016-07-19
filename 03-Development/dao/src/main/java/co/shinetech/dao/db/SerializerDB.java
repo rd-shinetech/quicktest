@@ -18,6 +18,7 @@ import java.util.Properties;
 
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.Domain;
+import co.shinetech.dto.Profile;
 
 /**
  * Class that implements Faceter's database.
@@ -27,14 +28,15 @@ import co.shinetech.dto.Domain;
 public class SerializerDB {
     // Data Storage
 	private final static HashMap<String,Activity> activityData;
-    private final static HashMap<String,Long> idControlMapData;
+    private final static HashMap<String,Profile> profileData;
+	private final static HashMap<String,Long> idControlMapData;
     
     // Table Storage
     private static final HashMap<String,HashMap> tablesMap;
     
     // Table Constants
     public static final String TABLE_ACTIVITY = "Activity";
-    //public static final String TABLE_GEOMETRY_FORMAT       = "Geometry_Format";
+    public static final String TABLE_PROFILE  = "Profile";
 
     public static final String TABLE_ID_CONTROL            = "Id_Control";
     
@@ -56,6 +58,7 @@ public class SerializerDB {
         }
             
         activityData = new HashMap<>();
+        profileData = new HashMap<>();
         idControlMapData = new HashMap<>();
         tablesMap = new HashMap<>();
         // Fill ID control table starting with zeros
@@ -63,6 +66,7 @@ public class SerializerDB {
 
         tablesMap.put(TABLE_ACTIVITY, activityData);
         tablesMap.put(TABLE_ID_CONTROL,idControlMapData);
+        tablesMap.put(TABLE_PROFILE, profileData);
         load();
     }
 
