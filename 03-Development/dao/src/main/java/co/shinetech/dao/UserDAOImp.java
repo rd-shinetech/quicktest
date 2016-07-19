@@ -27,26 +27,22 @@ public class UserDAOImp implements PersistenceProvider<User>{
 
 	@Override
 	public User retrieveByID(int ID) throws PersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+		return (User)SerializerDB.selectById(SerializerDB.TABLE_USER, ID);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<User> retrieveAll() throws PersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+		return (ArrayList<User>)SerializerDB.selectAll(SerializerDB.TABLE_USER);
 	}
 
 	@Override
 	public void delete(int ID) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		SerializerDB.delete(SerializerDB.TABLE_USER, ID);	
 	}
 
 	@Override
 	public int count() throws PersistenceException {
-		// TODO Auto-generated method stub
-		return 0;
+		return SerializerDB.count(SerializerDB.TABLE_USER);
 	}
-
 }
