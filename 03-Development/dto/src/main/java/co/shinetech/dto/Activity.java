@@ -11,13 +11,30 @@ public class Activity implements Domain{
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private String className;
+	private User teacher;
+	
+	public Activity(long id, int name, LocalDateTime startTime, LocalDateTime endTime, String className, User teacher) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.className = className;
+		this.teacher = teacher;
+	}
+
+	public long getPk(){
+		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	public int getName() {
 		return name;
 	}
-	public long getPk(){
-		return id;
-	}
+	
 	public void setName(int name) {
 		this.name = name;
 	}
@@ -42,18 +59,18 @@ public class Activity implements Domain{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public void setId(long id) {
-		this.id = id;
+	
+	public User getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(User teacher) {
+		this.teacher = teacher;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((className == null) ? 0 : className.hashCode());
-		result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + name;
-		result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
 		return result;
 	}
 	@Override
@@ -84,14 +101,17 @@ public class Activity implements Domain{
 				return false;
 		} else if (!startTime.equals(other.startTime))
 			return false;
+		if (teacher == null) {
+			if (other.teacher != null)
+				return false;
+		} else if (!teacher.equals(other.teacher))
+			return false;
 		return true;
 	}
-	
 	@Override
 	public String toString() {
 		return "Activity [id=" + id + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", className=" + className + "]";
+				+ ", className=" + className + ", teacher=" + teacher + "]";
 	}
-	
 	
 }
