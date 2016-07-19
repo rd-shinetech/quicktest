@@ -1,6 +1,8 @@
 package co.shinetech.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
 /**
  * @author Ricardo
  *
@@ -11,6 +13,7 @@ public class Result implements Domain {
 	private long id;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
+	private ArrayList<ResultItem> items = new ArrayList<ResultItem>(); 
 	
 	public Result(long id) {
 		this.id = id;
@@ -21,6 +24,32 @@ public class Result implements Domain {
 	}	
 	
 	// Access methods
+	
+	/** 
+	 * adding elements to the list
+	 * @param rItem - ResultItem
+	 */
+	public void addItems(ResultItem rItem) {
+		items.add(rItem);
+	}
+	
+	/**
+	 * removing elements from the list
+	 * @param itemRemove
+	 */
+	public void removeItems(ResultItem itemRemove) {
+		items.remove(itemRemove);
+	}
+	
+	/**
+	 * Iterate through the list (items)
+	 * @return
+	 */
+	public Iterator<ResultItem> iterateItems() {
+		return items.iterator();
+	}
+	
+	
 	public LocalDateTime getStartTime() {
 		return startTime;
 	}
@@ -37,13 +66,12 @@ public class Result implements Domain {
 		this.endTime = endTime;
 	}
 	
-	// hashCode
+	// hashCode	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
-		result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
 	
@@ -57,24 +85,16 @@ public class Result implements Domain {
 		if (getClass() != obj.getClass())
 			return false;
 		Result other = (Result) obj;
-		if (endTime == null) {
-			if (other.endTime != null)
-				return false;
-		} else if (!endTime.equals(other.endTime))
-			return false;
-		if (startTime == null) {
-			if (other.startTime != null)
-				return false;
-		} else if (!startTime.equals(other.startTime))
+		if (id != other.id)
 			return false;
 		return true;
 	}
-	
 	// toString
+
 	@Override
 	public String toString() {
-		return "Result [startTime=" + startTime + ", endTime=" + endTime + "]";
+		return "Result [id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + "]";
 	}
-	
+		
 	
 }
