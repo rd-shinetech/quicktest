@@ -33,8 +33,9 @@ public class ActivityTest {
 		Profile prof = new Profile(400,"Teacher");
 		User teacher = new User(300,prof);
 		LocalDateTime ldt = LocalDateTime.now().plusHours(1);
-		Activity a1 = new Activity(39,"Joel",LocalDateTime.now(),ldt,"class1",teacher);
-		Activity a2 = new Activity(39,"Joel",LocalDateTime.now(),ldt,"class1",teacher);
+		LocalDateTime ldtnow = LocalDateTime.now();
+		Activity a1 = new Activity(39,"Joel",ldtnow,ldt,"class1",teacher);
+		Activity a2 = new Activity(39,"Joel",ldtnow,ldt,"class1",teacher);
 		System.out.println(a1.toString());
 		System.out.println(a2.toString());
 		assertEquals(a1.hashCode(),a2.hashCode());
