@@ -14,10 +14,7 @@ public class Profile implements Domain{
 	public long getPk(){
 		return id;
 	}
-	
-	public void setPk(long pk){
-		id = pk;
-	}
+
 	
 	public String getName(){
 		return name;
