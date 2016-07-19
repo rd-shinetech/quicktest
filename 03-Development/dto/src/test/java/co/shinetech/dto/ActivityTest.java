@@ -10,7 +10,7 @@ import static org.junit.Assert.assertNotNull;
 import java.time.LocalDateTime;
 
 /**
- * @author Gonçalo
+ * @author Goncalo
  *
  */
 public class ActivityTest {
