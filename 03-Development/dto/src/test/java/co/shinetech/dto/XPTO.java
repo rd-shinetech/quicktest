@@ -8,5 +8,6 @@ package co.shinetech.dto;
  *
  */
 public class XPTO {
+	
 
 }

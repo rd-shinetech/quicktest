@@ -6,15 +6,20 @@ package co.shinetech.dto;
 public class ResultItem implements Domain {
 	
 	// Attributes
-	String result;
+	private long id;
+	private String result;
 	
-	public ResultItem(String result) {
+	public ResultItem(long id, String result) {
+		this.id = id;
 		this.result = result;
 	}
 	
+	public ResultItem(long id) {
+		this.id = id;
+	}
+	
 	public long getPk() {
-		// TODO Auto-generated method stub
-	return 0;
+		return id;
 	}
 	
 	// Access methods
@@ -31,10 +36,9 @@ public class ResultItem implements Domain {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.result == null) ? 0 : this.result.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
-
 	// equals
 	@Override
 	public boolean equals(Object obj) {
@@ -45,10 +49,7 @@ public class ResultItem implements Domain {
 		if (getClass() != obj.getClass())
 			return false;
 		ResultItem other = (ResultItem) obj;
-		if (result == null) {
-			if (other.result != null)
-				return false;
-		} else if (!result.equals(other.result))
+		if (id != other.id)
 			return false;
 		return true;
 	}
@@ -56,7 +57,7 @@ public class ResultItem implements Domain {
 	// toString
 	@Override
 	public String toString() {
-		return "ResultItem [result=" + result + "]";
-	}	
+		return "ResultItem [id=" + id + ", result=" + result + "]";
+	}		
 	
 }
