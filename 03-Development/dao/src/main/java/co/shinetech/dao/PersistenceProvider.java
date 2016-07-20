@@ -21,4 +21,5 @@ public interface PersistenceProvider<T extends Domain> {
     ArrayList<T> retrieveAll() throws PersistenceException;
     void delete(long ID) throws PersistenceException;
     int count() throws PersistenceException;
+    long nextId() throws PersistenceException;
 }

@@ -1,5 +1,6 @@
 package co.shinetech.dao;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import co.shinetech.dao.db.PersistenceException;
@@ -22,6 +23,12 @@ public class UserDAOTest {
 	private static final PersistenceProvider<User> userDao = SerializerDBProviderFactory
 	.getPersistenceProvider(SerializerDBProviderFactory
 		.TABLE_USER);
+	 
+	@Before
+	public void setup() {
+		
+	}
+	
 	@Test
 	public void createUser() throws PersistenceException {
 		User u = new User(id, login, pwd, profile);
@@ -41,8 +48,11 @@ public class UserDAOTest {
 	public void deleteUser() throws PersistenceException {
 		if (!userExists())
 			createUser();
-
+		userDao.delete(id);
 	}
+	
+	@Test
+	
 
 	private boolean userExists() throws PersistenceException {
 		return userDao.retrieveByID(id) != null;

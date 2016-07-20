@@ -46,4 +46,9 @@ public class UserDAOImp implements PersistenceProvider<User>{
 	public int count() throws PersistenceException {
 		return SerializerDB.count(SerializerDB.TABLE_USER);
 	}
+
+	@Override
+	public long nextId() throws PersistenceException {
+		return SerializerDB.nextId(SerializerDB.TABLE_USER);
+	}
 }

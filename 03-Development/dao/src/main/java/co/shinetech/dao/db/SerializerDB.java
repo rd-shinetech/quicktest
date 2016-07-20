@@ -139,7 +139,7 @@ public class SerializerDB {
     }
             
     @SuppressWarnings("unchecked")
-    public static synchronized Long nextId(String table) throws PersistenceException {
+    public static synchronized long nextId(String table) throws PersistenceException {
 		HashMap<String,Long> idControl = tablesMap.get(TABLE_ID_CONTROL);
         Long id = idControl.get(table);
         
