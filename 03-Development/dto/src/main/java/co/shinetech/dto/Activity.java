@@ -14,6 +14,7 @@ public class Activity implements Domain{
 	private String className;
 	private User teacher;
 	private ArrayList<ActivityType> at = new ArrayList<ActivityType>();
+	private Group group;
 	
 	public long getPk() {
 		return id;
@@ -57,6 +58,12 @@ public class Activity implements Domain{
 	public void setAt(ArrayList<ActivityType> at) {
 		this.at = at;
 	}
+	public Group getGroup(){
+		return group;
+	}
+	public void setGroup(Group group){
+		this.group = group;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -91,6 +98,11 @@ public class Activity implements Domain{
 				return false;
 		} else if (!endTime.equals(other.endTime))
 			return false;
+		if (group == null) {
+			if (other.group != null)
+				return false;
+		} else if (!group.equals(other.group))
+			return false;
 		if (id != other.id)
 			return false;
 		if (name == null) {
@@ -113,8 +125,10 @@ public class Activity implements Domain{
 	@Override
 	public String toString() {
 		return "Activity [id=" + id + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", className=" + className + ", teacher=" + teacher + ", at=" + at + "]";
-	} 
+				+ ", className=" + className + ", teacher=" + teacher + ", at=" + at + ", group=" + group + "]";
+	}
+	@Override
+	
 	
 	
 	
