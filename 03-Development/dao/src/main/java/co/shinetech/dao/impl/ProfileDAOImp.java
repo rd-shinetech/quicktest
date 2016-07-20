@@ -54,4 +54,9 @@ public class ProfileDAOImp implements PersistenceProvider<Profile>{
 		return (int) c;
 	}
 
+	@Override
+	public long nextId() throws PersistenceException {
+		return SerializerDB.nextId(SerializerDB.TABLE_PROFILE);
+	}
+
 }

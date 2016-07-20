@@ -47,4 +47,9 @@ public class GroupDAOImp implements PersistenceProvider<Group>{
 		return (int) c;
 	}
 
+	@Override
+	public long nextId() throws PersistenceException {
+		return SerializerDB.nextId(SerializerDB.TABLE_GROUP);
+	}
+
 }
