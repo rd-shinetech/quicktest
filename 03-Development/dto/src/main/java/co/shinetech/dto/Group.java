@@ -5,6 +5,12 @@ public class Group implements Domain{
 	private long id;
 	private String name;
 	
+	
+	
+	public Group(long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 	public long getPk() {
 		return id;
 	}
@@ -22,7 +28,6 @@ public class Group implements Domain{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 	@Override
