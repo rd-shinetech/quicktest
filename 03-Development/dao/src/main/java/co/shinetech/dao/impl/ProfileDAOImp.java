@@ -30,7 +30,7 @@ public class ProfileDAOImp implements PersistenceProvider<Profile>{
 	}
 
 	@Override
-	public Profile retrieveByID(int ID) throws PersistenceException {
+	public Profile retrieveByID(long ID) throws PersistenceException {
 		Domain d = SerializerDB.selectById(SerializerDB.TABLE_PROFILE, ID);
 		return (Profile) d;
 	}
@@ -43,7 +43,7 @@ public class ProfileDAOImp implements PersistenceProvider<Profile>{
 	}
 
 	@Override
-	public void delete(int ID) throws PersistenceException {
+	public void delete(long ID) throws PersistenceException {
 		SerializerDB.delete(SerializerDB.TABLE_PROFILE, ID);
 		
 	}

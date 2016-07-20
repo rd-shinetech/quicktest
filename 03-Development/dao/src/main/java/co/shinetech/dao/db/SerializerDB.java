@@ -144,6 +144,9 @@ public class SerializerDB {
     @SuppressWarnings("unchecked")
 	public static void insert(String table,Domain value) throws PersistenceException {
     	tablesMap.get(table).put(value.getPk(), value);
+        if ( tablesMap.get(table).containsKey(value.getPk()) )
+        	throw new PersistenceException("Object " + table + ".ID=" + value.getPk() + " exists in database");
+    	tablesMap.get(table).put(value.getPk(), value);
         write(table);
     }
     
@@ -158,7 +161,7 @@ public class SerializerDB {
         write(table);
     }
     
-    public static void delete(String table,int id) throws PersistenceException {
+    public static void delete(String table,long id) throws PersistenceException {
         Domain d = (Domain) tablesMap.get(table).get(id);
         
         if( d == null )
@@ -177,7 +180,7 @@ public class SerializerDB {
         return r;
     }
     
-    public static Domain selectById(String table,int ID) {
+    public static Domain selectById(String table,long ID) {
         Domain d = (Domain) tablesMap.get(table).get(ID);
 
         return d;

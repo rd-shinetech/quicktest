@@ -27,7 +27,7 @@ public class UserDAOImp implements PersistenceProvider<User>{
 	}
 
 	@Override
-	public User retrieveByID(int ID) throws PersistenceException {
+	public User retrieveByID(long ID) throws PersistenceException {
 		return (User)SerializerDB.selectById(SerializerDB.TABLE_USER, ID);
 	}
 
@@ -38,7 +38,7 @@ public class UserDAOImp implements PersistenceProvider<User>{
 	}
 
 	@Override
-	public void delete(int ID) throws PersistenceException {
+	public void delete(long ID) throws PersistenceException {
 		SerializerDB.delete(SerializerDB.TABLE_USER, ID);	
 	}
 
