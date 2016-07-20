@@ -1,10 +1,11 @@
 /**
  * 
  */
-package co.shinetech.dao;
+package co.shinetech.dao.impl;
 
 import java.util.ArrayList;
 
+import co.shinetech.dao.PersistenceProvider;
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dao.db.SerializerDB;
 import co.shinetech.dto.User;
