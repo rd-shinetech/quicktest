@@ -19,6 +19,7 @@ import java.util.Properties;
 
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.Domain;
+import co.shinetech.dto.Group;
 import co.shinetech.dto.Profile;
 import co.shinetech.dto.User;
 
@@ -31,8 +32,9 @@ public class SerializerDB {
     // Data Storage
 	private final static HashMap<Long,Activity> activityData;
     private final static HashMap<Long,Profile> profileData;
-    private final static HashMap<Long, User> userData;
+    private final static HashMap<Long,User> userData;
     private final static HashMap<String,Long> idControlMapData;
+    private final static HashMap<Long, Group> groupData;
     
     // Table Storage
     private static final HashMap<String,HashMap> tablesMap;
@@ -65,14 +67,19 @@ public class SerializerDB {
         profileData = new HashMap<>();
         userData = new HashMap<>();
         idControlMapData = new HashMap<>();
+        groupData = new HashMap<>();
         tablesMap = new HashMap<>();
         // Fill ID control table starting with zeros
         idControlMapData.put(TABLE_ACTIVITY,0L);
-
+        idControlMapData.put(TABLE_PROFILE, 0L);
+        idControlMapData.put(TABLE_USER, 0L);
+        idControlMapData.put(TABLE_GROUP, 0L);
+        
         tablesMap.put(TABLE_ACTIVITY, activityData);
         tablesMap.put(TABLE_ID_CONTROL,idControlMapData);
         tablesMap.put(TABLE_PROFILE, profileData);
         tablesMap.put(TABLE_USER, userData);
+        tablesMap.put(TABLE_GROUP, groupData);
         load();
     }
 
