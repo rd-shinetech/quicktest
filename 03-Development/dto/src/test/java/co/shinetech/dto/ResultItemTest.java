@@ -29,6 +29,8 @@ public class ResultItemTest {
 		ResultItem it1 = new ResultItem(id, result);
 		ResultItem it2 = new ResultItem(id, result);
 		assertEquals(it1, it2);
+		System.out.print("HashCode 1: " + it1.hashCode());
+		System.out.println("\tHashCode 2: " + it2.hashCode());
 		assertEquals(it1.hashCode(), it2.hashCode());
 	}
 }
