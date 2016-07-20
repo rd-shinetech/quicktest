@@ -52,7 +52,7 @@ public class SerializerDB {
                 Properties p = new Properties();
                 
                 p.load(fis);
-                DB_PATH = p.getProperty("databasePath");
+                DB_PATH = System.getProperty("user.dir")+p.getProperty("databasePath");
             }
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -143,7 +143,7 @@ public class SerializerDB {
     
     @SuppressWarnings("unchecked")
 	public static void insert(String table,Domain value) throws PersistenceException {
-        tablesMap.get(table).put(value.getPk(), value);
+    	tablesMap.get(table).put(value.getPk(), value);
         write(table);
     }
     
