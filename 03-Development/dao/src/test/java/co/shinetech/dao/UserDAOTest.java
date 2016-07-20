@@ -24,7 +24,6 @@ public class UserDAOTest {
 						.TABLE_USER);
 	@Test
 	public void createUser() throws PersistenceException {
-<<<<<<< HEAD
 		if (!userExists()) {
 			User u = new User(id, login, pwd, profile);
 			userDao.create(u);
