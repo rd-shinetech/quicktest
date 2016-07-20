@@ -55,4 +55,10 @@ public class ActivityDAOImp implements PersistenceProvider<Activity> {
 		return c;
 	}
 
+	@Override
+	public long nextId() throws PersistenceException {
+		long l = SerializerDB.nextId(SerializerDB.TABLE_ACTIVITY);
+		return l;
+	}
+
 }

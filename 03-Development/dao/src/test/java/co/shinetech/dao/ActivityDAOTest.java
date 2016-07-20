@@ -4,6 +4,7 @@
 package co.shinetech.dao;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.ActivityType;
@@ -23,8 +24,13 @@ public class ActivityDAOTest {
 	char[] password = {'a', 'b', 'B', '2'};
 	User teacher = new User(54218547L, "Manuel", password, new Profile(839483948L, "name"));
 	ActivityType at = ActivityType.EXAME;
-	Group group = new Group(25256543565L, "Maria José");
+	ArrayList<User> users = new ArrayList<>();	
+	Group group = new Group(25256543565L, "Maria José", users);
+	
+	public void testCreateActivity() {
+	// add User to ArrayList, in this case, teacher
+	users.add(teacher);
 	
 	Activity d = new Activity(id, name, startTime, endTime, teacher, at, group);
-	
+	}
 }
