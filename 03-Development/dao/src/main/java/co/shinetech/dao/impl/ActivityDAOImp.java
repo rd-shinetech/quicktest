@@ -31,7 +31,7 @@ public class ActivityDAOImp implements PersistenceProvider<Activity> {
 	}
 
 	@Override
-	public Activity retrieveByID(int ID) throws PersistenceException {
+	public Activity retrieveByID(long ID) throws PersistenceException {
 		Domain d = SerializerDB.selectById(SerializerDB.TABLE_ACTIVITY, ID);
 		return (Activity) d;
 	}
@@ -44,7 +44,7 @@ public class ActivityDAOImp implements PersistenceProvider<Activity> {
 	}
 
 	@Override
-	public void delete(int ID) throws PersistenceException {
+	public void delete(long ID) throws PersistenceException {
 		SerializerDB.delete(SerializerDB.TABLE_ACTIVITY, ID);
 		
 	}

@@ -158,7 +158,7 @@ public class SerializerDB {
         write(table);
     }
     
-    public static void delete(String table,int id) throws PersistenceException {
+    public static void delete(String table,long id) throws PersistenceException {
         Domain d = (Domain) tablesMap.get(table).get(id);
         
         if( d == null )
@@ -177,7 +177,7 @@ public class SerializerDB {
         return r;
     }
     
-    public static Domain selectById(String table,int ID) {
+    public static Domain selectById(String table,long ID) {
         Domain d = (Domain) tablesMap.get(table).get(ID);
 
         return d;
