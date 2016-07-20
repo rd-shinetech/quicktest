@@ -127,9 +127,5 @@ public class Activity implements Domain{
 		return "Activity [id=" + id + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime
 				+ ", className=" + className + ", teacher=" + teacher + ", at=" + at + ", group=" + group + "]";
 	}
-	@Override
-	
-	
-	
 	
 }
