@@ -12,6 +12,7 @@ import co.shinetech.dao.PersistenceProvider;
 public class PersistenceProviderAbstractFactory {
     //private static PersistenceProviderAbstractFactory self;
 	public static final String TABLE_USER = "User";
+	public static final String TABLE_ACTIVITY = "Activity";
 
     //private PersistenceProviderAbstractFactory() {}
 

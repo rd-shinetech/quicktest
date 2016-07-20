@@ -6,6 +6,10 @@ package co.shinetech.dao;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import org.junit.Test;
+
+import co.shinetech.dao.factory.SerializerDBProviderFactory;
+import co.shinetech.dao.impl.ActivityDAOImp;
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.ActivityType;
 import co.shinetech.dto.Group;
@@ -26,11 +30,17 @@ public class ActivityDAOTest {
 	ActivityType at = ActivityType.EXAME;
 	ArrayList<User> users = new ArrayList<>();	
 	Group group = new Group(25256543565L, "Maria José", users);
-	
+	private static final PersistenceProvider<Activity> activityDao = SerializerDBProviderFactory
+	.getPersistenceProvider(SerializerDBProviderFactory
+		.TABLE_AC);
+
+	@Test
 	public void testCreateActivity() {
-	// add User to ArrayList, in this case, teacher
-	users.add(teacher);
-	
-	Activity d = new Activity(id, name, startTime, endTime, teacher, at, group);
+		// add User to ArrayList, in this case, teacher
+		users.add(teacher);
+
+		Activity d = new Activity(id, name, startTime, endTime, teacher, at, group);
+		
+		ActivityDAOImp adi = new ActivityDAOImp();
 	}
 }
