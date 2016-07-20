@@ -42,6 +42,7 @@ public class SerializerDB {
     public static final String TABLE_PROFILE  = "Profile";
     public static final String TABLE_USER = "User";
     public static final String TABLE_ID_CONTROL = "Id_Control";
+    public static final String TABLE_GROUP = "Group";
     
     public static final String TABLE_EXTENSION  = ".db";
     public static String DB_PATH;
