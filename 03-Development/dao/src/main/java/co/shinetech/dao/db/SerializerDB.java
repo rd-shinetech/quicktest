@@ -143,7 +143,9 @@ public class SerializerDB {
     
     @SuppressWarnings("unchecked")
 	public static void insert(String table,Domain value) throws PersistenceException {
-        tablesMap.get(table).put(value.getPk(), value);
+        if ( tablesMap.get(table).containsKey(value.getPk()) )
+        	throw new PersistenceException("Object " + table + ".ID=" + value.getPk() + " exists in database");
+    	tablesMap.get(table).put(value.getPk(), value);
         write(table);
     }
     
