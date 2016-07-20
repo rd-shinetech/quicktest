@@ -1,15 +1,19 @@
 package co.shinetech.dto;
 
+import java.util.ArrayList;
+
 public class Group implements Domain{
 	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
+	private ArrayList<User> users;
 	
 	
-	
-	public Group(long id, String name) {
+	public Group(long id, String name, ArrayList<User> users) {
+		super();
 		this.id = id;
 		this.name = name;
+		this.users = users;
 	}
 	public long getPk() {
 		return id;
@@ -22,6 +26,13 @@ public class Group implements Domain{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
 	}
 	@Override
 	public int hashCode() {
@@ -46,10 +57,16 @@ public class Group implements Domain{
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (users == null) {
+			if (other.users != null)
+				return false;
+		} else if (!users.equals(other.users))
+			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "Group [id=" + id + ", name=" + name + "]";
+		return "Group [id=" + id + ", name=" + name + ", users=" + users + "]";
 	}
+	
 }
