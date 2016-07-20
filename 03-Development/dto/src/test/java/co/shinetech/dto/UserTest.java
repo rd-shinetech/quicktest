@@ -27,7 +27,11 @@ public class UserTest {
 	
 	@Test
 	public void testHashCodeAndEquals() {
-		User tester1 = new User()
+		User tester1 = new User(id, profile);
+		User tester2 = new User(id, profile);
+		assertEquals(tester1, tester2);
+		assertEquals(tester1.hashCode(), tester2.hashCode());
+				
 	}
 	
 	
