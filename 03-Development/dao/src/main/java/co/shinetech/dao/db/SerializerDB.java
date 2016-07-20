@@ -31,7 +31,7 @@ public class SerializerDB {
 	private final static HashMap<Long,Activity> activityData;
     private final static HashMap<Long,Profile> profileData;
     private final static HashMap<Long, User> userData;
-	private final static HashMap<String,Long> idControlMapData;
+    private final static HashMap<String,Long> idControlMapData;
     
     // Table Storage
     private static final HashMap<String,HashMap> tablesMap;
