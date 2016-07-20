@@ -38,7 +38,6 @@ public class ActivityTest {
 		Activity a2 = new Activity(39,"Joel",ldtnow,ldt,"class1",teacher);
 		System.out.println(a1.toString());
 		System.out.println(a2.toString());
-		assertEquals(a1.hashCode(),a2.hashCode());
-		
+		assertEquals(a1.hashCode(),a2.hashCode());	
 	}
 }
