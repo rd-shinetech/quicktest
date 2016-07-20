@@ -17,8 +17,8 @@ import co.shinetech.dto.Domain;
 public interface PersistenceProvider<T extends Domain> {
     void create( T d ) throws PersistenceException;
     void update(T d) throws PersistenceException;
-    T retrieveByID(int ID) throws PersistenceException;
+    T retrieveByID(long ID) throws PersistenceException;
     ArrayList<T> retrieveAll() throws PersistenceException;
-    void delete(int ID) throws PersistenceException;
+    void delete(long ID) throws PersistenceException;
     int count() throws PersistenceException;
 }
