@@ -21,5 +21,9 @@ public class ProfileTest {
 		
 		assertEquals(p1, p2);
 		assertEquals(p1.hashCode(), p2.hashCode());
+		assertEquals(p1.toString(), p2.toString());
+		
+		System.out.println(p1.toString());
+		System.out.println(p2.toString());
 	}
 }
