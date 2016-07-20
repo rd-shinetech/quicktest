@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dao.factory.SerializerDBProviderFactory;
 import co.shinetech.dao.impl.ActivityDAOImp;
 import co.shinetech.dto.Activity;
@@ -30,17 +31,21 @@ public class ActivityDAOTest {
 	ActivityType at = ActivityType.EXAME;
 	ArrayList<User> users = new ArrayList<>();	
 	Group group = new Group(25256543565L, "Maria José", users);
+	@SuppressWarnings("unchecked")
 	private static final PersistenceProvider<Activity> activityDao = SerializerDBProviderFactory
-	.getPersistenceProvider(SerializerDBProviderFactory
-		.TABLE_AC);
+	.getPersistenceProvider(SerializerDBProviderFactory.TABLE_ACTIVITY);
 
 	@Test
-	public void testCreateActivity() {
-		// add User to ArrayList, in this case, teacher
+	public void testCreateActivity() throws PersistenceException {
+		// adding User to ArrayList, in this case, teacher
 		users.add(teacher);
 
 		Activity d = new Activity(id, name, startTime, endTime, teacher, at, group);
+		activityDao.create(d);		
 		
-		ActivityDAOImp adi = new ActivityDAOImp();
+	}
+	@Test
+	public void testUpdateActivity() {
+		Activity d = new Ac
 	}
 }
