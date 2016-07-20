@@ -18,12 +18,17 @@ public class UserTest {
 	
 	
 	@Test
-	public void testIt() {
+	public void testCreateInstance() {
 		User tester = new User(id, login, password, profile);
 		assertNotNull(tester);
-		System.out.println(tester.toString());
-		
+		System.out.println(tester.toString());		
 		
 	}
-
+	
+	@Test
+	public void testHashCodeAndEquals() {
+		User tester1 = new User()
+	}
+	
+	
 }

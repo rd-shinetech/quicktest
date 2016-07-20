@@ -51,7 +51,7 @@ public class ActivityDAOImp implements PersistenceProvider<Activity> {
 	@Override
 	public int count() throws PersistenceException {
 		int c = SerializerDB.count(SerializerDB.TABLE_ACTIVITY);
-		return (int) c;
+		return c;
 	}
 
 }
