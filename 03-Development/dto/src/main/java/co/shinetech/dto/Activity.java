@@ -1,6 +1,7 @@
 package co.shinetech.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Activity implements Domain{
 
@@ -12,29 +13,17 @@ public class Activity implements Domain{
 	private LocalDateTime endTime;
 	private String className;
 	private User teacher;
+	private ArrayList<ActivityType> at = new ArrayList<ActivityType>();
 	
-	public Activity(long id, String name, LocalDateTime startTime, LocalDateTime endTime, String className, User teacher) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.className = className;
-		this.teacher = teacher;
-	}
-
-	public long getPk(){
+	public long getPk() {
 		return id;
 	}
-	
-	public void setId(long id) {
+	public void setPk(long id) {
 		this.id = id;
 	}
-	
 	public String getName() {
 		return name;
 	}
-	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -56,30 +45,28 @@ public class Activity implements Domain{
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
 	public User getTeacher() {
 		return teacher;
 	}
 	public void setTeacher(User teacher) {
 		this.teacher = teacher;
 	}
-
+	public ArrayList<ActivityType> getAt() {
+		return at;
+	}
+	public void setAt(ArrayList<ActivityType> at) {
+		this.at = at;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((className == null) ? 0 : className.hashCode());
-		result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
-		result = prime * result + ((teacher == null) ? 0 : teacher.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -89,6 +76,11 @@ public class Activity implements Domain{
 		if (getClass() != obj.getClass())
 			return false;
 		Activity other = (Activity) obj;
+		if (at == null) {
+			if (other.at != null)
+				return false;
+		} else if (!at.equals(other.at))
+			return false;
 		if (className == null) {
 			if (other.className != null)
 				return false;
@@ -118,11 +110,12 @@ public class Activity implements Domain{
 			return false;
 		return true;
 	}
-
 	@Override
 	public String toString() {
 		return "Activity [id=" + id + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", className=" + className + ", teacher=" + teacher + "]";
-	}
+				+ ", className=" + className + ", teacher=" + teacher + ", at=" + at + "]";
+	} 
+	
+	
 	
 }
