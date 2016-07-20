@@ -24,6 +24,7 @@ public class UserDAOTest {
 						.TABLE_USER);
 	@Test
 	public void createUser() throws PersistenceException {
+<<<<<<< HEAD
 		if (!userExists()) {
 			User u = new User(id, login, pwd, profile);
 			userDao.create(u);
@@ -48,5 +49,10 @@ public class UserDAOTest {
 	
 	private boolean userExists() {
 		return userDao.retrieveByID(id) != null;
+=======
+		PersistenceProvider<User> userDao = SerializerDBProviderFactory.getPersistenceProvider(SerializerDBProviderFactory.TABLE_USER);
+		User u = new User(1);
+		userDao.create(u);
+>>>>>>> branch 'master' of https://github.com/rd-shinetech/quicktest.git
 	}
 }
