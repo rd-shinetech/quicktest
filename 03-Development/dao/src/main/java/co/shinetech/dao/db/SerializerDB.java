@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -40,14 +41,14 @@ public class SerializerDB {
     public static final String TABLE_ACTIVITY = "Activity";
     public static final String TABLE_PROFILE  = "Profile";
     public static final String TABLE_USER = "User";
-    public static final String TABLE_ID_CONTROL            = "Id_Control";
+    public static final String TABLE_ID_CONTROL = "Id_Control";
     
     public static final String TABLE_EXTENSION  = ".db";
     public static String DB_PATH;
     
     static {
         try {
-            try (FileInputStream fis = new FileInputStream("qtest.properties")) {
+            try (InputStream fis = SerializerDB.class.getClassLoader().getResourceAsStream("qtest.properties")) {
                 Properties p = new Properties();
                 
                 p.load(fis);
@@ -82,6 +83,7 @@ public class SerializerDB {
         Object o;
         String tableName;
         File dir = new File(DB_PATH);
+        File f;
         
         // Get data from storage
         while( it.hasNext() )
@@ -91,7 +93,10 @@ public class SerializerDB {
                 if( ! dir.exists() )
                     dir.mkdirs();
                 
-                fi = new FileInputStream(DB_PATH + "/" + tableName + TABLE_EXTENSION);
+                f = new File(DB_PATH + "/" + tableName + TABLE_EXTENSION);
+                if( ! f.exists() )
+                	continue;
+                fi = new FileInputStream(f);
                 oi = new ObjectInputStream(fi);
                 o = oi.readObject();
                 if( o != null )

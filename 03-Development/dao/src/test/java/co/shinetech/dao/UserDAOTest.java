@@ -12,8 +12,6 @@ public class UserDAOTest {
 	public void createUser() throws PersistenceException {
 		PersistenceProvider<User> userDao = SerializerDBProviderFactory.getPersistenceProvider(SerializerDBProviderFactory.TABLE_USER);
 		User u = new User(1);
-		//u.set
-		
-		//userDao.create(u);
+		userDao.create(u);
 	}
 }
