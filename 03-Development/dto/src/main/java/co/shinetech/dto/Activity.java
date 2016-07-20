@@ -16,6 +16,19 @@ public class Activity implements Domain{
 	private ArrayList<ActivityType> at = new ArrayList<ActivityType>();
 	private Group group;
 	
+	
+	public Activity(long id, String name, LocalDateTime startTime, LocalDateTime endTime, String className,
+			User teacher, ArrayList<ActivityType> at, Group group) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.className = className;
+		this.teacher = teacher;
+		this.at = at;
+		this.group = group;
+	}
 	public long getPk() {
 		return id;
 	}
