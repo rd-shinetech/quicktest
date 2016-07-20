@@ -1,7 +1,6 @@
 package co.shinetech.dto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class Activity implements Domain{
 
@@ -11,20 +10,18 @@ public class Activity implements Domain{
 	private String name;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
-	private String className;
 	private User teacher;
-	private ArrayList<ActivityType> at = new ArrayList<ActivityType>();
+	private ActivityType at;
 	private Group group;
 	
 	
-	public Activity(long id, String name, LocalDateTime startTime, LocalDateTime endTime, String className,
-			User teacher, ArrayList<ActivityType> at, Group group) {
+	public Activity(long id, String name, LocalDateTime startTime, LocalDateTime endTime, User teacher, ActivityType at,
+			Group group) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.className = className;
 		this.teacher = teacher;
 		this.at = at;
 		this.group = group;
@@ -53,32 +50,23 @@ public class Activity implements Domain{
 	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
 	}
-	public String getClassName() {
-		return className;
-	}
-	public void setClassName(String className) {
-		this.className = className;
-	}
 	public User getTeacher() {
 		return teacher;
 	}
 	public void setTeacher(User teacher) {
 		this.teacher = teacher;
 	}
-	public ArrayList<ActivityType> getAt() {
+	public ActivityType getAt() {
 		return at;
 	}
-	public void setAt(ArrayList<ActivityType> at) {
+	public void setAt(ActivityType at) {
 		this.at = at;
 	}
-	public Group getGroup(){
+	public Group getGroup() {
 		return group;
 	}
-	public void setGroup(Group group){
+	public void setGroup(Group group) {
 		this.group = group;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 	@Override
 	public int hashCode() {
@@ -96,15 +84,7 @@ public class Activity implements Domain{
 		if (getClass() != obj.getClass())
 			return false;
 		Activity other = (Activity) obj;
-		if (at == null) {
-			if (other.at != null)
-				return false;
-		} else if (!at.equals(other.at))
-			return false;
-		if (className == null) {
-			if (other.className != null)
-				return false;
-		} else if (!className.equals(other.className))
+		if (at != other.at)
 			return false;
 		if (endTime == null) {
 			if (other.endTime != null)
@@ -138,7 +118,6 @@ public class Activity implements Domain{
 	@Override
 	public String toString() {
 		return "Activity [id=" + id + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", className=" + className + ", teacher=" + teacher + ", at=" + at + ", group=" + group + "]";
+				+ ", teacher=" + teacher + ", at=" + at + ", group=" + group + "]";
 	}
-	
 }
