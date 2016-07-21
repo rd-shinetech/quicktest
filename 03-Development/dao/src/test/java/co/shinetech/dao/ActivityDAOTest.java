@@ -54,6 +54,8 @@ public class ActivityDAOTest {
 		activityDao.update(d);
 	}
 	
+	
+	
 	@Test
 	public void testRetrieveAll() throws PersistenceException{
 		activityDao.retrieveAll().forEach(i -> System.out.println(i));
