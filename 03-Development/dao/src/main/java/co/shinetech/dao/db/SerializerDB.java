@@ -55,7 +55,7 @@ public class SerializerDB {
                 Properties p = new Properties();
                 
                 p.load(fis);
-                DB_PATH = System.getProperty("user.dir")+p.getProperty("databasePath");
+                DB_PATH = System.getProperty("user.home")+p.getProperty("databasePath");
             }
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();

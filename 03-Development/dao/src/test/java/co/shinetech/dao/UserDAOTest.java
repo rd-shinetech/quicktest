@@ -28,18 +28,20 @@ public class UserDAOTest {
 	private static final PersistenceProvider<User> userDao = SerializerDBProviderFactory
 	.getPersistenceProvider(SerializerDBProviderFactory
 		.TABLE_USER);
-	 
+
 	@Before
 	public void setup() throws PersistenceException {
 		id = userDao.nextId();
 	}
-	
+
 	@Test
 	public void createUser() throws PersistenceException {
-		int a = userDao.count();
-		userDao.create(u);
-		int b = userDao.count();
-		assertTrue(b > a);
+		if (!userExists()) {
+			int a = userDao.count();
+			userDao.create(u);
+			int b = userDao.count();
+			assertTrue(b > a);
+		}
 	}
 
 	@Test
@@ -61,14 +63,14 @@ public class UserDAOTest {
 		int b = userDao.count();
 		assertTrue(b < a);
 	}
-	
+
 	@Test
 	public void retriveAllUsers() throws PersistenceException {
 		ArrayList<User> l = userDao.retrieveAll();
 		int a = userDao.count();
 		assertEquals(l.size(), a);
 	}
-	
+
 	@Test
 	public void retriveByIdUser() throws PersistenceException {
 		if (!userExists())
@@ -76,7 +78,7 @@ public class UserDAOTest {
 		User u2 = userDao.retrieveByID(id);
 		assertEquals(u, u2);
 	}
-	
+
 	public void nextUserId() throws PersistenceException{
 		long n = userDao.nextId();
 		assertTrue(n > id);
