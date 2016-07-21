@@ -19,19 +19,25 @@ import co.shinetech.dto.User;
  */
 public class UserDAOTest {
 	private static long id;
-	private static final String login = "Robin";
-	private static final char[] pwd = {'1', 'b'};
-	private static final char[] pwd2 = {'5', 'g', 'b'};
-	private static final Profile profile = new Profile(1, "Student");
-	private static final User u = new User(id, login, pwd, profile);
-	@SuppressWarnings("unchecked")
-	private static final PersistenceProvider<User> userDao = SerializerDBProviderFactory
-	.getPersistenceProvider(SerializerDBProviderFactory
-		.TABLE_USER);
+	private static String login;
+	private static char[] pwd;
+	private static char[] pwd2;
+	private static Profile profile;
+	private static User u;
+	private static PersistenceProvider<User> userDao;
 
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setup() throws PersistenceException {
+		userDao = SerializerDBProviderFactory
+						.getPersistenceProvider(SerializerDBProviderFactory
+							.TABLE_USER);
 		id = userDao.nextId();
+		login = "Robin";
+		pwd = "1b".toCharArray();
+		pwd2 = "5gjs2".toCharArray();
+		profile = new Profile(1, "Student");
+		u = new User(id, login, pwd, profile);
 	}
 
 	@Test
