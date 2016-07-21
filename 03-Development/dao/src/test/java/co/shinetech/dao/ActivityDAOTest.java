@@ -45,7 +45,9 @@ public class ActivityDAOTest {
 		
 	}
 	@Test
-	public void testUpdateActivity() {
-		Activity d = new Ac
+	public void testUpdateActivity() throws PersistenceException {
+		Activity d = new Activity(id, name, startTime, endTime, teacher, at, group);
+		activityDao.update(d);
 	}
+	
 }
