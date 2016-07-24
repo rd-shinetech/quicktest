@@ -5,7 +5,7 @@ package co.shinetech.dao.impl;
 
 import java.util.ArrayList;
 
-import co.shinetech.dao.PersistenceProvider;
+import co.shinetech.dao.DAOProvider;
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dao.db.SerializerDB;
 import co.shinetech.dto.Profile;
@@ -15,7 +15,7 @@ import co.shinetech.dto.Domain;
  * @author Gonxaluh
  *
  */
-public class ProfileDAOImp implements PersistenceProvider<Profile>{
+public class ProfileDAOImp implements DAOProvider<Profile>{
 
 	@Override
 	public void create(Profile d) throws PersistenceException {
