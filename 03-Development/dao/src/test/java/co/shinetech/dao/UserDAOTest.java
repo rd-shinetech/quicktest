@@ -34,7 +34,7 @@ public class UserDAOTest {
 							.TABLE_USER);
 		id = userDao.nextId();
 		login = "Robin";
-		pwd = "1b".toCharArray();
+		pwd = "1b".toCharArray();//new Character[] {'1', 'b'};
 		pwd2 = "5gjs2".toCharArray();
 		profile = new Profile(1, "Student");
 		u = new User(id, login, pwd, profile);
