@@ -15,8 +15,10 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 
 import co.shinetech.dto.Group;
+import co.shinetech.dto.User;
 import co.shinetech.gui.group.ClassDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
+import co.shinetech.gui.user.UserDataPanel;
 
 import javax.swing.JProgressBar;
 import javax.swing.JMenu;
@@ -167,6 +169,16 @@ public class QTestMainWindow {
 		toolBar.add(btnPerfil);
 		
 		JButton btnUtilizador = new JButton("Utilizador");
+		btnUtilizador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(User.class);
+				UserDataPanel udp = new UserDataPanel();
+				dtm.setTblTitle(new String[] {"ID", "Login", "Password", "Profile"});
+				udp.setTableModel(dtm);
+				frmQtest.getContentPane().add(udp, BorderLayout.CENTER);
+				frmQtest.revalidate();
+			}
+		});
 		toolBar.add(btnUtilizador);
 		
 		JPanel bottomPanel = new JPanel();
