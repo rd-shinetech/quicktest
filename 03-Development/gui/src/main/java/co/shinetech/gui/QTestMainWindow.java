@@ -13,6 +13,11 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+
+import co.shinetech.dto.Group;
+import co.shinetech.gui.group.ClassDataPanel;
+import co.shinetech.gui.table.DynamicTableModel;
+
 import javax.swing.JProgressBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -62,47 +67,47 @@ public class QTestMainWindow {
 		JMenuBar menuBar = new JMenuBar();
 		frmQtest.setJMenuBar(menuBar);
 		
-		JMenu mnTabelas = new JMenu("Tabelas");
-		menuBar.add(mnTabelas);
+		JMenu tableMenu = new JMenu("Tabelas");
+		menuBar.add(tableMenu);
 		
 		JMenuItem mntmTurma = new JMenuItem("Turma...");
-		mnTabelas.add(mntmTurma);
+		tableMenu.add(mntmTurma);
 		
 		JMenuItem mntmQuesto = new JMenuItem("Quest\u00E3o...");
-		mnTabelas.add(mntmQuesto);
+		tableMenu.add(mntmQuesto);
 		
 		JMenuItem mntmAtividade = new JMenuItem("Atividade...");
-		mnTabelas.add(mntmAtividade);
+		tableMenu.add(mntmAtividade);
 		
 		JSeparator separator = new JSeparator();
-		mnTabelas.add(separator);
+		tableMenu.add(separator);
 		
 		JMenuItem mntmSada = new JMenuItem("Sa\u00EDda");
-		mnTabelas.add(mntmSada);
+		tableMenu.add(mntmSada);
 		
-		JMenu mnExecutar = new JMenu("Teste");
-		menuBar.add(mnExecutar);
+		JMenu runMenu = new JMenu("Teste");
+		menuBar.add(runMenu);
 		
 		JMenuItem mntmCorrer = new JMenuItem("Correr...");
-		mnExecutar.add(mntmCorrer);
+		runMenu.add(mntmCorrer);
 		
 		JMenuItem mntmResultado = new JMenuItem("Ver Resultado...");
-		mnExecutar.add(mntmResultado);
+		runMenu.add(mntmResultado);
 		
-		JMenu mnSegurana = new JMenu("Seguran\u00E7a");
-		menuBar.add(mnSegurana);
+		JMenu securityMenu = new JMenu("Seguran\u00E7a");
+		menuBar.add(securityMenu);
 		
-		JMenuItem mntmPerfil = new JMenuItem("Perfil...");
-		mnSegurana.add(mntmPerfil);
+		JMenuItem profileMenuItem = new JMenuItem("Perfil...");
+		securityMenu.add(profileMenuItem);
 		
-		JMenuItem userMenu = new JMenuItem("Utilizador...");
-		mnSegurana.add(userMenu);
+		JMenuItem userMenuItem = new JMenuItem("Utilizador...");
+		securityMenu.add(userMenuItem);
 		
-		JMenu mnAjuda = new JMenu("Ajuda");
-		menuBar.add(mnAjuda);
+		JMenu helpMenu = new JMenu("Ajuda");
+		menuBar.add(helpMenu);
 		
-		JMenuItem mntmAjuda = new JMenuItem("Ajuda");
-		mnAjuda.add(mntmAjuda);
+		JMenuItem helpMenuItem = new JMenuItem("Ajuda");
+		helpMenu.add(helpMenuItem);
 		frmQtest.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel topPanel = new JPanel();
@@ -111,24 +116,33 @@ public class QTestMainWindow {
 		frmQtest.getContentPane().add(topPanel, BorderLayout.NORTH);
 		topPanel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("<html><body>Testing Software Platform<br>QTest version 1.0<br> &nbsp;</body></html>");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
-		lblNewLabel.setIcon(new ImageIcon(QTestMainWindow.class.getResource("/image/test.gif")));
-		topPanel.add(lblNewLabel, BorderLayout.WEST);
+		JLabel qTestImageLabel = new JLabel("<html><body>Testing Software Platform<br>QTest version 1.0<br> &nbsp;</body></html>");
+		qTestImageLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		qTestImageLabel.setVerticalAlignment(SwingConstants.TOP);
+		qTestImageLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
+		qTestImageLabel.setIcon(new ImageIcon(QTestMainWindow.class.getResource("/image/test.gif")));
+		topPanel.add(qTestImageLabel, BorderLayout.WEST);
 		
-		JLabel lblNewLabel_1 = new JLabel();
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setIcon(new ImageIcon(QTestMainWindow.class.getResource("/image/shine-small.png")));
-		topPanel.add(lblNewLabel_1, BorderLayout.EAST);
+		JLabel shineLabel = new JLabel();
+		shineLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		shineLabel.setIcon(new ImageIcon(QTestMainWindow.class.getResource("/image/shine-small.png")));
+		topPanel.add(shineLabel, BorderLayout.EAST);
 		
 		JToolBar toolBar = new JToolBar();
-		toolBar.setFloatable(false);
 		topPanel.add(toolBar, BorderLayout.SOUTH);
 		
 		JButton classButton = new JButton("Turma");
-		classButton.addActionListener(e -> {}); // --> change anonymous to Lambda Expressions.
+		classButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(Group.class);
+				ClassDataPanel cdp = new ClassDataPanel();
+
+				dtm.setTblTitle(new String[] {"ID","Name"});		// Table columns header		
+				cdp.setTableModel(dtm);								// inserts the model in the table
+				frmQtest.getContentPane().add(cdp, BorderLayout.CENTER); // adding the new panel to the frame		
+				frmQtest.revalidate(); // invalidate the frame to paint again with new panel added.
+			}
+		});
 		toolBar.add(classButton);
 		
 		JButton questionButton = new JButton("Quest\u00E3o");
@@ -142,10 +156,6 @@ public class QTestMainWindow {
 		
 		JButton runButton = new JButton("Correr Teste");
 		toolBar.add(runButton);
-		runButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		
 		JButton btnVerResultado = new JButton("Ver Resultado");
 		toolBar.add(btnVerResultado);
