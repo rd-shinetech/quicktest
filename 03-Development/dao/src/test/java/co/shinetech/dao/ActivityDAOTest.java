@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import co.shinetech.dao.db.PersistenceException;
-import co.shinetech.dao.factory.SerializerDBProviderFactory;
-import co.shinetech.dao.impl.ActivityDAOImp;
+import co.shinetech.dao.factory.PersistenceProviderFactory;
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.ActivityType;
 import co.shinetech.dto.Group;
@@ -32,8 +31,7 @@ public class ActivityDAOTest {
 	ArrayList<User> users = new ArrayList<>();	
 	Group group = new Group(25256543565L, "Maria José", users);
 	@SuppressWarnings("unchecked")
-	private static final PersistenceProvider<Activity> activityDao = SerializerDBProviderFactory
-	.getPersistenceProvider(SerializerDBProviderFactory.TABLE_ACTIVITY);
+	private static final DAOProvider<Activity> activityDao = (DAOProvider<Activity>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_ACTIVITY);
 
 	@Test
 	public void testCreateActivity() throws PersistenceException {

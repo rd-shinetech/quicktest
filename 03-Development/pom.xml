@@ -8,5 +8,7 @@
   <modules>
   	<module>dto</module>
   	<module>dao</module>
+  	<module>service</module>
+  	<module>gui</module>
   </modules>
 </project>

@@ -1,6 +1,7 @@
 package co.shinetech.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -8,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import co.shinetech.dao.db.PersistenceException;
-import co.shinetech.dao.factory.SerializerDBProviderFactory;
+import co.shinetech.dao.factory.PersistenceProviderFactory;
 import co.shinetech.dto.Profile;
 import co.shinetech.dto.User;
 
@@ -24,14 +25,12 @@ public class UserDAOTest {
 	private static char[] pwd2;
 	private static Profile profile;
 	private static User u;
-	private static PersistenceProvider<User> userDao;
+	private static DAOProvider<User> userDao;
 
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setup() throws PersistenceException {
-		userDao = SerializerDBProviderFactory
-						.getPersistenceProvider(SerializerDBProviderFactory
-							.TABLE_USER);
+		userDao = (DAOProvider<User>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_USER);
 		id = userDao.nextId();
 		login = "Robin";
 		pwd = "1b".toCharArray();//new Character[] {'1', 'b'};

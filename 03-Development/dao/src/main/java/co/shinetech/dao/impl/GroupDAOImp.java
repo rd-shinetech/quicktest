@@ -2,13 +2,13 @@ package co.shinetech.dao.impl;
 
 import java.util.ArrayList;
 
-import co.shinetech.dao.PersistenceProvider;
+import co.shinetech.dao.DAOProvider;
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dao.db.SerializerDB;
 import co.shinetech.dto.Group;
 import co.shinetech.dto.Domain;
 
-public class GroupDAOImp implements PersistenceProvider<Group>{
+public class GroupDAOImp implements DAOProvider<Group>{
 
 	@Override
 	public void create(Group d) throws PersistenceException {
