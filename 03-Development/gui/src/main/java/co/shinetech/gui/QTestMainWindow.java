@@ -14,8 +14,10 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
+import co.shinetech.dto.Activity;
 import co.shinetech.dto.Group;
 import co.shinetech.dto.User;
+import co.shinetech.gui.activity.ActivityDataPanel;
 import co.shinetech.gui.group.ClassDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.user.UserDataPanel;
@@ -148,9 +150,24 @@ public class QTestMainWindow {
 		toolBar.add(classButton);
 		
 		JButton questionButton = new JButton("Quest\u00E3o");
+		questionButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		toolBar.add(questionButton);
 		
 		JButton activityButton = new JButton("Atividade");
+		activityButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(Activity.class);
+				ActivityDataPanel adp = new ActivityDataPanel();
+				
+				dtm.setTblTitle(new String[] {"ID", "Name", "StartTime", "EndTime", "Teacher", "ActivityType", "Group"});
+				adp.setTableModel(dtm);
+				frmQtest.getContentPane().add(adp, BorderLayout.CENTER);
+				frmQtest.revalidate();				
+			}
+		});
 		toolBar.add(activityButton);
 		
 		JLabel label = new JLabel("|");
