@@ -23,9 +23,22 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+import co.shinetech.dto.Activity;
 import co.shinetech.dto.Group;
+import co.shinetech.dto.User;
+import co.shinetech.gui.activity.ActivityDataPanel;
 import co.shinetech.gui.group.ClassDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
+import co.shinetech.gui.user.UserDataPanel;
+
+import javax.swing.JProgressBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
+import javax.swing.JToolBar;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class QTestMainWindow {
 	private JFrame frmQtest;
@@ -150,9 +163,24 @@ public class QTestMainWindow {
 		toolBar.add(classButton);
 		
 		JButton questionButton = new JButton("Quest\u00E3o");
+		questionButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		toolBar.add(questionButton);
 		
 		JButton activityButton = new JButton("Atividade");
+		activityButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(Activity.class);
+				ActivityDataPanel adp = new ActivityDataPanel();
+				
+				dtm.setTblTitle(new String[] {"ID", "Name", "StartTime", "EndTime", "Teacher", "ActivityType", "Group"});
+				adp.setTableModel(dtm);
+				frmQtest.getContentPane().add(adp, BorderLayout.CENTER);
+				frmQtest.revalidate();				
+			}
+		});
 		toolBar.add(activityButton);
 		
 		toolBar.addSeparator();
@@ -169,6 +197,16 @@ public class QTestMainWindow {
 		toolBar.add(btnPerfil);
 		
 		JButton btnUtilizador = new JButton("Utilizador");
+		btnUtilizador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(User.class);
+				UserDataPanel udp = new UserDataPanel();
+				dtm.setTblTitle(new String[] {"ID", "Login", "Password", "Profile"});
+				udp.setTableModel(dtm);
+				frmQtest.getContentPane().add(udp, BorderLayout.CENTER);
+				frmQtest.revalidate();
+			}
+		});
 		toolBar.add(btnUtilizador);
 		
 		JPanel bottomPanel = new JPanel();
