@@ -14,6 +14,8 @@ import co.shinetech.gui.table.GridDataPanel;
  */
 @SuppressWarnings("serial")
 public class ClassDataPanel extends GridDataPanel {
+	public ClassDataPanel() {
+	}
 
 	/* (non-Javadoc)
 	 * @see co.shinetech.gui.GridDataPanel#getCreateListener()

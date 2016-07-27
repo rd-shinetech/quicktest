@@ -1,31 +1,31 @@
 package co.shinetech.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import java.awt.Font;
+import javax.swing.JProgressBar;
+import javax.swing.JSeparator;
+import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import java.awt.Color;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
 import co.shinetech.dto.Group;
 import co.shinetech.gui.group.ClassDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
-
-import javax.swing.JProgressBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class QTestMainWindow {
 	private JFrame frmQtest;
@@ -59,6 +59,10 @@ public class QTestMainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e1) {
+		}
 		frmQtest = new JFrame();
 		frmQtest.setTitle("QTest 1.0");
 		frmQtest.setBounds(100, 100, 800, 600);
@@ -151,8 +155,7 @@ public class QTestMainWindow {
 		JButton activityButton = new JButton("Atividade");
 		toolBar.add(activityButton);
 		
-		JLabel label = new JLabel("|");
-		toolBar.add(label);
+		toolBar.addSeparator();
 		
 		JButton runButton = new JButton("Correr Teste");
 		toolBar.add(runButton);
@@ -160,8 +163,7 @@ public class QTestMainWindow {
 		JButton btnVerResultado = new JButton("Ver Resultado");
 		toolBar.add(btnVerResultado);
 		
-		JLabel label_1 = new JLabel("|");
-		toolBar.add(label_1);
+		toolBar.addSeparator();
 		
 		JButton btnPerfil = new JButton("Perfil");
 		toolBar.add(btnPerfil);
@@ -184,6 +186,8 @@ public class QTestMainWindow {
 		bottomPanel.add(panel, BorderLayout.EAST);
 		
 		panel.add(processingLabel);
+		processingLabel.setVisible(false);
 		panel.add(progressBar);
+		progressBar.setVisible(false);
 	}
 }
