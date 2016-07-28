@@ -27,7 +27,7 @@ import co.shinetech.dto.Activity;
 import co.shinetech.dto.Group;
 import co.shinetech.dto.User;
 import co.shinetech.gui.activity.ActivityDataPanel;
-import co.shinetech.gui.group.ClassDataPanel;
+import co.shinetech.gui.group.GroupDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.user.UserDataPanel;
 
@@ -152,7 +152,7 @@ public class QTestMainWindow {
 		classButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Group.class);
-				ClassDataPanel cdp = new ClassDataPanel();
+				GroupDataPanel cdp = new GroupDataPanel();
 
 				dtm.setTblTitle(new String[] {"ID","Name"});		// Table columns header		
 				cdp.setTableModel(dtm);								// inserts the model in the table

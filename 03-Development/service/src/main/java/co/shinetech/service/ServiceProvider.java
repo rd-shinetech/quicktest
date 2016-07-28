@@ -8,8 +8,9 @@ import java.util.List;
 import co.shinetech.dao.db.PersistenceException;
 
 /**
+ * Interface with common methods for Services.
  * @author Rodrigo
- *
+ * @since 2016-07-28
  */
 public interface ServiceProvider<T> {
     void create(T d) throws PersistenceException;

@@ -1,5 +1,5 @@
 /**
- * ClassGUI.java
+ * GroupDataPanel.java
  */
 package co.shinetech.gui.group;
 
@@ -8,13 +8,13 @@ import java.awt.event.ActionListener;
 import co.shinetech.gui.table.GridDataPanel;
 
 /**
- * Panel to create Class Data Grid GUI.
+ * Panel to create Group Data Grid GUI.
  * @author Rodrigo
  * @since 2016-07-25
  */
 @SuppressWarnings("serial")
-public class ClassDataPanel extends GridDataPanel {
-	public ClassDataPanel() {
+public class GroupDataPanel extends GridDataPanel {
+	public GroupDataPanel() {
 	}
 
 	/* (non-Javadoc)
