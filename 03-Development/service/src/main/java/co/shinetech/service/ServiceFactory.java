@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import co.shinetech.service.impl.GroupService;
+import co.shinetech.service.impl.UserService;
 
 /**
  * Service Factory to have an unique entry point to the Service Component.
@@ -18,6 +19,7 @@ public final class ServiceFactory {
 	
 	static {
 		serviceMap.put(GroupService.class,new GroupService());
+		serviceMap.put(UserService.class, new UserService());
 	}
 	
 	private ServiceFactory() {}

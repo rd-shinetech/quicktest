@@ -10,6 +10,8 @@ import co.shinetech.gui.table.GridDataPanel;
  *
  */
 public class UserDataPanel extends GridDataPanel{
+	public UserDataPanel() {
+	}
 
 	@Override
 	public ActionListener getCreateListener() {
