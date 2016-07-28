@@ -175,6 +175,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Activity.class);
 				dtm.setTblTitle(new String[] {"ID", "Name", "StartTime", "EndTime", "Teacher", "ActivityType", "Group"});
+				dtm.setTblFields(new String[] {"pk", "name", "startTime", "endTime", "teacher", "at", "group"});
 				ActivityDataPanel adp = new ActivityDataPanel(dtm);				
 				frmQtest.getContentPane().add(adp, BorderLayout.CENTER);
 				frmQtest.revalidate();				

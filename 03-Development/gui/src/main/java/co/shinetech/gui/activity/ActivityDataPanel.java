@@ -5,18 +5,34 @@ package co.shinetech.gui.activity;
 
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
+import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
+import co.shinetech.service.ServiceFactory;
+import co.shinetech.service.impl.ActivityService;
 
 /**
  * @author Ricardo
  *
  */
+@SuppressWarnings("serial")
 public class ActivityDataPanel extends GridDataPanel{
 
 	public ActivityDataPanel(DynamicTableModel tm) {
 		super(tm);
-		// TODO Auto-generated constructor stub
+		loadData();
+	}
+	
+	private void loadData() {
+		ActivityService as = ServiceFactory.getService(ActivityService.class);
+		
+		try {
+			tableModel.setData(as.retrieveAll());
+		} catch (PersistenceException e) {
+			JOptionPane.showMessageDialog(this, "Error loading data from database.");
+		}
 	}
 
 	@Override
