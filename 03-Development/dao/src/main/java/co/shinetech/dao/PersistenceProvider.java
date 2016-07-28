@@ -9,6 +9,7 @@ package co.shinetech.dao;
 public interface PersistenceProvider{
 	public static final String TABLE_USER = "User";
 	public static final String TABLE_ACTIVITY = "Activity";
+	public static final String TABLE_GROUP = "Group";
 	
 	DAOProvider<?> getDAOProvider(String table);
 }

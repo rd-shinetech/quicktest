@@ -8,4 +8,16 @@
   <artifactId>service</artifactId>
   <name>service</name>
   <description>Service Module to have business logic.</description>
+	<dependencies>
+		<dependency>
+			<groupId>co.shinetech.qtest</groupId>
+			<artifactId>dto</artifactId>
+			<version>${project.version}</version>			
+		</dependency>
+		<dependency>
+			<groupId>co.shinetech.qtest</groupId>
+			<artifactId>dao</artifactId>
+			<version>${project.version}</version>			
+		</dependency>
+	</dependencies>
 </project>
