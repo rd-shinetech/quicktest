@@ -5,7 +5,10 @@ package co.shinetech.service.impl;
 
 import java.util.List;
 
+import co.shinetech.dao.DAOProvider;
+import co.shinetech.dao.PersistenceProvider;
 import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.dao.factory.PersistenceProviderFactory;
 import co.shinetech.dto.Activity;
 import co.shinetech.service.ServiceProvider;
 
@@ -14,40 +17,38 @@ import co.shinetech.service.ServiceProvider;
  *
  */
 public class ActivityService implements ServiceProvider<Activity> {
+	@SuppressWarnings("unchecked")
+	private static final DAOProvider<Activity> activityDao = (DAOProvider<Activity>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_ACTIVITY);
 
 	public void create(Activity d) throws PersistenceException {
-		// TODO Auto-generated method stub
+		activityDao.create(d);
 		
 	}
 
 	public void update(Activity d) throws PersistenceException {
-		// TODO Auto-generated method stub
+		activityDao.update(d);
 		
 	}
 
 	public Activity retrieveByID(int ID) throws PersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+		return activityDao.retrieveByID(ID);
 	}
 
 	public List<Activity> retrieveAll() throws PersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+		return activityDao.retrieveAll();
 	}
 
 	public void delete(int ID) throws PersistenceException {
-		// TODO Auto-generated method stub
+		activityDao.delete(ID);
 		
 	}
 
 	public int count() throws PersistenceException {
-		// TODO Auto-generated method stub
-		return 0;
+		return activityDao.count();
 	}
 
 	public long nextId() throws PersistenceException {
-		// TODO Auto-generated method stub
-		return 0;
+		return activityDao.nextId();
 	}
 
 }
