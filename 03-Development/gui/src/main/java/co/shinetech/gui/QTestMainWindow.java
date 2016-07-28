@@ -200,6 +200,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(User.class);
 				dtm.setTblTitle(new String[] {"ID", "Login", "Password", "Profile"});
+				dtm.setTblFields(new String[] {"pk", "login", "password", "profile"});
 				UserDataPanel udp = new UserDataPanel(dtm);
 				frmQtest.getContentPane().add(udp, BorderLayout.CENTER);
 				frmQtest.revalidate();

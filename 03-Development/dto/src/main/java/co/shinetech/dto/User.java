@@ -9,6 +9,7 @@ import java.util.Arrays;
  * @author Robin
  *
  */
+@SuppressWarnings("serial")
 public class User implements Domain {
 	private final long id;
 	private String login;

@@ -17,6 +17,7 @@ import java.awt.Dimension;
  * @author Robin
  *
  */
+@SuppressWarnings("serial")
 public class UserFormPanel extends JPanel {
 	private final JPanel panel_1 = new JPanel();
 	private JTextField textFieldLogin;
