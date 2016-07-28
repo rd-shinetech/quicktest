@@ -2,6 +2,7 @@ package co.shinetech.gui.user;
 
 import java.awt.event.ActionListener;
 
+import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 
 /**
@@ -10,7 +11,10 @@ import co.shinetech.gui.table.GridDataPanel;
  *
  */
 public class UserDataPanel extends GridDataPanel{
-	public UserDataPanel() {
+
+	public UserDataPanel(DynamicTableModel tm) {
+		super(tm);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

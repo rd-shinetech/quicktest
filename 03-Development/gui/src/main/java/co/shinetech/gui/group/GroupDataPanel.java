@@ -5,7 +5,16 @@ package co.shinetech.gui.group;
 
 import java.awt.event.ActionListener;
 
+import javax.print.ServiceUIFactory;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableCellEditor;
+
+import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
+import co.shinetech.service.ServiceFactory;
+import co.shinetech.service.ServiceProvider;
+import co.shinetech.service.impl.GroupService;
 
 /**
  * Panel to create Group Data Grid GUI.
@@ -14,9 +23,21 @@ import co.shinetech.gui.table.GridDataPanel;
  */
 @SuppressWarnings("serial")
 public class GroupDataPanel extends GridDataPanel {
-	public GroupDataPanel() {
+	public GroupDataPanel(DynamicTableModel tm) {
+		super(tm);
+		loadData();
 	}
 
+	private void loadData() {
+		GroupService gps = ServiceFactory.getService(GroupService.class);
+		
+		try {
+			tableModel.setData(gps.retrieveAll());
+		} catch (PersistenceException e) {
+			JOptionPane.showMessageDialog(this, "Error loading data from database.");
+		}
+	}
+		
 	/* (non-Javadoc)
 	 * @see co.shinetech.gui.GridDataPanel#getCreateListener()
 	 */

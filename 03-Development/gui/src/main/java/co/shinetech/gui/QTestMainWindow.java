@@ -152,10 +152,11 @@ public class QTestMainWindow {
 		classButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Group.class);
-				GroupDataPanel cdp = new GroupDataPanel();
+				
+				dtm.setTblTitle(new String[] {"Código","Name"});		// Table columns header		
+				dtm.setTblFields(new String[]{"pk","name"});
+				GroupDataPanel cdp = new GroupDataPanel(dtm);
 
-				dtm.setTblTitle(new String[] {"ID","Name"});		// Table columns header		
-				cdp.setTableModel(dtm);								// inserts the model in the table
 				frmQtest.getContentPane().add(cdp, BorderLayout.CENTER); // adding the new panel to the frame		
 				frmQtest.revalidate(); // invalidate the frame to paint again with new panel added.
 			}
@@ -173,10 +174,8 @@ public class QTestMainWindow {
 		activityButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Activity.class);
-				ActivityDataPanel adp = new ActivityDataPanel();
-				
 				dtm.setTblTitle(new String[] {"ID", "Name", "StartTime", "EndTime", "Teacher", "ActivityType", "Group"});
-				adp.setTableModel(dtm);
+				ActivityDataPanel adp = new ActivityDataPanel(dtm);				
 				frmQtest.getContentPane().add(adp, BorderLayout.CENTER);
 				frmQtest.revalidate();				
 			}
@@ -200,9 +199,8 @@ public class QTestMainWindow {
 		btnUtilizador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(User.class);
-				UserDataPanel udp = new UserDataPanel();
 				dtm.setTblTitle(new String[] {"ID", "Login", "Password", "Profile"});
-				udp.setTableModel(dtm);
+				UserDataPanel udp = new UserDataPanel(dtm);
 				frmQtest.getContentPane().add(udp, BorderLayout.CENTER);
 				frmQtest.revalidate();
 			}

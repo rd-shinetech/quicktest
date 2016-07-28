@@ -23,18 +23,22 @@ public abstract class GridDataPanel extends JPanel {
 	private JButton deleteButton;
 	private JButton closeButton;
 	private JPanel mySelf;
+	protected DynamicTableModel tableModel;
 	
 	/**
 	 * Create the panel.
 	 */
-	public GridDataPanel() {
+	public GridDataPanel(DynamicTableModel tm) {
 		mySelf = this;
+		table = new JTable();
+		table.setModel(tm);
+		this.tableModel = tm;
+
 		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
 		
-		table = new JTable();
 		scrollPane.setViewportView(table);
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		add(panel, BorderLayout.SOUTH);
@@ -67,11 +71,7 @@ public abstract class GridDataPanel extends JPanel {
 		});
 		panel.add(closeButton);
 	}
-	
-	public void setTableModel(AbstractTableModel tm) {
-		table.setModel(tm);		
-	}
-	
+		
 	/** Abstract methods to be implemented by child classes **/
 	public abstract ActionListener getCreateListener();
 	public abstract ActionListener getRetrieveListener();

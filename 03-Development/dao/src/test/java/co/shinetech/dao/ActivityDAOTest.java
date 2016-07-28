@@ -29,7 +29,7 @@ public class ActivityDAOTest {
 	User teacher = new User(54218547L, "Manuel", password, new Profile(839483948L, "name"));
 	ActivityType at = ActivityType.EXAME;
 	ArrayList<User> users = new ArrayList<>();	
-	Group group = new Group(25256543565L, "Maria José", users);
+	Group group = new Group(25256543565L, "Maria José");
 	@SuppressWarnings("unchecked")
 	private static final DAOProvider<Activity> activityDao = (DAOProvider<Activity>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_ACTIVITY);
 

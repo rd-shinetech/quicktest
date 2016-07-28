@@ -8,4 +8,11 @@
   <artifactId>gui</artifactId>
   <name>gui</name>
   <description>GUI module to deal only with User Interface.</description>
+	<dependencies>
+		<dependency>
+			<groupId>co.shinetech.qtest</groupId>
+			<artifactId>service</artifactId>
+			<version>${project.version}</version>			
+		</dependency>
+	</dependencies>
 </project>

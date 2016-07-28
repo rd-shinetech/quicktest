@@ -9,12 +9,12 @@ public class Group implements Domain{
 	private ArrayList<User> users;
 	
 	
-	public Group(long id, String name, ArrayList<User> users) {
+	public Group(long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.users = users;
 	}
+
 	public long getPk() {
 		return id;
 	}

@@ -5,6 +5,7 @@ package co.shinetech.gui.activity;
 
 import java.awt.event.ActionListener;
 
+import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 
 /**
@@ -12,6 +13,11 @@ import co.shinetech.gui.table.GridDataPanel;
  *
  */
 public class ActivityDataPanel extends GridDataPanel{
+
+	public ActivityDataPanel(DynamicTableModel tm) {
+		super(tm);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public ActionListener getCreateListener() {
