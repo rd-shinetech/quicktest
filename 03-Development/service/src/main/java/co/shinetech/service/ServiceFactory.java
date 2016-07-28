@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import co.shinetech.service.impl.GroupService;
+import co.shinetech.service.impl.UserService;
 
 /**
  * @author Rodrigo
@@ -17,6 +18,7 @@ public final class ServiceFactory {
 	
 	static {
 		serviceMap.put(GroupService.class,new GroupService());
+		serviceMap.put(UserService.class, new UserService());
 	}
 	
 	private ServiceFactory() {}
