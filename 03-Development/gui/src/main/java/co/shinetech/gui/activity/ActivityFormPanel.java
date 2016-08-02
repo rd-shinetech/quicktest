@@ -10,6 +10,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
+
+import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.dto.Activity;
+import co.shinetech.dto.Group;
+import co.shinetech.gui.DomainGetter;
+import co.shinetech.service.ServiceFactory;
+import co.shinetech.service.impl.ActivityService;
+import co.shinetech.service.impl.GroupService;
+
 import java.awt.Insets;
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;
@@ -17,13 +26,17 @@ import javax.swing.JDialog;
 
 import java.awt.Dimension;
 
-public class ActivityFormPanel extends JPanel {
+@SuppressWarnings("serial")
+public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> {
+	private JTextField nameTextField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField;
 	private JTextField textField_4;
+	@SuppressWarnings("unused")
 	private JDialog parent;
+	private Activity activity;
 
 	/**
 	 * Create the panel.
@@ -200,6 +213,25 @@ public class ActivityFormPanel extends JPanel {
 		});
 		panel_2.add(btnNewButton_1);
 
+	}
+	public void setDomainModel(Activity domainData) {
+		this.activity = domainData;
+		nameTextField.setText(this.activity.getName());
+	}
+
+	public Activity getDomainModel() {
+		ActivityService as = ServiceFactory.getService(ActivityService.class);
+		
+		try {
+			if( this.activity == null ) {
+				this.activity = new Activity(as.nextId(), getName(), null, null, null, null, null) ;   //Verificar!!! Dúvida!
+			}
+			this.activity.setName(nameTextField.getText());
+		} catch (PersistenceException e) {
+			// TODO: show a dialog message
+		}
+
+		return this.activity;
 	}
 
 }
