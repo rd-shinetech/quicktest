@@ -26,16 +26,19 @@ public class UserDAOTest {
 	private static Profile profile;
 	private static User u;
 	private static DAOProvider<User> userDao;
-
+	
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setup() throws PersistenceException {
 		userDao = (DAOProvider<User>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_USER);
+		DAOProvider<Profile> profileDao = (DAOProvider<Profile>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_PROFILE);
 		id = userDao.nextId();
-		login = "Robin";
+		login = "Robin " + id;
 		pwd = "1b".toCharArray();//new Character[] {'1', 'b'};
 		pwd2 = "5gjs2".toCharArray();
-		profile = new Profile(1, "Student");
+		long pid = profileDao.nextId();
+		profile = new Profile(pid, "Student " + pid);
+		profileDao.create(profile);
 		u = new User(id, login, pwd, profile);
 	}
 

@@ -6,11 +6,19 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
+
+import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.service.ServiceFactory;
+import co.shinetech.service.impl.ProfileService;
+
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * 
@@ -22,13 +30,14 @@ public class UserFormPanel extends JPanel {
 	private final JPanel panel_1 = new JPanel();
 	private JTextField textFieldLogin;
 	private JPasswordField passwordField;
+	private JDialog parent;
 
 	/**
 	 * Create the panel.
 	 */
-	public UserFormPanel() {
+	public UserFormPanel(JDialog parent) {
 		setLayout(new BorderLayout(0, 0));
-		
+		this.parent = parent;
 		JPanel panel = new JPanel();
 		add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
@@ -88,6 +97,16 @@ public class UserFormPanel extends JPanel {
 		comboBox.setMaximumSize(new Dimension(200, 20));
 		comboBox.setMinimumSize(new Dimension(150, 20));
 		comboBox.setPreferredSize(new Dimension(150, 20));
+		
+		ProfileService ps = ServiceFactory.getService(ProfileService.class);
+		try {
+			System.out.println("entrei");
+			ps.retrieveAll().forEach(p -> comboBox.addItem(p.getName()));
+		}
+		catch (PersistenceException e) {
+			e.printStackTrace();
+		}
+		
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.anchor = GridBagConstraints.WEST;
@@ -100,6 +119,11 @@ public class UserFormPanel extends JPanel {
 		panel_1.add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				parent.dispose();
+			}
+		});
 		panel_1.add(btnCancel);
 
 	}
