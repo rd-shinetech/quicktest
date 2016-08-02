@@ -3,11 +3,18 @@
  */
 package co.shinetech.gui.activity;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.gui.GUIUtils;
+import co.shinetech.gui.group.GroupPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
@@ -19,9 +26,11 @@ import co.shinetech.service.impl.ActivityService;
  */
 @SuppressWarnings("serial")
 public class ActivityDataPanel extends GridDataPanel{
+	private JPanel mySelf;
 
 	public ActivityDataPanel(DynamicTableModel tm) {
 		super(tm);
+		mySelf = this;
 		loadData();
 	}
 	
@@ -37,8 +46,21 @@ public class ActivityDataPanel extends GridDataPanel{
 
 	@Override
 	public ActionListener getCreateListener() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+				JDialog d = new JDialog(f,"Nova Actividade");
+
+				d.setModal(true);
+				d.setResizable(false);
+				d.add(new ActivityFormPanel(d));
+				d.pack(); // redimention the JDialog to the JPanel size
+				GUIUtils.centerOnParent(d, true);
+				d.setVisible(true);
+			}
+		};
+
 	}
 
 	@Override

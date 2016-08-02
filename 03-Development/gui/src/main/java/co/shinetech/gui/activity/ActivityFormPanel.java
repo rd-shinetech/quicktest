@@ -13,21 +13,24 @@ import javax.swing.JTextField;
 import java.awt.Insets;
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+
 import java.awt.Dimension;
 
-public class activityFormPanel extends JPanel {
+public class ActivityFormPanel extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField;
 	private JTextField textField_4;
+	private JDialog parent;
 
 	/**
 	 * Create the panel.
 	 */
-	public activityFormPanel() {
+	public ActivityFormPanel(JDialog parent) {
 		setLayout(new BorderLayout(0, 0));
-		
+		this.parent = parent;		
 		JPanel panel_1 = new JPanel();
 		add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BorderLayout(0, 0));
@@ -183,9 +186,18 @@ public class activityFormPanel extends JPanel {
 		panel_1.add(panel_2, BorderLayout.SOUTH);
 		
 		JButton btnNewButton = new JButton("OK");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		panel_2.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Cancel");
+		JButton btnNewButton_1 = new JButton("Cancelar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parent.dispose();
+			}
+		});
 		panel_2.add(btnNewButton_1);
 
 	}
