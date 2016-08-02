@@ -54,7 +54,9 @@ public class GroupDataPanel extends GridDataPanel {
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
 				JDialog d = new JDialog(f,"Inclusão de Turma");
+
 				d.setModal(true);
+				d.setResizable(false);
 				d.add(new GroupPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
 				GUIUtils.centerOnParent(d, false);

@@ -16,6 +16,8 @@ import javax.swing.JFrame;
  * @since 2016-08-02
  */
 public final class GUIUtils {
+	private GUIUtils() {}
+	
 	public static void centerOnParent(final Window child, final boolean absolute) {
 	    child.pack();
 	    boolean useChildsOwner = child.getOwner() != null ? ((child.getOwner() instanceof JFrame) || (child.getOwner() instanceof JDialog)) : false;
