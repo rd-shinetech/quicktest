@@ -15,13 +15,13 @@ import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
 public abstract class GridDataPanel extends JPanel {
 	private final JPanel panel = new JPanel();
-	private JTable table;
 	private JButton newButton;
 	private JButton searchButton;
 	private JButton editButton;
 	private JButton deleteButton;
 	private JButton closeButton;
 	private JPanel mySelf;
+	protected JTable table;
 	protected DynamicTableModel tableModel;
 	
 	/**
@@ -34,7 +34,6 @@ public abstract class GridDataPanel extends JPanel {
 		this.tableModel = tm;
 
 		setLayout(new BorderLayout(0, 0));
-		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
 		
@@ -69,6 +68,8 @@ public abstract class GridDataPanel extends JPanel {
 			}
 		});
 		panel.add(closeButton);
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 	}
 		
 	/** Abstract methods to be implemented by child classes **/

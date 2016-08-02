@@ -1,30 +1,45 @@
 package co.shinetech.gui.group;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
-import java.awt.Insets;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
-public class GroupPanel extends JPanel {
-	private JTextField textField;
+import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.dto.Group;
+import co.shinetech.gui.DomainGetter;
+import co.shinetech.service.ServiceFactory;
+import co.shinetech.service.impl.GroupService;
+
+@SuppressWarnings("serial")
+public class GroupPanel extends JPanel implements DomainGetter<Group>{
+	private JTextField nameTextField;
 	private JDialog parent;
+	private Group group;
 
 	/**
 	 * Create the panel.
 	 */
 	public GroupPanel(JDialog parent) {
+		setPreferredSize(new Dimension(380, 140));
+		setMinimumSize(new Dimension(380, 140));
+		setMaximumSize(new Dimension(380, 140));
 		setLayout(new BorderLayout(0, 0));
 		this.parent = parent;
 		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] {100, 250, 0};
@@ -42,17 +57,18 @@ public class GroupPanel extends JPanel {
 		gbc_lblNome.gridy = 1;
 		panel.add(lblNome, gbc_lblNome);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(5, 0, 5, 0);
-		gbc_textField.anchor = GridBagConstraints.NORTHWEST;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(50);
+		nameTextField = new JTextField();
+		GridBagConstraints gbc_nameTextField = new GridBagConstraints();
+		gbc_nameTextField.fill = GridBagConstraints.BOTH;
+		gbc_nameTextField.insets = new Insets(5, 0, 5, 0);
+		gbc_nameTextField.anchor = GridBagConstraints.NORTHWEST;
+		gbc_nameTextField.gridx = 1;
+		gbc_nameTextField.gridy = 1;
+		panel.add(nameTextField, gbc_nameTextField);
+		nameTextField.setColumns(50);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		add(panel_1, BorderLayout.SOUTH);
 		
 		JButton okButton = new JButton("Ok");
@@ -72,4 +88,25 @@ public class GroupPanel extends JPanel {
 
 	}
 
+	@Override
+	public void setDomainModel(Group domainData) {
+		this.group = domainData;
+		nameTextField.setText(this.group.getName());
+	}
+
+	@Override
+	public Group getDomainModel() {
+		GroupService gs = ServiceFactory.getService(GroupService.class);
+		
+		try {
+			if( this.group == null ) {
+				this.group = new Group(gs.nextId());
+			}
+			this.group.setName(nameTextField.getText());
+		} catch (PersistenceException e) {
+			// TODO: show a dialog message
+		}
+
+		return this.group;
+	}
 }

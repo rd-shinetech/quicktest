@@ -31,15 +31,6 @@ import co.shinetech.gui.group.GroupDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.user.UserDataPanel;
 
-import javax.swing.JProgressBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class QTestMainWindow {
 	private JFrame frmQtest;
 	private JProgressBar progressBar = new JProgressBar();
@@ -153,7 +144,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Group.class);
 				
-				dtm.setTblTitle(new String[] {"Código","Name"});		// Table columns header		
+				dtm.setTblTitle(new String[] {"Código","Nome"});		// Table columns header		
 				dtm.setTblFields(new String[]{"pk","name"});
 				GroupDataPanel cdp = new GroupDataPanel(dtm);
 

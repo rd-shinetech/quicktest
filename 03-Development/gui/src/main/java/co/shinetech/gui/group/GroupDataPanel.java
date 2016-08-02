@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.dto.Group;
 import co.shinetech.gui.GUIUtils;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
@@ -59,7 +60,7 @@ public class GroupDataPanel extends GridDataPanel {
 				d.setResizable(false);
 				d.add(new GroupPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
-				GUIUtils.centerOnParent(d, false);
+				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
 			}
 		};
@@ -70,8 +71,20 @@ public class GroupDataPanel extends GridDataPanel {
 	 */
 	@Override
 	public ActionListener getRetrieveListener() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+				JDialog d = new JDialog(f,"Inclusão de Turma");
+
+				d.setModal(true);
+				d.setResizable(false);
+				d.add(new GroupPanel(d));
+				d.pack(); // redimention the JDialog to the JPanel size
+				GUIUtils.centerOnParent(d, true);
+				d.setVisible(true);
+			}
+		};
 	}
 
 	/* (non-Javadoc)
@@ -79,8 +92,25 @@ public class GroupDataPanel extends GridDataPanel {
 	 */
 	@Override
 	public ActionListener getUpdateListener() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+				JDialog d = new JDialog(f,"Inclusão de Turma");
+				GroupPanel gp;
+
+				d.setModal(true);
+				d.setResizable(false);
+				d.add(gp = new GroupPanel(d));
+				d.pack(); // redimention the JDialog to the JPanel size
+				
+				Group g = (Group) tableModel.getData().get(table.getSelectedRow());
+				
+				gp.setDomainModel(g);
+				GUIUtils.centerOnParent(d, true);
+				d.setVisible(true);
+			}
+		};
 	}
 
 	/* (non-Javadoc)

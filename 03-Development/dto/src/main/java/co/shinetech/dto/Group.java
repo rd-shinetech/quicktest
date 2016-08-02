@@ -8,6 +8,14 @@ public class Group implements Domain{
 	private String name;
 	private ArrayList<User> users;	
 	
+	/**
+	 * @param id
+	 */
+	public Group(long id) {
+		super();
+		this.id = id;
+	}
+
 	public Group(long id, String name) {
 		super();
 		this.id = id;
