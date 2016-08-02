@@ -1,6 +1,7 @@
 package co.shinetech.gui.table;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,8 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.table.AbstractTableModel;
-import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
 public abstract class GridDataPanel extends JPanel {

@@ -6,8 +6,7 @@ public class Group implements Domain{
 	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
-	private ArrayList<User> users;
-	
+	private ArrayList<User> users;	
 	
 	public Group(long id, String name) {
 		super();
