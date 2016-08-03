@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.User;
 import co.shinetech.gui.GUIUtils;
+import co.shinetech.gui.QTestMainWindow;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
@@ -34,12 +35,22 @@ public class UserDataPanel extends GridDataPanel{
 
 	public void loadData() {
 		UserService us = ServiceFactory.getService(UserService.class);
-
-		try {
-			tableModel.setData(us.retrieveAll());
-		} catch (PersistenceException e) {
-			JOptionPane.showMessageDialog(this, "Error loading data from database.");
-		}
+		new Thread(() -> {
+				try {
+					QTestMainWindow.processStart();
+					Thread.sleep(1000L);
+					tableModel.setData(us.retrieveAll());
+					tableModel.fireTableDataChanged();
+					table.repaint();
+					QTestMainWindow.processEnd();
+				} catch (PersistenceException e) {
+					JOptionPane.showMessageDialog(mySelf, "Error loading data from database.");
+				}
+				catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}).start();
 	}
 
 	@Override
@@ -92,6 +103,10 @@ public class UserDataPanel extends GridDataPanel{
 				d.add(ufp = new UserFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
 				
+				if (table.getSelectedRow() < 0) {
+					JOptionPane.showMessageDialog(mySelf, "Seleciona um utilizador");
+					return;
+				}
 				User u = (User) tableModel.getData().get(table.getSelectedRow());
 				
 				ufp.setDomainModel(u);

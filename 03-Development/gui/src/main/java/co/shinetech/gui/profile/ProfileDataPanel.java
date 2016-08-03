@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Profile;
 import co.shinetech.gui.GUIUtils;
+import co.shinetech.gui.QTestMainWindow;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
@@ -34,12 +35,22 @@ public class ProfileDataPanel extends GridDataPanel {
 	
 	public void loadData() {
 		ProfileService ps = ServiceFactory.getService(ProfileService.class);
-
-		try {
-			tableModel.setData(ps.retrieveAll());
-		} catch (PersistenceException e) {
-			JOptionPane.showMessageDialog(this, "Error loading data from database.");
-		}
+		new Thread(() -> {
+			try {
+				QTestMainWindow.processStart();
+				Thread.sleep(1000L);
+				tableModel.setData(ps.retrieveAll());
+				tableModel.fireTableDataChanged();
+				table.repaint();
+				QTestMainWindow.processEnd();
+			} catch (PersistenceException e) {
+				JOptionPane.showMessageDialog(mySelf, "Error loading data from database.");
+			}
+			catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 	@Override
@@ -91,6 +102,11 @@ return new ActionListener() {
 				d.setResizable(false);
 				d.add(pfp = new ProfileFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
+				
+				if (table.getSelectedRow() < 0) {
+					JOptionPane.showMessageDialog(mySelf, "Seleciona um perfil");
+					return;
+				}
 				
 				Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
 				
