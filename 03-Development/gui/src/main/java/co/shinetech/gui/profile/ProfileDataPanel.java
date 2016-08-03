@@ -103,6 +103,11 @@ return new ActionListener() {
 				d.add(pfp = new ProfileFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
 				
+				if (table.getSelectedRow() < 0) {
+					JOptionPane.showMessageDialog(mySelf, "Seleciona um perfil");
+					return;
+				}
+				
 				Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
 				
 				pfp.setDomainModel(p);

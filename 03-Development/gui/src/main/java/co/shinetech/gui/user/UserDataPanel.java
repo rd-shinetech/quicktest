@@ -103,6 +103,10 @@ public class UserDataPanel extends GridDataPanel{
 				d.add(ufp = new UserFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
 				
+				if (table.getSelectedRow() < 0) {
+					JOptionPane.showMessageDialog(mySelf, "Seleciona um utilizador");
+					return;
+				}
 				User u = (User) tableModel.getData().get(table.getSelectedRow());
 				
 				ufp.setDomainModel(u);
