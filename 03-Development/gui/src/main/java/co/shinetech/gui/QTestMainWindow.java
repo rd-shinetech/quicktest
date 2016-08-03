@@ -37,6 +37,7 @@ import co.shinetech.gui.user.UserDataPanel;
 
 public class QTestMainWindow {
 	private JFrame frmQtest;
+	private JPanel currentPanel;
 	private static JProgressBar progressBar = new JProgressBar();
 	private static JLabel processingLabel = new JLabel("Processing...");
 
@@ -151,7 +152,9 @@ public class QTestMainWindow {
 				dtm.setTblTitle(new String[] {"Código","Nome"});		// Table columns header		
 				dtm.setTblFields(new String[]{"pk","name"});
 				GroupDataPanel cdp = new GroupDataPanel(dtm);
-
+				if (currentPanel != null)
+					frmQtest.getContentPane().remove(currentPanel);
+				currentPanel = cdp;
 				frmQtest.getContentPane().add(cdp, BorderLayout.CENTER); // adding the new panel to the frame		
 				frmQtest.revalidate(); // invalidate the frame to paint again with new panel added.
 			}
@@ -171,7 +174,10 @@ public class QTestMainWindow {
 				DynamicTableModel dtm = new DynamicTableModel(Activity.class);
 				dtm.setTblTitle(new String[] {"ID", "Name", "StartTime", "EndTime", "Teacher", "ActivityType", "Group"});
 				dtm.setTblFields(new String[] {"pk", "name", "startTime", "endTime", "teacher", "at", "group"});
-				ActivityDataPanel adp = new ActivityDataPanel(dtm);				
+				ActivityDataPanel adp = new ActivityDataPanel(dtm);
+				if (currentPanel != null)
+					frmQtest.getContentPane().remove(currentPanel);
+				currentPanel = adp;
 				frmQtest.getContentPane().add(adp, BorderLayout.CENTER);
 				frmQtest.revalidate();				
 			}
@@ -195,6 +201,9 @@ public class QTestMainWindow {
 				dtm.setTblTitle(new String[] {"ID", "Name"});
 				dtm.setTblFields(new String[] {"pk", "name"});
 				ProfileDataPanel pdp = new ProfileDataPanel(dtm);
+				if (currentPanel != null)
+					frmQtest.getContentPane().remove(currentPanel);
+				currentPanel = pdp;
 				frmQtest.getContentPane().add(pdp, BorderLayout.CENTER);
 				frmQtest.revalidate();
 			}
@@ -208,6 +217,9 @@ public class QTestMainWindow {
 				dtm.setTblTitle(new String[] {"ID", "Login", "Password", "Profile"});
 				dtm.setTblFields(new String[] {"pk", "login", "password", "profile"});
 				UserDataPanel udp = new UserDataPanel(dtm);
+				if (currentPanel != null)
+					frmQtest.getContentPane().remove(currentPanel);
+				currentPanel = udp;
 				frmQtest.getContentPane().add(udp, BorderLayout.CENTER);
 				frmQtest.revalidate();
 			}
