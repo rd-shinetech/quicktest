@@ -6,14 +6,21 @@ import java.awt.FlowLayout;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Activity;
+import co.shinetech.dto.ActivityType;
 import co.shinetech.dto.Group;
+import co.shinetech.dto.User;
 import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityService;
@@ -28,16 +35,17 @@ import java.awt.Dimension;
 
 @SuppressWarnings("serial")
 public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> {
-	private JTextField nameTextField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField;
-	private JTextField textField_4;
+	private JTextField nameTextField_1;
+	private JTextField startDayTextField;
+	private JTextField endTimeTextField;
+	private JTextField startTimeTextField;
+	private JTextField endDAyTextField;
 	@SuppressWarnings("unused")
 	private JDialog parent;
 	private Activity activity;
-
+	private JComboBox teacherComboBox;
+	private JComboBox activityTypeComboBox;
+	private JComboBox groupComboBox;
 	/**
 	 * Create the panel.
 	 */
@@ -65,14 +73,14 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblName.gridy = 1;
 		panel.add(lblName, gbc_lblName);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 1;
-		panel.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		nameTextField_1 = new JTextField();
+		GridBagConstraints gbc_nameTextField_1 = new GridBagConstraints();
+		gbc_nameTextField_1.insets = new Insets(0, 0, 5, 5);
+		gbc_nameTextField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nameTextField_1.gridx = 1;
+		gbc_nameTextField_1.gridy = 1;
+		panel.add(nameTextField_1, gbc_nameTextField_1);
+		nameTextField_1.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Start Day:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -82,15 +90,15 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblNewLabel.gridy = 2;
 		panel.add(lblNewLabel, gbc_lblNewLabel);
 		
-		textField_2 = new JTextField();
-		textField_2.setMinimumSize(new Dimension(100, 20));
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.anchor = GridBagConstraints.WEST;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 2;
-		panel.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		startDayTextField = new JTextField();
+		startDayTextField.setMinimumSize(new Dimension(100, 20));
+		GridBagConstraints gbc_startDayTextField = new GridBagConstraints();
+		gbc_startDayTextField.anchor = GridBagConstraints.WEST;
+		gbc_startDayTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_startDayTextField.gridx = 1;
+		gbc_startDayTextField.gridy = 2;
+		panel.add(startDayTextField, gbc_startDayTextField);
+		startDayTextField.setColumns(10);
 		
 		JLabel lblStarttime = new JLabel("Start Time:");
 		GridBagConstraints gbc_lblStarttime = new GridBagConstraints();
@@ -100,15 +108,15 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblStarttime.gridy = 3;
 		panel.add(lblStarttime, gbc_lblStarttime);
 		
-		textField = new JTextField();
-		textField.setMinimumSize(new Dimension(100, 20));
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.anchor = GridBagConstraints.WEST;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 3;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		startTimeTextField = new JTextField();
+		startTimeTextField.setMinimumSize(new Dimension(100, 20));
+		GridBagConstraints gbc_startTimeTextField = new GridBagConstraints();
+		gbc_startTimeTextField.anchor = GridBagConstraints.WEST;
+		gbc_startTimeTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_startTimeTextField.gridx = 1;
+		gbc_startTimeTextField.gridy = 3;
+		panel.add(startTimeTextField, gbc_startTimeTextField);
+		startTimeTextField.setColumns(10);
 		
 		JLabel lblEndday = new JLabel("End Day:");
 		GridBagConstraints gbc_lblEndday = new GridBagConstraints();
@@ -118,15 +126,15 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblEndday.gridy = 4;
 		panel.add(lblEndday, gbc_lblEndday);
 		
-		textField_4 = new JTextField();
-		textField_4.setMinimumSize(new Dimension(100, 20));
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.anchor = GridBagConstraints.WEST;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 1;
-		gbc_textField_4.gridy = 4;
-		panel.add(textField_4, gbc_textField_4);
-		textField_4.setColumns(10);
+		endDAyTextField = new JTextField();
+		endDAyTextField.setMinimumSize(new Dimension(100, 20));
+		GridBagConstraints gbc_endDAyTextField = new GridBagConstraints();
+		gbc_endDAyTextField.anchor = GridBagConstraints.WEST;
+		gbc_endDAyTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_endDAyTextField.gridx = 1;
+		gbc_endDAyTextField.gridy = 4;
+		panel.add(endDAyTextField, gbc_endDAyTextField);
+		endDAyTextField.setColumns(10);
 		
 		JLabel lblEndtime = new JLabel("End Time:");
 		GridBagConstraints gbc_lblEndtime = new GridBagConstraints();
@@ -136,15 +144,15 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblEndtime.gridy = 5;
 		panel.add(lblEndtime, gbc_lblEndtime);
 		
-		textField_3 = new JTextField();
-		textField_3.setMinimumSize(new Dimension(100, 20));
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.anchor = GridBagConstraints.WEST;
-		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_3.gridx = 1;
-		gbc_textField_3.gridy = 5;
-		panel.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		endTimeTextField = new JTextField();
+		endTimeTextField.setMinimumSize(new Dimension(100, 20));
+		GridBagConstraints gbc_endTimeTextField = new GridBagConstraints();
+		gbc_endTimeTextField.anchor = GridBagConstraints.WEST;
+		gbc_endTimeTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_endTimeTextField.gridx = 1;
+		gbc_endTimeTextField.gridy = 5;
+		panel.add(endTimeTextField, gbc_endTimeTextField);
+		endTimeTextField.setColumns(10);
 		
 		JLabel lblTeacher = new JLabel("Teacher:");
 		GridBagConstraints gbc_lblTeacher = new GridBagConstraints();
@@ -154,14 +162,14 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblTeacher.gridy = 6;
 		panel.add(lblTeacher, gbc_lblTeacher);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setMinimumSize(new Dimension(100, 20));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 6;
-		panel.add(comboBox, gbc_comboBox);
+		teacherComboBox = new JComboBox();
+		teacherComboBox.setMinimumSize(new Dimension(100, 20));
+		GridBagConstraints gbc_teacherComboBox = new GridBagConstraints();
+		gbc_teacherComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_teacherComboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_teacherComboBox.gridx = 1;
+		gbc_teacherComboBox.gridy = 6;
+		panel.add(teacherComboBox, gbc_teacherComboBox);
 		
 		JLabel lblActivitytype = new JLabel("Activity Type:");
 		GridBagConstraints gbc_lblActivitytype = new GridBagConstraints();
@@ -171,13 +179,13 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblActivitytype.gridy = 7;
 		panel.add(lblActivitytype, gbc_lblActivitytype);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
-		gbc_comboBox_2.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_2.gridx = 1;
-		gbc_comboBox_2.gridy = 7;
-		panel.add(comboBox_2, gbc_comboBox_2);
+		activityTypeComboBox = new JComboBox();
+		GridBagConstraints gbc_activityTypeComboBox = new GridBagConstraints();
+		gbc_activityTypeComboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_activityTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_activityTypeComboBox.gridx = 1;
+		gbc_activityTypeComboBox.gridy = 7;
+		panel.add(activityTypeComboBox, gbc_activityTypeComboBox);
 		
 		JLabel lblGroup = new JLabel("Group:");
 		GridBagConstraints gbc_lblGroup = new GridBagConstraints();
@@ -187,46 +195,54 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblGroup.gridy = 8;
 		panel.add(lblGroup, gbc_lblGroup);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-		gbc_comboBox_1.insets = new Insets(0, 0, 0, 5);
-		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1.gridx = 1;
-		gbc_comboBox_1.gridy = 8;
-		panel.add(comboBox_1, gbc_comboBox_1);
+		groupComboBox = new JComboBox();
+		GridBagConstraints gbc_groupComboBox = new GridBagConstraints();
+		gbc_groupComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_groupComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_groupComboBox.gridx = 1;
+		gbc_groupComboBox.gridy = 8;
+		panel.add(groupComboBox, gbc_groupComboBox);
 		
 		JPanel panel_2 = new JPanel();
 		panel_1.add(panel_2, BorderLayout.SOUTH);
 		
-		JButton btnNewButton = new JButton("OK");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		panel_2.add(btnNewButton);
+		panel_2.add(okButton);
 		
-		JButton btnNewButton_1 = new JButton("Cancelar");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton cancelButton = new JButton("Cancelar");
+		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parent.dispose();
 			}
 		});
-		panel_2.add(btnNewButton_1);
+		panel_2.add(cancelButton);
 
 	}
 	public void setDomainModel(Activity domainData) {
 		this.activity = domainData;
-		nameTextField.setText(this.activity.getName());
+		nameTextField_1.setText(this.activity.getName());
 	}
 
 	public Activity getDomainModel() {
 		ActivityService as = ServiceFactory.getService(ActivityService.class);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyyHH:mm:SS");
 		
 		try {
 			if( this.activity == null ) {
-				this.activity = new Activity(as.nextId(), getName(), null, null, null, null, null) ;   //Verificar!!! Dúvida!
+				this.activity = new Activity(as.nextId()) ;  
 			}
-			this.activity.setName(nameTextField.getText());
+			this.activity.setName(nameTextField_1.getText());
+			this.activity.setStartTime(LocalDateTime.parse(startDayTextField.getText()+startTimeTextField,dtf));
+			this.activity.setEndTime(LocalDateTime.parse(endDAyTextField.getText()+endTimeTextField, dtf));
+			this.activity.setTeacher((User)teacherComboBox.getSelectedItem());			
+			this.activity.setActivityType((ActivityType) activityTypeComboBox.getSelectedItem());
+			this.activity.setGroup((Group)groupComboBox.getSelectedItem());			
+		} catch (DateTimeParseException e ) {
+			JOptionPane.showConfirmDialog(null, "Formato de data ou hora não válido. (dd/MM/yyyy HH:mm:SS)");
 		} catch (PersistenceException e) {
 			// TODO: show a dialog message
 		}

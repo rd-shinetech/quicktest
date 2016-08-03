@@ -2,6 +2,10 @@ package co.shinetech.dto;
 
 import java.time.LocalDateTime;
 
+import javax.swing.JComboBox;
+
+
+
 public class Activity implements Domain{
 
 
@@ -11,11 +15,15 @@ public class Activity implements Domain{
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private User teacher;
-	private ActivityType at;
+	private ActivityType activityType;
 	private Group group;
 	
 	
-	public Activity(long id, String name, LocalDateTime startTime, LocalDateTime endTime, User teacher, ActivityType at,
+	public Activity(long id) {
+		super();
+		this.id = id;
+	}
+	public Activity(long id, String name, LocalDateTime startTime, LocalDateTime endTime, User teacher, ActivityType activityType,
 			Group group) {
 		super();
 		this.id = id;
@@ -23,9 +31,10 @@ public class Activity implements Domain{
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.teacher = teacher;
-		this.at = at;
+		this.activityType = activityType;
 		this.group = group;
 	}
+
 	public long getPk() {
 		return id;
 	}
@@ -53,14 +62,15 @@ public class Activity implements Domain{
 	public User getTeacher() {
 		return teacher;
 	}
-	public void setTeacher(User teacher) {
-		this.teacher = teacher;
+	public void setTeacher(User teacher2) {
+		this.teacher = teacher2;
 	}
-	public ActivityType getAt() {
-		return at;
+
+	public ActivityType getActivityType() {
+		return activityType;
 	}
-	public void setAt(ActivityType at) {
-		this.at = at;
+	public void setActivityType(ActivityType activityType) {
+		this.activityType = activityType;
 	}
 	public Group getGroup() {
 		return group;
@@ -72,7 +82,7 @@ public class Activity implements Domain{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((activityType == null) ? 0 : activityType.hashCode());
 		return result;
 	}
 	@Override
@@ -84,40 +94,13 @@ public class Activity implements Domain{
 		if (getClass() != obj.getClass())
 			return false;
 		Activity other = (Activity) obj;
-		if (at != other.at)
-			return false;
-		if (endTime == null) {
-			if (other.endTime != null)
-				return false;
-		} else if (!endTime.equals(other.endTime))
-			return false;
-		if (group == null) {
-			if (other.group != null)
-				return false;
-		} else if (!group.equals(other.group))
-			return false;
-		if (id != other.id)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (startTime == null) {
-			if (other.startTime != null)
-				return false;
-		} else if (!startTime.equals(other.startTime))
-			return false;
-		if (teacher == null) {
-			if (other.teacher != null)
-				return false;
-		} else if (!teacher.equals(other.teacher))
+		if (activityType != other.activityType)
 			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
 		return "Activity [id=" + id + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", teacher=" + teacher + ", at=" + at + ", group=" + group + "]";
+				+ ", teacher=" + teacher + ", activityType=" + activityType + ", group=" + group + "]";
 	}
 }
