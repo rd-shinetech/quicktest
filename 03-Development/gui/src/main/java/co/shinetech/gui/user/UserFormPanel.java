@@ -8,8 +8,14 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 
 import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.dto.Group;
+import co.shinetech.dto.Profile;
+import co.shinetech.dto.User;
+import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
+import co.shinetech.service.impl.GroupService;
 import co.shinetech.service.impl.ProfileService;
+import co.shinetech.service.impl.UserService;
 
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
@@ -26,11 +32,13 @@ import java.awt.event.ActionEvent;
  *
  */
 @SuppressWarnings("serial")
-public class UserFormPanel extends JPanel {
+public class UserFormPanel extends JPanel implements DomainGetter<User>{
 	private final JPanel panel_1 = new JPanel();
 	private JTextField textFieldLogin;
 	private JPasswordField passwordField;
+	private JComboBox<Profile> comboBox;
 	private JDialog parent;
+	private User user;
 
 	/**
 	 * Create the panel.
@@ -45,7 +53,7 @@ public class UserFormPanel extends JPanel {
 		gbl_panel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0};
 		panel.setLayout(gbl_panel);
-		
+
 		JLabel lblLogin = new JLabel("Login:");
 		GridBagConstraints gbc_lblLogin = new GridBagConstraints();
 		gbc_lblLogin.anchor = GridBagConstraints.EAST;
@@ -53,7 +61,7 @@ public class UserFormPanel extends JPanel {
 		gbc_lblLogin.gridx = 0;
 		gbc_lblLogin.gridy = 0;
 		panel.add(lblLogin, gbc_lblLogin);
-		
+
 		textFieldLogin = new JTextField();
 		textFieldLogin.setMaximumSize(new Dimension(150, 20));
 		textFieldLogin.setColumns(30);
@@ -65,7 +73,7 @@ public class UserFormPanel extends JPanel {
 		gbc_textFieldLogin.gridx = 1;
 		gbc_textFieldLogin.gridy = 0;
 		panel.add(textFieldLogin, gbc_textFieldLogin);
-		
+
 		JLabel lblPassword = new JLabel("Password:");
 		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
 		gbc_lblPassword.anchor = GridBagConstraints.EAST;
@@ -73,7 +81,7 @@ public class UserFormPanel extends JPanel {
 		gbc_lblPassword.gridx = 0;
 		gbc_lblPassword.gridy = 1;
 		panel.add(lblPassword, gbc_lblPassword);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setColumns(15);
 		passwordField.setMinimumSize(new Dimension(150, 20));
@@ -84,7 +92,7 @@ public class UserFormPanel extends JPanel {
 		gbc_passwordField.gridx = 1;
 		gbc_passwordField.gridy = 1;
 		panel.add(passwordField, gbc_passwordField);
-		
+
 		JLabel lblNewLabel = new JLabel("Profile:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
@@ -92,21 +100,20 @@ public class UserFormPanel extends JPanel {
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 2;
 		panel.add(lblNewLabel, gbc_lblNewLabel);
-		
-		JComboBox comboBox = new JComboBox();
+
+		comboBox = new JComboBox<>();
 		comboBox.setMaximumSize(new Dimension(200, 20));
 		comboBox.setMinimumSize(new Dimension(150, 20));
 		comboBox.setPreferredSize(new Dimension(150, 20));
-		
+
 		ProfileService ps = ServiceFactory.getService(ProfileService.class);
 		try {
-			System.out.println("entrei");
-			ps.retrieveAll().forEach(p -> comboBox.addItem(p.getName()));
+			ps.retrieveAll().forEach(p -> comboBox.addItem(p));
 		}
 		catch (PersistenceException e) {
 			e.printStackTrace();
 		}
-		
+
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.anchor = GridBagConstraints.WEST;
@@ -114,10 +121,27 @@ public class UserFormPanel extends JPanel {
 		gbc_comboBox.gridy = 2;
 		panel.add(comboBox, gbc_comboBox);
 		add(panel_1, BorderLayout.SOUTH);
-		
+
 		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserService us = ServiceFactory.getService(UserService.class);
+				try {
+					User u = new User(us.nextId());
+					u.setLogin(textFieldLogin.getText());
+					u.setPassword(passwordField.getPassword());
+					u.setProfile((Profile) comboBox.getSelectedItem());
+					us.create(u);
+					parent.dispose();
+				}
+				catch (PersistenceException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		panel_1.add(btnOk);
-		
+
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -126,6 +150,32 @@ public class UserFormPanel extends JPanel {
 		});
 		panel_1.add(btnCancel);
 
+	}
+
+	@Override
+	public void setDomainModel(User domainData) {
+		this.user = domainData;
+		textFieldLogin.setText(this.user.getLogin());
+		passwordField.setText(user.getPassword().toString());
+		comboBox.setSelectedItem(user.getProfile());
+	}
+
+	@Override
+	public User getDomainModel() {
+		UserService us = ServiceFactory.getService(UserService.class);
+
+		try {
+			if( this.user == null ) {
+				this.user = new User(us.nextId());
+			}
+			this.user.setLogin(textFieldLogin.getText());
+			this.user.setPassword(passwordField.getPassword());
+			
+		} catch (PersistenceException e) {
+			// TODO: show a dialog message
+		}
+
+		return this.user;
 	}
 
 }

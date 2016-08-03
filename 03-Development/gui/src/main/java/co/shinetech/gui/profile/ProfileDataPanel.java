@@ -1,7 +1,4 @@
-/**
- * 
- */
-package co.shinetech.gui.activity;
+package co.shinetech.gui.profile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,34 +10,33 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
-import co.shinetech.dto.Activity;
-import co.shinetech.dto.Group;
+import co.shinetech.dto.Profile;
 import co.shinetech.gui.GUIUtils;
-import co.shinetech.gui.group.GroupPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
-import co.shinetech.service.impl.ActivityService;
+import co.shinetech.service.impl.ProfileService;
 
 /**
- * @author Ricardo
- *
+ * 
+ * @author Robin
+ * @date 03/08/2016
  */
 @SuppressWarnings("serial")
-public class ActivityDataPanel extends GridDataPanel{
+public class ProfileDataPanel extends GridDataPanel {
 	private JPanel mySelf;
-
-	public ActivityDataPanel(DynamicTableModel tm) {
+	
+	public ProfileDataPanel(DynamicTableModel tm) {
 		super(tm);
 		mySelf = this;
 		loadData();
 	}
 	
-	private void loadData() {
-		ActivityService as = ServiceFactory.getService(ActivityService.class);
-		
+	public void loadData() {
+		ProfileService ps = ServiceFactory.getService(ProfileService.class);
+
 		try {
-			tableModel.setData(as.retrieveAll());
+			tableModel.setData(ps.retrieveAll());
 		} catch (PersistenceException e) {
 			JOptionPane.showMessageDialog(this, "Error loading data from database.");
 		}
@@ -52,17 +48,15 @@ public class ActivityDataPanel extends GridDataPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Nova Actividade");
-
+				JDialog d = new JDialog(f,"Inclusão do perfil");
 				d.setModal(true);
-				d.setResizable(false);
-				d.add(new ActivityFormPanel(d));
+				d.add(new ProfileFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
+				d.setResizable(false);
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
 			}
 		};
-
 	}
 
 	@Override
@@ -71,43 +65,40 @@ public class ActivityDataPanel extends GridDataPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Nova Actividade");
+				JDialog d = new JDialog(f,"Pesquisar perfil");
 
 				d.setModal(true);
 				d.setResizable(false);
-				d.add(new ActivityFormPanel(d));
+				d.add(new ProfileFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
-				GUIUtils.centerOnParent(d, false);
-				d.setVisible(true);
-			}
-		};		
-	
-	}
-
-	@Override
-	public ActionListener getUpdateListener() {
-		
-		
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Nova Actividade");
-				ActivityFormPanel afp;
-
-				d.setModal(true);
-				d.setResizable(false);
-				d.add(afp = new ActivityFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
-				
-				Activity a = (Activity) tableModel.getData().get(table.getSelectedRow());
-				
-				afp.setDomainModel(a);
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
 			}
 		};
-		
+	}
+
+	@Override
+	public ActionListener getUpdateListener() {
+return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+				JDialog d = new JDialog(f,"Atualização do perfil");
+				ProfileFormPanel pfp;
+
+				d.setModal(true);
+				d.setResizable(false);
+				d.add(pfp = new ProfileFormPanel(d));
+				d.pack(); // redimention the JDialog to the JPanel size
+				
+				Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
+				
+				pfp.setDomainModel(p);
+				GUIUtils.centerOnParent(d, true);
+				d.setVisible(true);
+			}
+		};
 	}
 
 	@Override
@@ -115,6 +106,5 @@ public class ActivityDataPanel extends GridDataPanel{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 
 }
