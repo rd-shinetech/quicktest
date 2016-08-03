@@ -242,7 +242,6 @@ public class QTestMainWindow {
 				public void run() {
 					progressBar.setVisible(true);
 					processingLabel.setVisible(true);
-					processingLabel.setText("--->");
 				}
 			});
 		} catch (InvocationTargetException e) {
@@ -265,19 +264,16 @@ public class QTestMainWindow {
 	}
 	
 	public static void processEnd() {
-/*		try {
+		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
 				public void run() {
-*/
-		processingLabel.setText("****>");
-
-		progressBar.setVisible(false);
+					progressBar.setVisible(false);
 					processingLabel.setVisible(false);
-/*				}
+				}
 			});
 		} catch (InvocationTargetException e) {
 		} catch (InterruptedException e) {
 		}				
-*/	}
+	}
 }
