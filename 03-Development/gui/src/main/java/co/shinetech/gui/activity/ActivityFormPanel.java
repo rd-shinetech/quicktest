@@ -39,7 +39,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 	private JTextField startDayTextField;
 	private JTextField endTimeTextField;
 	private JTextField startTimeTextField;
-	private JTextField endDAyTextField;
+	private JTextField endDayTextField;
 	@SuppressWarnings("unused")
 	private JDialog parent;
 	private Activity activity;
@@ -126,15 +126,15 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblEndday.gridy = 4;
 		panel.add(lblEndday, gbc_lblEndday);
 		
-		endDAyTextField = new JTextField();
-		endDAyTextField.setMinimumSize(new Dimension(100, 20));
+		endDayTextField = new JTextField();
+		endDayTextField.setMinimumSize(new Dimension(100, 20));
 		GridBagConstraints gbc_endDAyTextField = new GridBagConstraints();
 		gbc_endDAyTextField.anchor = GridBagConstraints.WEST;
 		gbc_endDAyTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_endDAyTextField.gridx = 1;
 		gbc_endDAyTextField.gridy = 4;
-		panel.add(endDAyTextField, gbc_endDAyTextField);
-		endDAyTextField.setColumns(10);
+		panel.add(endDayTextField, gbc_endDAyTextField);
+		endDayTextField.setColumns(10);
 		
 		JLabel lblEndtime = new JLabel("End Time:");
 		GridBagConstraints gbc_lblEndtime = new GridBagConstraints();
@@ -223,8 +223,16 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 
 	}
 	public void setDomainModel(Activity domainData) {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyyHH:mm:SS");
+		String s;
+		
 		this.activity = domainData;
 		nameTextField_1.setText(this.activity.getName());
+		s = dtf.format(this.activity.getStartTime());
+		startDayTextField.setText(s.substring(0, 10));
+		startTimeTextField.setText(s.substring(10, 18));
+		endDayTextField.setText(s.substring(0, 10));
+		endTimeTextField.setText(s.substring(10, 18));		
 	}
 
 	public Activity getDomainModel() {
@@ -237,7 +245,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 			}
 			this.activity.setName(nameTextField_1.getText());
 			this.activity.setStartTime(LocalDateTime.parse(startDayTextField.getText()+startTimeTextField,dtf));
-			this.activity.setEndTime(LocalDateTime.parse(endDAyTextField.getText()+endTimeTextField, dtf));
+			this.activity.setEndTime(LocalDateTime.parse(endDayTextField.getText()+endTimeTextField, dtf));
 			this.activity.setTeacher((User)teacherComboBox.getSelectedItem());			
 			this.activity.setActivityType((ActivityType) activityTypeComboBox.getSelectedItem());
 			this.activity.setGroup((Group)groupComboBox.getSelectedItem());			
