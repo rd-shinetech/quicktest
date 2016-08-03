@@ -108,7 +108,7 @@ public class ActivityDataPanel extends GridDataPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Nova Actividade");
+				JDialog d = new JDialog(f,"Editar Actividade");
 				ActivityFormPanel afp;
 
 				d.setModal(true);
