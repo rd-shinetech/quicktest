@@ -173,7 +173,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Activity.class);
 				dtm.setTblTitle(new String[] {"ID", "Name", "StartTime", "EndTime", "Teacher", "ActivityType", "Group"});
-				dtm.setTblFields(new String[] {"pk", "name", "startTime", "endTime", "teacher", "at", "group"});
+				dtm.setTblFields(new String[] {"pk", "name", "startTime", "endTime", "teacher", "activityType", "group"});
 				ActivityDataPanel adp = new ActivityDataPanel(dtm);
 				if (currentPanel != null)
 					frmQtest.getContentPane().remove(currentPanel);
