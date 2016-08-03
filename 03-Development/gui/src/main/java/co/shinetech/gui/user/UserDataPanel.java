@@ -55,56 +55,56 @@ public class UserDataPanel extends GridDataPanel{
 	@Override
 	public ActionListener getCreateListener() {
 		return e -> {
-				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Inclusão do Utilizador");
-				d.setModal(true);
-				d.add(new UserFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
-				d.setResizable(false);
-				GUIUtils.centerOnParent(d, true);
-				d.setVisible(true);
-				loadData();
-			};
+			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+			JDialog d = new JDialog(f,"Inclusão do Utilizador");
+			d.setModal(true);
+			d.add(new UserFormPanel(d));
+			d.pack(); // redimention the JDialog to the JPanel size
+			d.setResizable(false);
+			GUIUtils.centerOnParent(d, true);
+			d.setVisible(true);
+			loadData();
+		};
 	}
 
 	@Override
 	public ActionListener getRetrieveListener() {
 		return e -> {
-				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Pesquisar utilizador");
+			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+			JDialog d = new JDialog(f,"Pesquisar utilizador");
 
-				d.setModal(true);
-				d.setResizable(false);
-				d.add(new UserFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
-				GUIUtils.centerOnParent(d, true);
-				d.setVisible(true);
-			};
+			d.setModal(true);
+			d.setResizable(false);
+			d.add(new UserFormPanel(d));
+			d.pack(); // redimention the JDialog to the JPanel size
+			GUIUtils.centerOnParent(d, true);
+			d.setVisible(true);
+		};
 	}
 
 	@Override
 	public ActionListener getUpdateListener() {
 		return e -> {
-				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Atualização do utilizador");
-				UserFormPanel ufp;
+			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+			JDialog d = new JDialog(f,"Atualização do utilizador");
+			UserFormPanel ufp;
 
-				d.setModal(true);
-				d.setResizable(false);
-				d.add(ufp = new UserFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
+			d.setModal(true);
+			d.setResizable(false);
+			d.add(ufp = new UserFormPanel(d));
+			d.pack(); // redimention the JDialog to the JPanel size
 
-				if (table.getSelectedRow() < 0) {
-					JOptionPane.showMessageDialog(mySelf, "Seleciona um utilizador");
-					return;
-				}
-				User u = (User) tableModel.getData().get(table.getSelectedRow());
+			if (table.getSelectedRow() < 0) {
+				JOptionPane.showMessageDialog(mySelf, "Seleciona um utilizador");
+				return;
+			}
+			User u = (User) tableModel.getData().get(table.getSelectedRow());
 
-				ufp.setDomainModel(u);
-				GUIUtils.centerOnParent(d, true);
-				d.setVisible(true);
-				loadData();
-			};
+			ufp.setDomainModel(u);
+			GUIUtils.centerOnParent(d, true);
+			d.setVisible(true);
+			loadData();
+		};
 	}
 
 	@Override
