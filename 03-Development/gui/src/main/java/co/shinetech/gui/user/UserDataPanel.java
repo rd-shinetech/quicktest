@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.dto.Group;
+import co.shinetech.dto.User;
 import co.shinetech.gui.GUIUtils;
 import co.shinetech.gui.group.GroupPanel;
 import co.shinetech.gui.table.DynamicTableModel;
@@ -61,19 +63,48 @@ public class UserDataPanel extends GridDataPanel{
 
 	@Override
 	public ActionListener getRetrieveListener() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+				JDialog d = new JDialog(f,"Pesquisar utilizador");
+
+				d.setModal(true);
+				d.setResizable(false);
+				d.add(new UserFormPanel(d));
+				d.pack(); // redimention the JDialog to the JPanel size
+				GUIUtils.centerOnParent(d, true);
+				d.setVisible(true);
+			}
+		};
 	}
 
 	@Override
 	public ActionListener getUpdateListener() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+				JDialog d = new JDialog(f,"Atualização do utilizador");
+				UserFormPanel ufp;
+
+				d.setModal(true);
+				d.setResizable(false);
+				d.add(ufp = new UserFormPanel(d));
+				d.pack(); // redimention the JDialog to the JPanel size
+				
+				User u = (User) tableModel.getData().get(table.getSelectedRow());
+				
+				ufp.setDomainModel(u);
+				GUIUtils.centerOnParent(d, true);
+				d.setVisible(true);
+			}
+		};
 	}
 
 	@Override
 	public ActionListener getDeleteListener() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
