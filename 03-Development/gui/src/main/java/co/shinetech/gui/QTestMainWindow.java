@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,21 +21,24 @@ import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.Group;
+import co.shinetech.dto.Profile;
 import co.shinetech.dto.User;
 import co.shinetech.gui.activity.ActivityDataPanel;
 import co.shinetech.gui.group.GroupDataPanel;
+import co.shinetech.gui.profile.ProfileDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.user.UserDataPanel;
 
 public class QTestMainWindow {
 	private JFrame frmQtest;
-	private JProgressBar progressBar = new JProgressBar();
-	private JLabel processingLabel = new JLabel("Processing...");
+	private static JProgressBar progressBar = new JProgressBar();
+	private static JLabel processingLabel = new JLabel("Processing...");
 
 	/**
 	 * Launch the application.
@@ -185,6 +189,16 @@ public class QTestMainWindow {
 		toolBar.addSeparator();
 		
 		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(Profile.class);
+				dtm.setTblTitle(new String[] {"ID", "Name"});
+				dtm.setTblFields(new String[] {"pk", "name"});
+				ProfileDataPanel pdp = new ProfileDataPanel(dtm);
+				frmQtest.getContentPane().add(pdp, BorderLayout.CENTER);
+				frmQtest.revalidate();
+			}
+		});
 		toolBar.add(btnPerfil);
 		
 		JButton btnUtilizador = new JButton("Utilizador");
@@ -216,7 +230,54 @@ public class QTestMainWindow {
 		
 		panel.add(processingLabel);
 		processingLabel.setVisible(false);
+		progressBar.setIndeterminate(true);
 		panel.add(progressBar);
 		progressBar.setVisible(false);
 	}
+	
+	public static void processStart() {
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				@Override
+				public void run() {
+					progressBar.setVisible(true);
+					processingLabel.setVisible(true);
+					processingLabel.setText("--->");
+				}
+			});
+		} catch (InvocationTargetException e) {
+		} catch (InterruptedException e) {
+		}		
+	}
+	
+	public static void processUpdate(int pos) {
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				@Override
+				public void run() {
+					progressBar.setIndeterminate(false);
+					progressBar.setValue(pos);
+				}
+			});
+		} catch (InvocationTargetException e) {
+		} catch (InterruptedException e) {
+		}				
+	}
+	
+	public static void processEnd() {
+/*		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				@Override
+				public void run() {
+*/
+		processingLabel.setText("****>");
+
+		progressBar.setVisible(false);
+					processingLabel.setVisible(false);
+/*				}
+			});
+		} catch (InvocationTargetException e) {
+		} catch (InterruptedException e) {
+		}				
+*/	}
 }
