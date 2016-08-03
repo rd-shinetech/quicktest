@@ -1,4 +1,4 @@
-package co.shinetech.gui.user;
+package co.shinetech.gui.profile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,33 +10,33 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
-import co.shinetech.dto.User;
+import co.shinetech.dto.Profile;
 import co.shinetech.gui.GUIUtils;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
-import co.shinetech.service.impl.UserService;
+import co.shinetech.service.impl.ProfileService;
 
 /**
  * 
  * @author Robin
- *
+ * @date 03/08/2016
  */
 @SuppressWarnings("serial")
-public class UserDataPanel extends GridDataPanel{
+public class ProfileDataPanel extends GridDataPanel {
 	private JPanel mySelf;
-
-	public UserDataPanel(DynamicTableModel tm) {
+	
+	public ProfileDataPanel(DynamicTableModel tm) {
 		super(tm);
 		mySelf = this;
 		loadData();
 	}
-
+	
 	public void loadData() {
-		UserService us = ServiceFactory.getService(UserService.class);
+		ProfileService ps = ServiceFactory.getService(ProfileService.class);
 
 		try {
-			tableModel.setData(us.retrieveAll());
+			tableModel.setData(ps.retrieveAll());
 		} catch (PersistenceException e) {
 			JOptionPane.showMessageDialog(this, "Error loading data from database.");
 		}
@@ -48,9 +48,9 @@ public class UserDataPanel extends GridDataPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Inclusão do Utilizador");
+				JDialog d = new JDialog(f,"Inclusão do perfil");
 				d.setModal(true);
-				d.add(new UserFormPanel(d));
+				d.add(new ProfileFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
 				d.setResizable(false);
 				GUIUtils.centerOnParent(d, true);
@@ -65,11 +65,11 @@ public class UserDataPanel extends GridDataPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Pesquisar utilizador");
+				JDialog d = new JDialog(f,"Pesquisar perfil");
 
 				d.setModal(true);
 				d.setResizable(false);
-				d.add(new UserFormPanel(d));
+				d.add(new ProfileFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
@@ -79,22 +79,22 @@ public class UserDataPanel extends GridDataPanel{
 
 	@Override
 	public ActionListener getUpdateListener() {
-		return new ActionListener() {
+return new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Atualização do utilizador");
-				UserFormPanel ufp;
+				JDialog d = new JDialog(f,"Atualização do perfil");
+				ProfileFormPanel pfp;
 
 				d.setModal(true);
 				d.setResizable(false);
-				d.add(ufp = new UserFormPanel(d));
+				d.add(pfp = new ProfileFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
 				
-				User u = (User) tableModel.getData().get(table.getSelectedRow());
+				Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
 				
-				ufp.setDomainModel(u);
+				pfp.setDomainModel(p);
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
 			}
@@ -103,6 +103,7 @@ public class UserDataPanel extends GridDataPanel{
 
 	@Override
 	public ActionListener getDeleteListener() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

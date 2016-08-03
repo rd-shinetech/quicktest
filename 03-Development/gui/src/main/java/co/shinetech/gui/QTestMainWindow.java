@@ -25,9 +25,11 @@ import javax.swing.border.LineBorder;
 
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.Group;
+import co.shinetech.dto.Profile;
 import co.shinetech.dto.User;
 import co.shinetech.gui.activity.ActivityDataPanel;
 import co.shinetech.gui.group.GroupDataPanel;
+import co.shinetech.gui.profile.ProfileDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.user.UserDataPanel;
 
@@ -185,6 +187,16 @@ public class QTestMainWindow {
 		toolBar.addSeparator();
 		
 		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(Profile.class);
+				dtm.setTblTitle(new String[] {"ID", "Name"});
+				dtm.setTblFields(new String[] {"pk", "name"});
+				ProfileDataPanel pdp = new ProfileDataPanel(dtm);
+				frmQtest.getContentPane().add(pdp, BorderLayout.CENTER);
+				frmQtest.revalidate();
+			}
+		});
 		toolBar.add(btnPerfil);
 		
 		JButton btnUtilizador = new JButton("Utilizador");
