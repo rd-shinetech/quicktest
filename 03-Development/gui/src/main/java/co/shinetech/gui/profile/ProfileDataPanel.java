@@ -79,7 +79,7 @@ public class ProfileDataPanel extends GridDataPanel {
 			d.pack(); // redimention the JDialog to the JPanel size
 			GUIUtils.centerOnParent(d, true);
 			d.setVisible(true);
-			loadData();
+			//loadData();
 		};
 	}
 
