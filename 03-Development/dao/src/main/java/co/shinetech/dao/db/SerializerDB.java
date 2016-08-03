@@ -13,9 +13,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
-
 
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.Domain;
@@ -46,7 +45,7 @@ public class SerializerDB {
     public static final String TABLE_ID_CONTROL = "Id_Control";
     public static final String TABLE_GROUP = "Group";
     
-    public static final String TABLE_EXTENSION  = ".db";
+    public static final String TABLE_EXTENSION  = "qtest.db";
     public static String DB_PATH;
     
     static {
@@ -87,14 +86,33 @@ public class SerializerDB {
     private static void load() {
         FileInputStream fi;
         ObjectInputStream oi;
-        Iterator<String> it = tablesMap.keySet().iterator();
+        //Iterator<String> it = tablesMap.keySet().iterator();
         Object o;
-        String tableName;
+        //String tableName;
         File dir = new File(DB_PATH);
         File f;
         
+        if( ! dir.exists() ) {
+        	dir.mkdirs();
+        }
+        
+        f = new File(DB_PATH + "/" + TABLE_EXTENSION);
+        if( ! f.exists() )
+        	return;
+        try {
+			fi = new FileInputStream(f);
+	        oi = new ObjectInputStream(fi);
+	        o = oi.readObject();
+	        if( o != null )
+	        	tablesMap.putAll((Map<? extends String, ? extends HashMap>) o);
+
+        } catch (FileNotFoundException e) {
+		} catch (IOException e) {
+		} catch (ClassNotFoundException e) {
+		}
+        
         // Get data from storage
-        while( it.hasNext() )
+/*        while( it.hasNext() )
         {
             tableName = it.next();
             try {
@@ -116,7 +134,7 @@ public class SerializerDB {
                 ex.printStackTrace();
             }
         }        
-    }
+*/    }
     
     private static void write(String tableName) throws PersistenceException {
         FileOutputStream fo;
@@ -126,9 +144,9 @@ public class SerializerDB {
         try {
             if( ! dir.exists() )
                 dir.mkdirs();
-            fo = new FileOutputStream(DB_PATH + "/" +  tableName + TABLE_EXTENSION);
+            fo = new FileOutputStream(DB_PATH +"/"+/* "/" +  tableName + */TABLE_EXTENSION);
             oo = new ObjectOutputStream(fo);
-            oo.writeObject(tablesMap.get(tableName));
+            oo.writeObject(tablesMap/*.get(tableName)*/);
             oo.flush();
             oo.close();
             fo.close();
