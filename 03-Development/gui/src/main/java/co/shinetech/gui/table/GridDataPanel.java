@@ -54,7 +54,7 @@ public abstract class GridDataPanel extends JPanel {
 		panel.add(editButton);
 		
 		deleteButton = new JButton("Excluir");
-		editButton.addActionListener(getDeleteListener());
+		deleteButton.addActionListener(getDeleteListener());
 		panel.add(deleteButton);
 		
 		closeButton = new JButton("Fechar");

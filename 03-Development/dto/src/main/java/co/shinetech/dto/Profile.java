@@ -26,7 +26,7 @@ public class Profile implements Domain{
 	
 	@Override
 	public String toString() {
-		return "Profile [id=" + id + ", name=" + name + "]";
+		return name;//"Profile [id=" + id + ", name=" + name + "]";
 	}
 	
 	@Override

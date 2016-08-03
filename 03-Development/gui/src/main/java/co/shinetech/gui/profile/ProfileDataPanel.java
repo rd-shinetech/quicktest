@@ -1,6 +1,5 @@
 package co.shinetech.gui.profile;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
@@ -26,13 +25,13 @@ import co.shinetech.service.impl.ProfileService;
 @SuppressWarnings("serial")
 public class ProfileDataPanel extends GridDataPanel {
 	private JPanel mySelf;
-	
+
 	public ProfileDataPanel(DynamicTableModel tm) {
 		super(tm);
 		mySelf = this;
 		loadData();
 	}
-	
+
 	public void loadData() {
 		ProfileService ps = ServiceFactory.getService(ProfileService.class);
 		new Thread(() -> {
@@ -55,72 +54,83 @@ public class ProfileDataPanel extends GridDataPanel {
 
 	@Override
 	public ActionListener getCreateListener() {
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Inclusão do perfil");
-				d.setModal(true);
-				d.add(new ProfileFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
-				d.setResizable(false);
-				GUIUtils.centerOnParent(d, true);
-				d.setVisible(true);
-			}
+		return e -> {
+			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+			JDialog d = new JDialog(f,"Inclusão do perfil");
+			d.setModal(true);
+			d.add(new ProfileFormPanel(d));
+			d.pack(); // redimention the JDialog to the JPanel size
+			d.setResizable(false);
+			GUIUtils.centerOnParent(d, true);
+			d.setVisible(true);
+			loadData();
 		};
 	}
 
 	@Override
 	public ActionListener getRetrieveListener() {
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Pesquisar perfil");
+		return e -> {
+			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+			JDialog d = new JDialog(f,"Pesquisar perfil");
 
-				d.setModal(true);
-				d.setResizable(false);
-				d.add(new ProfileFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
-				GUIUtils.centerOnParent(d, true);
-				d.setVisible(true);
-			}
+			d.setModal(true);
+			d.setResizable(false);
+			d.add(new ProfileFormPanel(d));
+			d.pack(); // redimention the JDialog to the JPanel size
+			GUIUtils.centerOnParent(d, true);
+			d.setVisible(true);
+			loadData();
 		};
 	}
 
 	@Override
 	public ActionListener getUpdateListener() {
-return new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Atualização do perfil");
-				ProfileFormPanel pfp;
+		return e -> {
+			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+			JDialog d = new JDialog(f,"Atualização do perfil");
+			ProfileFormPanel pfp;
 
-				d.setModal(true);
-				d.setResizable(false);
-				d.add(pfp = new ProfileFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
-				
-				if (table.getSelectedRow() < 0) {
-					JOptionPane.showMessageDialog(mySelf, "Seleciona um perfil");
-					return;
-				}
-				
-				Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
-				
-				pfp.setDomainModel(p);
-				GUIUtils.centerOnParent(d, true);
-				d.setVisible(true);
+			d.setModal(true);
+			d.setResizable(false);
+			d.add(pfp = new ProfileFormPanel(d));
+			d.pack(); // redimention the JDialog to the JPanel size
+
+			if (table.getSelectedRow() < 0) {
+				JOptionPane.showMessageDialog(mySelf, "Seleciona um perfil");
+				return;
 			}
+
+			Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
+
+			pfp.setDomainModel(p);
+			GUIUtils.centerOnParent(d, true);
+			d.setVisible(true);
+			loadData();
 		};
 	}
 
 	@Override
 	public ActionListener getDeleteListener() {
-		// TODO Auto-generated method stub
-		return null;
+		return e -> {
+			if (table.getSelectedRow() < 0) {
+				JOptionPane.showMessageDialog(mySelf, "Seleciona um perfil");
+				return;
+			}
+			Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
+			ProfileService ps = ServiceFactory.getService(ProfileService.class);
+			try {
+				int i = JOptionPane.showConfirmDialog(mySelf, "Quer mesmo apagar o Perfil selecionado?", "Confirmação", JOptionPane.YES_NO_OPTION);
+				if (i == JOptionPane.YES_OPTION) {
+					ps.delete((int)p.getPk());
+					loadData();
+				}
+
+			}
+			catch (PersistenceException e1) {
+				JOptionPane.showMessageDialog(mySelf, "Não foi possível apagar o Perfil");
+				e1.printStackTrace();
+			}
+		};
 	}
 
 }

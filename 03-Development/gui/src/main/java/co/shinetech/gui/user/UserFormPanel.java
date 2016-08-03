@@ -8,12 +8,10 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 
 import co.shinetech.dao.db.PersistenceException;
-import co.shinetech.dto.Group;
 import co.shinetech.dto.Profile;
 import co.shinetech.dto.User;
 import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
-import co.shinetech.service.impl.GroupService;
 import co.shinetech.service.impl.ProfileService;
 import co.shinetech.service.impl.UserService;
 
@@ -37,7 +35,6 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 	private JTextField textFieldLogin;
 	private JPasswordField passwordField;
 	private JComboBox<Profile> comboBox;
-	private JDialog parent;
 	private User user;
 
 	/**
@@ -45,7 +42,7 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 	 */
 	public UserFormPanel(JDialog parent) {
 		setLayout(new BorderLayout(0, 0));
-		this.parent = parent;
+		
 		JPanel panel = new JPanel();
 		add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
@@ -126,18 +123,19 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserService us = ServiceFactory.getService(UserService.class);
+
+				User u = getDomainModel();
 				try {
-					User u = new User(us.nextId());
-					u.setLogin(textFieldLogin.getText());
-					u.setPassword(passwordField.getPassword());
-					u.setProfile((Profile) comboBox.getSelectedItem());
-					us.create(u);
-					parent.dispose();
+					if (us.retrieveByID((int)u.getPk()) != null)
+						us.update(u);
+					else
+						us.create(u);
 				}
 				catch (PersistenceException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
+				parent.dispose();
 			}
 		});
 		panel_1.add(btnOk);
@@ -170,7 +168,7 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 			}
 			this.user.setLogin(textFieldLogin.getText());
 			this.user.setPassword(passwordField.getPassword());
-			
+			this.user.setProfile((Profile) comboBox.getSelectedItem());
 		} catch (PersistenceException e) {
 			// TODO: show a dialog message
 		}

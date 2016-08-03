@@ -1,7 +1,6 @@
 package co.shinetech.gui.profile;
 
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -10,11 +9,9 @@ import javax.swing.JTextField;
 
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Profile;
-import co.shinetech.dto.User;
 import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ProfileService;
-import co.shinetech.service.impl.UserService;
 
 import java.awt.Insets;
 import java.awt.Dimension;
@@ -32,12 +29,10 @@ import java.awt.event.ActionEvent;
 @SuppressWarnings("serial")
 public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 	private JTextField textField;
-	private JDialog parent;
 	private Profile profil;
 
 	public ProfileFormPanel(JDialog parent) {
 		setLayout(new BorderLayout(0, 0));
-		this.parent = parent;
 
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.CENTER);
@@ -75,15 +70,18 @@ public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ProfileService ps = ServiceFactory.getService(ProfileService.class);
+				Profile p = getDomainModel();
 				try {
-					Profile p = new Profile(ps.nextId(), textField.getText());
-					ps.create(p);
-					parent.dispose();
+					if (ps.retrieveByID((int)p.getPk()) != null)
+						ps.update(p);
+					else
+						ps.create(p);
 				}
 				catch (PersistenceException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
+				parent.dispose();
 			}
 		});
 		panel_1.add(btnOk);

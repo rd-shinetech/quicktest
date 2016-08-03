@@ -1,6 +1,5 @@
 package co.shinetech.gui.user;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
@@ -36,28 +35,26 @@ public class UserDataPanel extends GridDataPanel{
 	public void loadData() {
 		UserService us = ServiceFactory.getService(UserService.class);
 		new Thread(() -> {
-				try {
-					QTestMainWindow.processStart();
-					Thread.sleep(1000L);
-					tableModel.setData(us.retrieveAll());
-					tableModel.fireTableDataChanged();
-					table.repaint();
-					QTestMainWindow.processEnd();
-				} catch (PersistenceException e) {
-					JOptionPane.showMessageDialog(mySelf, "Error loading data from database.");
-				}
-				catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}).start();
+			try {
+				QTestMainWindow.processStart();
+				Thread.sleep(1000L);
+				tableModel.setData(us.retrieveAll());
+				tableModel.fireTableDataChanged();
+				table.repaint();
+				QTestMainWindow.processEnd();
+			} catch (PersistenceException e) {
+				JOptionPane.showMessageDialog(mySelf, "Error loading data from database.");
+			}
+			catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 	@Override
 	public ActionListener getCreateListener() {
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		return e -> {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
 				JDialog d = new JDialog(f,"Inclusão do Utilizador");
 				d.setModal(true);
@@ -66,15 +63,13 @@ public class UserDataPanel extends GridDataPanel{
 				d.setResizable(false);
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
-			}
-		};
+				loadData();
+			};
 	}
 
 	@Override
 	public ActionListener getRetrieveListener() {
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		return e -> {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
 				JDialog d = new JDialog(f,"Pesquisar utilizador");
 
@@ -84,16 +79,12 @@ public class UserDataPanel extends GridDataPanel{
 				d.pack(); // redimention the JDialog to the JPanel size
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
-			}
-		};
+			};
 	}
 
 	@Override
 	public ActionListener getUpdateListener() {
-		return new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		return e -> {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
 				JDialog d = new JDialog(f,"Atualização do utilizador");
 				UserFormPanel ufp;
@@ -102,23 +93,42 @@ public class UserDataPanel extends GridDataPanel{
 				d.setResizable(false);
 				d.add(ufp = new UserFormPanel(d));
 				d.pack(); // redimention the JDialog to the JPanel size
-				
+
 				if (table.getSelectedRow() < 0) {
 					JOptionPane.showMessageDialog(mySelf, "Seleciona um utilizador");
 					return;
 				}
 				User u = (User) tableModel.getData().get(table.getSelectedRow());
-				
+
 				ufp.setDomainModel(u);
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
-			}
-		};
+				loadData();
+			};
 	}
 
 	@Override
 	public ActionListener getDeleteListener() {
-		return null;
+		return e -> {
+			if (table.getSelectedRow() < 0) {
+				JOptionPane.showMessageDialog(mySelf, "Seleciona um utilizador");
+				return;
+			}
+			User u = (User) tableModel.getData().get(table.getSelectedRow());
+			UserService us = ServiceFactory.getService(UserService.class);
+			try {
+				int i = JOptionPane.showConfirmDialog(mySelf, "Quer mesmo apagar o Utilizador selecionado?", "Confirmação", JOptionPane.YES_NO_OPTION);
+				if (i == JOptionPane.YES_OPTION) {
+					us.delete((int)u.getPk());
+					loadData();
+				}
+
+			}
+			catch (PersistenceException e1) {
+				JOptionPane.showMessageDialog(mySelf, "Não foi possível apagar o Utilizador");
+				e1.printStackTrace();
+			}
+		};
 	}
 
 }
