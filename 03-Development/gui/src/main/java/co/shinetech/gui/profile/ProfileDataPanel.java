@@ -44,7 +44,7 @@ public class ProfileDataPanel extends GridDataPanel {
 				table.repaint();
 				QTestMainWindow.processEnd();
 			} catch (PersistenceException e) {
-				JOptionPane.showMessageDialog(this, "Error loading data from database.");
+				JOptionPane.showMessageDialog(mySelf, "Error loading data from database.");
 			}
 			catch (InterruptedException e) {
 				// TODO Auto-generated catch block

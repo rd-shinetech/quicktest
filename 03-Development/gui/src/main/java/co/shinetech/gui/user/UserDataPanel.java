@@ -35,10 +35,7 @@ public class UserDataPanel extends GridDataPanel{
 
 	public void loadData() {
 		UserService us = ServiceFactory.getService(UserService.class);
-		new Thread( new Runnable() {
-			
-			@Override
-			public void run() {
+		new Thread(() -> {
 				try {
 					QTestMainWindow.processStart();
 					Thread.sleep(1000L);
@@ -53,8 +50,7 @@ public class UserDataPanel extends GridDataPanel{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-		}).start();
+			}).start();
 	}
 
 	@Override
