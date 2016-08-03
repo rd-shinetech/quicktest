@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Group;
 import co.shinetech.gui.GUIUtils;
+import co.shinetech.gui.QTestMainWindow;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
@@ -37,12 +38,24 @@ public class GroupDataPanel extends GridDataPanel {
 
 	private void loadData() {
 		GroupService gps = ServiceFactory.getService(GroupService.class);
-		
-		try {
-			tableModel.setData(gps.retrieveAll());
-		} catch (PersistenceException e) {
-			JOptionPane.showMessageDialog(this, "Error loading data from database.");
-		}
+		Thread t = new Thread(
+			new Runnable() {			
+			@Override
+			public void run() {
+				try {
+					QTestMainWindow.processStart();
+					Thread.sleep(1000L);
+					tableModel.setData(gps.retrieveAll());
+					tableModel.fireTableDataChanged();
+					table.repaint();
+					QTestMainWindow.processEnd();
+				} catch (PersistenceException e) {
+					JOptionPane.showMessageDialog(mySelf, "Error loading data from database.");
+				} catch (InterruptedException e) {
+				}				
+			}
+		});
+		t.start();
 	}
 		
 	/* (non-Javadoc)
