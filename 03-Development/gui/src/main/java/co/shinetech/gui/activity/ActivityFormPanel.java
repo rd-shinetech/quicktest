@@ -171,6 +171,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_teacherComboBox.gridy = 6;
 		panel.add(teacherComboBox, gbc_teacherComboBox);
 		DefaultComboBoxModel<String> dcbml = new DefaultComboBoxModel<String>();
+		//us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(action);
 		/* Arrays.asList(us.retrieveAll().forEach(o -> dcbml.addElement(o.getLogin())));
 		userServiceComboBox.setModel(dcbml);
 		// --> here

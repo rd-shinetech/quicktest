@@ -15,5 +15,5 @@
 15-Develop the button icons
 16-Confirmation boxes in CRUD operations
 17-Integrity in database level (SerializerDB)
-
+18-Avoid profile name duplication
 

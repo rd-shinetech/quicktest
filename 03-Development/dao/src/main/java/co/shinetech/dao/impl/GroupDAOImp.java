@@ -1,6 +1,7 @@
 package co.shinetech.dao.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import co.shinetech.dao.DAOProvider;
 import co.shinetech.dao.db.PersistenceException;
@@ -30,7 +31,7 @@ public class GroupDAOImp implements DAOProvider<Group>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Group> retrieveAll() throws PersistenceException {
+	public List<Group> retrieveAll() throws PersistenceException {
 		ArrayList<? extends Domain> r = SerializerDB.selectAll(SerializerDB.TABLE_GROUP);
 		return (ArrayList<Group>) r;
 	}

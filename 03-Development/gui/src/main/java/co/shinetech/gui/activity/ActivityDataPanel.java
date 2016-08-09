@@ -78,7 +78,6 @@ public class ActivityDataPanel extends GridDataPanel{
 				d.setVisible(true);
 			}
 		};
-
 	}
 
 	@Override
@@ -102,8 +101,6 @@ public class ActivityDataPanel extends GridDataPanel{
 
 	@Override
 	public ActionListener getUpdateListener() {
-		
-		
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -131,6 +128,4 @@ public class ActivityDataPanel extends GridDataPanel{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-
 }

@@ -27,12 +27,13 @@ public class UserDAOTest {
 	private static Profile profile;
 	private static User u;
 	private static DAOProvider<User> userDao;
+	private static DAOProvider<Profile> profileDao;
 	
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setup() throws PersistenceException {
 		userDao = (DAOProvider<User>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_USER);
-		DAOProvider<Profile> profileDao = (DAOProvider<Profile>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_PROFILE);
+		profileDao = (DAOProvider<Profile>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_PROFILE);
 		id = userDao.nextId();
 		login = "Robin " + id;
 		pwd = "1b".toCharArray();//new Character[] {'1', 'b'};
@@ -51,6 +52,18 @@ public class UserDAOTest {
 			int b = userDao.count();
 			assertTrue(b > a);
 		}
+	}
+	
+	@Test
+	public void createTeacher() throws PersistenceException {
+		id = userDao.nextId();
+		login = "Teacher " + id;
+		pwd = "1b".toCharArray();//new Character[] {'1', 'b'};
+		long pid = profileDao.nextId();
+		profile = new Profile(pid, "Professor");
+		profileDao.create(profile);
+		u = new User(id, login, pwd, profile);
+		userDao.create(u);
 	}
 
 	@Test
