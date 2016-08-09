@@ -46,6 +46,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 	/**
 	 * Create the panel.
 	 */
+	@SuppressWarnings("unchecked")
 	public ActivityFormPanel(JDialog parent) {
 		GroupService gs = ServiceFactory.getService(GroupService.class); 
 		UserService us = ServiceFactory.getService(UserService.class);
@@ -171,11 +172,10 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_teacherComboBox.gridy = 6;
 		panel.add(teacherComboBox, gbc_teacherComboBox);
 		DefaultComboBoxModel<String> dcbml = new DefaultComboBoxModel<String>();
-		//us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(action);
-		/* Arrays.asList(us.retrieveAll().forEach(o -> dcbml.addElement(o.getLogin())));
-		userServiceComboBox.setModel(dcbml);
+		us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(o -> dcbml.addElement(o.getProfile()));
+		teacherComboBox.setModel(dcbml);
 		// --> here
-		*/
+		
 		JLabel lblActivitytype = new JLabel("Activity Type:");
 		GridBagConstraints gbc_lblActivitytype = new GridBagConstraints();
 		gbc_lblActivitytype.anchor = GridBagConstraints.EAST;
