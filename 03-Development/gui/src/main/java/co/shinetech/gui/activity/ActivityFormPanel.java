@@ -1,24 +1,24 @@
 package co.shinetech.gui.activity;
 
-import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.FlowLayout;
-import javax.swing.JSplitPane;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
-import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.GridBagConstraints;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.ActivityType;
@@ -29,13 +29,6 @@ import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityService;
 import co.shinetech.service.impl.GroupService;
 import co.shinetech.service.impl.UserService;
-
-import java.awt.Insets;
-import java.awt.BorderLayout;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-
-import java.awt.Dimension;
 
 @SuppressWarnings("serial")
 public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> {
@@ -177,6 +170,9 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_teacherComboBox.gridx = 1;
 		gbc_teacherComboBox.gridy = 6;
 		panel.add(teacherComboBox, gbc_teacherComboBox);
+		DefaultComboBoxModel<String> dcbml = new DefaultComboBoxModel<String>();
+		Arrays.asList(us.retrieveAll().forEach(o -> dcbml.addElement(o.getLogin())));
+		userServiceComboBox.setModel(dcbml);
 		// --> here
 		
 		JLabel lblActivitytype = new JLabel("Activity Type:");
@@ -213,7 +209,9 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_groupComboBox.gridx = 1;
 		gbc_groupComboBox.gridy = 8;
 		panel.add(groupComboBox, gbc_groupComboBox);
-		// --> here
+		DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<String>();
+		Arrays.asList(gs.retrieveAll().forEach(o -> dcbm.addElement(o.getClass())));
+		groupComboBox.setModel(dcbm);
 		//gs.retrieveAll().forEach();
 		
 		JPanel panel_2 = new JPanel();

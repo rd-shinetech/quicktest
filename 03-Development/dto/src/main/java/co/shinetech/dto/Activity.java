@@ -1,11 +1,10 @@
 package co.shinetech.dto;
 
 import java.time.LocalDateTime;
-
-import javax.swing.JComboBox;
-
-
-
+/**
+ * @author Ricardo
+ * @since 08/2016
+ */
 public class Activity implements Domain{
 	private static final long serialVersionUID = 1L;
 	private long id;
