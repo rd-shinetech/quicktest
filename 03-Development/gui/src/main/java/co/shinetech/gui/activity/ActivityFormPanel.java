@@ -171,10 +171,10 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_teacherComboBox.gridy = 6;
 		panel.add(teacherComboBox, gbc_teacherComboBox);
 		DefaultComboBoxModel<String> dcbml = new DefaultComboBoxModel<String>();
-		Arrays.asList(us.retrieveAll().forEach(o -> dcbml.addElement(o.getLogin())));
+		/* Arrays.asList(us.retrieveAll().forEach(o -> dcbml.addElement(o.getLogin())));
 		userServiceComboBox.setModel(dcbml);
 		// --> here
-		
+		*/
 		JLabel lblActivitytype = new JLabel("Activity Type:");
 		GridBagConstraints gbc_lblActivitytype = new GridBagConstraints();
 		gbc_lblActivitytype.anchor = GridBagConstraints.EAST;
@@ -210,10 +210,14 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_groupComboBox.gridy = 8;
 		panel.add(groupComboBox, gbc_groupComboBox);
 		DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<String>();
-		Arrays.asList(gs.retrieveAll().forEach(o -> dcbm.addElement(o.getClass())));
+		try {
+			gs.retrieveAll().forEach(o -> dcbm.addElement(o.getName()));
+		} catch (PersistenceException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		groupComboBox.setModel(dcbm);
-		//gs.retrieveAll().forEach();
-		
+			
 		JPanel panel_2 = new JPanel();
 		panel_1.add(panel_2, BorderLayout.SOUTH);
 		
