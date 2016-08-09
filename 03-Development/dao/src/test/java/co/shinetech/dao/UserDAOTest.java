@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -74,7 +75,7 @@ public class UserDAOTest {
 
 	@Test
 	public void retriveAllUsers() throws PersistenceException {
-		ArrayList<User> l = userDao.retrieveAll();
+		List<User> l = userDao.retrieveAll();
 		int a = userDao.count();
 		assertEquals(l.size(), a);
 	}

@@ -34,6 +34,8 @@ import co.shinetech.gui.group.GroupDataPanel;
 import co.shinetech.gui.profile.ProfileDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.user.UserDataPanel;
+import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 
 public class QTestMainWindow {
 	private JFrame frmQtest;
@@ -84,6 +86,7 @@ public class QTestMainWindow {
 		menuBar.add(tableMenu);
 		
 		JMenuItem mntmTurma = new JMenuItem("Turma...");
+		mntmTurma.addActionListener(getGroupActionListener());
 		tableMenu.add(mntmTurma);
 		
 		JMenuItem mntmQuesto = new JMenuItem("Quest\u00E3o...");
@@ -120,7 +123,14 @@ public class QTestMainWindow {
 		menuBar.add(helpMenu);
 		
 		JMenuItem helpMenuItem = new JMenuItem("Ajuda");
+		helpMenuItem.setMnemonic(KeyEvent.VK_F1);
 		helpMenu.add(helpMenuItem);
+		
+		JSeparator separator_1 = new JSeparator();
+		helpMenu.add(separator_1);
+		
+		JMenuItem mntmSobre = new JMenuItem("Sobre...");
+		helpMenu.add(mntmSobre);
 		frmQtest.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel topPanel = new JPanel();
@@ -145,20 +155,7 @@ public class QTestMainWindow {
 		topPanel.add(toolBar, BorderLayout.SOUTH);
 		
 		JButton classButton = new JButton("Turma");
-		classButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DynamicTableModel dtm = new DynamicTableModel(Group.class);
-				
-				dtm.setTblTitle(new String[] {"Código","Nome"});		// Table columns header		
-				dtm.setTblFields(new String[]{"pk","name"});
-				GroupDataPanel cdp = new GroupDataPanel(dtm);
-				if (currentPanel != null)
-					frmQtest.getContentPane().remove(currentPanel);
-				currentPanel = cdp;
-				frmQtest.getContentPane().add(cdp, BorderLayout.CENTER); // adding the new panel to the frame		
-				frmQtest.revalidate(); // invalidate the frame to paint again with new panel added.
-			}
-		});
+		classButton.addActionListener(getGroupActionListener());
 		toolBar.add(classButton);
 		
 		JButton questionButton = new JButton("Quest\u00E3o");
@@ -227,6 +224,9 @@ public class QTestMainWindow {
 		toolBar.add(btnUtilizador);
 		
 		JPanel bottomPanel = new JPanel();
+		bottomPanel.setMaximumSize(new Dimension(10, 30));
+		bottomPanel.setMinimumSize(new Dimension(10, 30));
+		bottomPanel.setPreferredSize(new Dimension(10, 30));
 		bottomPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		frmQtest.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 		bottomPanel.setLayout(new BorderLayout(0, 50));
@@ -287,5 +287,22 @@ public class QTestMainWindow {
 		} catch (InvocationTargetException e) {
 		} catch (InterruptedException e) {
 		}				
+	}
+	
+	private ActionListener getGroupActionListener() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(Group.class);
+				
+				dtm.setTblTitle(new String[] {"Código","Nome"});		// Table columns header		
+				dtm.setTblFields(new String[]{"pk","name"});
+				GroupDataPanel cdp = new GroupDataPanel(dtm);
+				if (currentPanel != null)
+					frmQtest.getContentPane().remove(currentPanel);
+				currentPanel = cdp;
+				frmQtest.getContentPane().add(cdp, BorderLayout.CENTER); // adding the new panel to the frame		
+				frmQtest.revalidate(); // invalidate the frame to paint again with new panel added.
+			}
+		};
 	}
 }

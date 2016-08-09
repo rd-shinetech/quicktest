@@ -1,9 +1,10 @@
 /**
- * 
+ * ActivityDAOImp.java
  */
 package co.shinetech.dao.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import co.shinetech.dao.DAOProvider;
 import co.shinetech.dao.db.PersistenceException;
@@ -12,22 +13,20 @@ import co.shinetech.dto.Activity;
 import co.shinetech.dto.Domain;
 
 /**
+ * DAO class for Activity object.
  * @author Ricardo
- * 19/07/2016
- *
+ * @since 19/07/2016
  */
 public class ActivityDAOImp implements DAOProvider<Activity> {
 
 	@Override
 	public void create(Activity d) throws PersistenceException {
 		SerializerDB.insert(SerializerDB.TABLE_ACTIVITY, d);
-		
 	}
 
 	@Override
 	public void update(Activity d) throws PersistenceException {
 		SerializerDB.update(SerializerDB.TABLE_ACTIVITY, d);
-		
 	}
 
 	@Override
@@ -38,7 +37,7 @@ public class ActivityDAOImp implements DAOProvider<Activity> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Activity> retrieveAll() throws PersistenceException {
+	public List<Activity> retrieveAll() throws PersistenceException {
 		ArrayList<? extends Domain> r = SerializerDB.selectAll(SerializerDB.TABLE_ACTIVITY);
 		return (ArrayList<Activity>) r;
 	}
@@ -46,7 +45,6 @@ public class ActivityDAOImp implements DAOProvider<Activity> {
 	@Override
 	public void delete(long ID) throws PersistenceException {
 		SerializerDB.delete(SerializerDB.TABLE_ACTIVITY, ID);
-		
 	}
 
 	@Override
@@ -60,5 +58,4 @@ public class ActivityDAOImp implements DAOProvider<Activity> {
 		long l = SerializerDB.nextId(SerializerDB.TABLE_ACTIVITY);
 		return l;
 	}
-
 }

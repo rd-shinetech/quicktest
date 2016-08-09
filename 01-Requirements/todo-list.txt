@@ -1,0 +1,19 @@
+1-Centering the main screen when show it not maximized
+2-Splash screen development
+3-About window dialog
+4-Help in html
+5-Install Jenkins
+6-Creation of Installer (NSIS)
+7-Version with SQL
+8-Finish Group CRUD
+9-Finish Question CRUD
+10-Finish Profile CRUD
+11-Finish User CRUD
+12-Create a new entity : Area for questions
+13-Finish Activity CRUD
+14-Implement the authentication window
+15-Develop the button icons
+16-Confirmation boxes in CRUD operations
+17-Integrity in database level (SerializerDB)
+
+

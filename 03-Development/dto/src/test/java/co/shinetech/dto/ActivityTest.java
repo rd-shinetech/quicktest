@@ -21,7 +21,7 @@ public class ActivityTest {
 	 */
 	
 	@Test
-	public void TestInstance() {
+	public void testInstance() {
 		Profile prof = new Profile(400,"Teacher");
 		User teacher = new User(300,prof);
 		LocalDateTime ldt = LocalDateTime.now().plusHours(1);
@@ -32,7 +32,7 @@ public class ActivityTest {
 	}
 
 	@Test
-	public void TestHashEquals(){
+	public void testHashEquals(){
 		Profile prof = new Profile(400,"Teacher");
 		User teacher = new User(300,prof);
 		LocalDateTime ldt = LocalDateTime.now().plusHours(1);

@@ -51,5 +51,4 @@ public class GroupDAOImp implements DAOProvider<Group>{
 	public long nextId() throws PersistenceException {
 		return SerializerDB.nextId(SerializerDB.TABLE_GROUP);
 	}
-
 }

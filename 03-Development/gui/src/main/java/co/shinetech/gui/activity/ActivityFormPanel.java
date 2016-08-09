@@ -4,11 +4,14 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.FlowLayout;
 import javax.swing.JSplitPane;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +28,7 @@ import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityService;
 import co.shinetech.service.impl.GroupService;
+import co.shinetech.service.impl.UserService;
 
 import java.awt.Insets;
 import java.awt.BorderLayout;
@@ -50,6 +54,9 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 	 * Create the panel.
 	 */
 	public ActivityFormPanel(JDialog parent) {
+		GroupService gs = ServiceFactory.getService(GroupService.class); 
+		UserService us = ServiceFactory.getService(UserService.class);
+		
 		setLayout(new BorderLayout(0, 0));
 		this.parent = parent;		
 		JPanel panel_1 = new JPanel();
@@ -170,6 +177,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_teacherComboBox.gridx = 1;
 		gbc_teacherComboBox.gridy = 6;
 		panel.add(teacherComboBox, gbc_teacherComboBox);
+		// --> here
 		
 		JLabel lblActivitytype = new JLabel("Activity Type:");
 		GridBagConstraints gbc_lblActivitytype = new GridBagConstraints();
@@ -186,6 +194,9 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_activityTypeComboBox.gridx = 1;
 		gbc_activityTypeComboBox.gridy = 7;
 		panel.add(activityTypeComboBox, gbc_activityTypeComboBox);
+		DefaultComboBoxModel<String> cbm = new DefaultComboBoxModel<String>();
+		Arrays.asList(ActivityType.values()).forEach(o -> cbm.addElement(o.getType()));
+		activityTypeComboBox.setModel(cbm);
 		
 		JLabel lblGroup = new JLabel("Group:");
 		GridBagConstraints gbc_lblGroup = new GridBagConstraints();
@@ -202,6 +213,8 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_groupComboBox.gridx = 1;
 		gbc_groupComboBox.gridy = 8;
 		panel.add(groupComboBox, gbc_groupComboBox);
+		// --> here
+		//gs.retrieveAll().forEach();
 		
 		JPanel panel_2 = new JPanel();
 		panel_1.add(panel_2, BorderLayout.SOUTH);

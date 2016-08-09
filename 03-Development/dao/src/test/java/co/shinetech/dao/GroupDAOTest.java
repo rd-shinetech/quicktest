@@ -1,5 +1,5 @@
 /**
- * 
+ * GroupDAOTest.java
  */
 package co.shinetech.dao;
 
@@ -16,8 +16,8 @@ import co.shinetech.dto.Group;
 import co.shinetech.dto.User;
 
 /**
- * @author usuario
- *
+ * @author Rodrigo
+ * @since 07/2016
  */
 public class GroupDAOTest {
 	private static final DAOProvider<Group> groupDao = (DAOProvider<Group>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_GROUP);

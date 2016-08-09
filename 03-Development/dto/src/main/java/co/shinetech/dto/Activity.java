@@ -7,8 +7,6 @@ import javax.swing.JComboBox;
 
 
 public class Activity implements Domain{
-
-
 	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
@@ -18,11 +16,11 @@ public class Activity implements Domain{
 	private ActivityType activityType;
 	private Group group;
 	
-	
 	public Activity(long id) {
 		super();
 		this.id = id;
 	}
+	
 	public Activity(long id, String name, LocalDateTime startTime, LocalDateTime endTime, User teacher, ActivityType activityType,
 			Group group) {
 		super();

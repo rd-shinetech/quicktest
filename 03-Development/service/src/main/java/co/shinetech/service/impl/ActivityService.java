@@ -22,12 +22,10 @@ public class ActivityService implements ServiceProvider<Activity> {
 
 	public void create(Activity d) throws PersistenceException {
 		activityDao.create(d);
-		
 	}
 
 	public void update(Activity d) throws PersistenceException {
 		activityDao.update(d);
-		
 	}
 
 	public Activity retrieveByID(int ID) throws PersistenceException {
