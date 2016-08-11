@@ -36,8 +36,6 @@ public class User implements Domain {
 		this.profile = profile;
 	}
 
-
-
 	public String getLogin() {
 		return login;
 	}

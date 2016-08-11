@@ -174,7 +174,6 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		DefaultComboBoxModel<String> dcbml = new DefaultComboBoxModel<String>();
 		us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(o -> dcbml.addElement(o.getProfile()));
 		teacherComboBox.setModel(dcbml);
-		// --> here
 		
 		JLabel lblActivitytype = new JLabel("Activity Type:");
 		GridBagConstraints gbc_lblActivitytype = new GridBagConstraints();
