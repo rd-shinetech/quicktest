@@ -172,7 +172,12 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_teacherComboBox.gridy = 6;
 		panel.add(teacherComboBox, gbc_teacherComboBox);
 		DefaultComboBoxModel<String> dcbml = new DefaultComboBoxModel<String>();
-		us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(o -> dcbml.addElement(o.getProfile()));
+		try {
+			us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(o -> dcbml.addElement(o.getLogin()));
+		} catch (PersistenceException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		teacherComboBox.setModel(dcbml);
 		
 		JLabel lblActivitytype = new JLabel("Activity Type:");
