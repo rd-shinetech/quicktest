@@ -40,6 +40,12 @@ public class ActivityAreaDAOImp implements DAOProvider<ActivityArea> {
 	public int count() throws PersistenceException {
 		return SerializerDB.count(SerializerDB.TABLE_ACTIVITY_AREA);
 	}
+
+	@Override
+	public long nextId() throws PersistenceException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	// To be continued
 
