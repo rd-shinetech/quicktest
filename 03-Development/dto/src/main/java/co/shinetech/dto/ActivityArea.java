@@ -8,6 +8,7 @@ package co.shinetech.dto;
  * @author Ricardo
  * @since 2016-08
  */
+@SuppressWarnings("serial")
 public class ActivityArea implements Domain {
 	private long id;
 	private String name;
