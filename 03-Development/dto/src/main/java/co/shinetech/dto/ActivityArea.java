@@ -1,10 +1,10 @@
 /**
- * 
+ * ActivityArea.java
  */
 package co.shinetech.dto;
 
 /**
- * Enum with the set for activity area.
+ * DTO class for activity area.
  * @author Ricardo
  * @since 2016-08
  */
@@ -17,6 +17,15 @@ public class ActivityArea implements Domain {
 		this.id = id;
 	}
 	
+	/**
+	 * @param id
+	 * @param name
+	 */
+	public ActivityArea(long id, String name) {
+		this(id);
+		this.name = name;
+	}
+
 	public long getPk() {
 		return id;
 	}
@@ -51,4 +60,8 @@ public class ActivityArea implements Domain {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "ActivityArea [id=" + id + ", name=" + name + "]";
+	}
 }

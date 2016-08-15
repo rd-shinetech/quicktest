@@ -16,4 +16,7 @@
 16-Confirmation boxes in CRUD operations
 17-Integrity in database level (SerializerDB)
 18-Avoid profile name duplication
+19-Restore the screen with the latest selection
+20-Make the filter window to find an entity
+21-Improve the windows made for students
 
