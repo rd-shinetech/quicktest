@@ -5,12 +5,15 @@ package co.shinetech.dao;
 
 /**
  * @author Rodrigo
+ * @since 2016-08
+ * @version 1.0
  */
 public interface PersistenceProvider{
-	public static final String TABLE_USER = "User";
-	public static final String TABLE_ACTIVITY = "Activity";
-	public static final String TABLE_GROUP = "Group";
-	public static final String TABLE_PROFILE = "Profile";
+	String TABLE_USER = "User";
+	String TABLE_ACTIVITY = "Activity";
+	String TABLE_GROUP = "Group";
+	String TABLE_PROFILE = "Profile";
+	String TABLE_ACTIVITY_AREA = "ActivityArea";
 	
 	DAOProvider<?> getDAOProvider(String table);
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ * ActivityService.java
  */
 package co.shinetech.service.impl;
 
@@ -14,7 +14,7 @@ import co.shinetech.service.ServiceProvider;
 
 /**
  * @author Ricardo
- *
+ * @since 2016/07
  */
 public class ActivityService implements ServiceProvider<Activity> {
 	@SuppressWarnings("unchecked")

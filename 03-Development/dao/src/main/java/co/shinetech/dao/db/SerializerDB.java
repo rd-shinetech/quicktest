@@ -84,6 +84,7 @@ public class SerializerDB {
         tablesMap.put(TABLE_PROFILE, profileData);
         tablesMap.put(TABLE_USER, userData);
         tablesMap.put(TABLE_GROUP, groupData);
+        tablesMap.put(TABLE_ACTIVITY_AREA, activityAreaData);
         load();
     }
 

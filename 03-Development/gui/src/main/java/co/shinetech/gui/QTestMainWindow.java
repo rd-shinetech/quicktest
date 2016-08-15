@@ -26,13 +26,16 @@ import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
 import co.shinetech.dto.Activity;
+import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Group;
 import co.shinetech.dto.Profile;
 import co.shinetech.dto.User;
 import co.shinetech.gui.activity.ActivityDataPanel;
+import co.shinetech.gui.activityarea.ActivityAreaDataPanel;
 import co.shinetech.gui.group.GroupDataPanel;
 import co.shinetech.gui.profile.ProfileDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
+import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.gui.user.UserDataPanel;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -179,6 +182,11 @@ public class QTestMainWindow {
 				frmQtest.revalidate();				
 			}
 		});
+		
+		JButton activityAreaButton = new JButton("\u00C1reas de Atividade");
+		toolBar.add(activityAreaButton);
+		activityAreaButton.addActionListener(getActivityAreaActionListener());
+		
 		toolBar.add(activityButton);
 		
 		toolBar.addSeparator();
@@ -214,12 +222,7 @@ public class QTestMainWindow {
 				dtm.setTblTitle(new String[] {"ID", "Login", "Password", "Profile"});
 				dtm.setTblFields(new String[] {"pk", "login", "password", "profile"});
 				UserDataPanel udp = new UserDataPanel(dtm);
-				if (currentPanel != null)
-					frmQtest.getContentPane().remove(currentPanel);
-				currentPanel = udp;
-				frmQtest.getContentPane().add(udp, BorderLayout.CENTER);
-				frmQtest.revalidate();
-			}
+				setCurrentPanel(udp);			}
 		});
 		toolBar.add(btnUtilizador);
 		
@@ -297,12 +300,33 @@ public class QTestMainWindow {
 				dtm.setTblTitle(new String[] {"Código","Nome"});		// Table columns header		
 				dtm.setTblFields(new String[]{"pk","name"});
 				GroupDataPanel cdp = new GroupDataPanel(dtm);
-				if (currentPanel != null)
-					frmQtest.getContentPane().remove(currentPanel);
-				currentPanel = cdp;
-				frmQtest.getContentPane().add(cdp, BorderLayout.CENTER); // adding the new panel to the frame		
-				frmQtest.revalidate(); // invalidate the frame to paint again with new panel added.
+				setCurrentPanel(cdp);
 			}
 		};
+	}
+	
+	private ActionListener getActivityAreaActionListener() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(ActivityArea.class);
+				
+				dtm.setTblTitle(new String[] {"Código","Nome da Área"});		// Table columns header		
+				dtm.setTblFields(new String[]{"pk","name"});
+				ActivityAreaDataPanel cdp = new ActivityAreaDataPanel(dtm);
+				setCurrentPanel(cdp);
+			}
+		};		
+	}
+	
+	/**
+	 * Method to set the grid data panel in the main frame.
+	 * @param cdp
+	 */
+	private void setCurrentPanel(GridDataPanel cdp) {
+		if (currentPanel != null)
+			frmQtest.getContentPane().remove(currentPanel);
+		currentPanel = cdp;
+		frmQtest.getContentPane().add(cdp, BorderLayout.CENTER); // adding the new panel to the frame		
+		frmQtest.revalidate(); // invalidate the frame to paint again with new panel added.	
 	}
 }
