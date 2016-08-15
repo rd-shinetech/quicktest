@@ -43,10 +43,6 @@ public class ActivityAreaDAOImp implements DAOProvider<ActivityArea> {
 
 	@Override
 	public long nextId() throws PersistenceException {
-		// TODO Auto-generated method stub
-		return 0;
+		return SerializerDB.nextId(SerializerDB.TABLE_ACTIVITY_AREA);
 	}
-	
-	// To be continued
-
 }

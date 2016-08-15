@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import co.shinetech.dto.Activity;
+import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Domain;
 import co.shinetech.dto.Group;
 import co.shinetech.dto.Profile;
@@ -30,6 +31,7 @@ import co.shinetech.dto.User;
 public class SerializerDB {
     // Data Storage
 	private final static HashMap<Long,Activity> activityData;
+	private final static HashMap<Long,ActivityArea> activityAreaData;
     private final static HashMap<Long,Profile> profileData;
     private final static HashMap<Long,User> userData;
     private final static HashMap<String,Long> idControlMapData;
@@ -62,8 +64,9 @@ public class SerializerDB {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-            
+       
         activityData = new HashMap<>();
+        activityAreaData = new HashMap<>();
         profileData = new HashMap<>();
         userData = new HashMap<>();
         idControlMapData = new HashMap<>();
@@ -74,6 +77,7 @@ public class SerializerDB {
         idControlMapData.put(TABLE_PROFILE, 0L);
         idControlMapData.put(TABLE_USER, 0L);
         idControlMapData.put(TABLE_GROUP, 0L);
+        idControlMapData.put(TABLE_ACTIVITY_AREA, 0L);
         
         tablesMap.put(TABLE_ACTIVITY, activityData);
         tablesMap.put(TABLE_ID_CONTROL,idControlMapData);
