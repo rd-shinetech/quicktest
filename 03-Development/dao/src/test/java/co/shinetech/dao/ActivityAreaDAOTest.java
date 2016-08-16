@@ -40,7 +40,7 @@ public class ActivityAreaDAOTest {
 		activityAreaDao.create(a1);
 		userList.add(a1);		
 	}
-	
+/*	
 	@Test
 	public void testUpdateUser() throws PersistenceException {
 		if (!userExists())
@@ -83,5 +83,5 @@ public class ActivityAreaDAOTest {
 	private boolean userExists() throws PersistenceException {
 		return userDao.retrieveByID(id) != null;
 	}
-
+*/
 }

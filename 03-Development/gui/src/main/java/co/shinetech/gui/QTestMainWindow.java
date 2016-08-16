@@ -88,21 +88,21 @@ public class QTestMainWindow {
 		JMenu tableMenu = new JMenu("Tabelas");
 		menuBar.add(tableMenu);
 		
-		JMenuItem mntmTurma = new JMenuItem("Turma...");
-		mntmTurma.addActionListener(getGroupActionListener());
-		tableMenu.add(mntmTurma);
+		JMenuItem groupMenuItem = new JMenuItem("Turma...");
+		groupMenuItem.addActionListener(getGroupActionListener());
+		tableMenu.add(groupMenuItem);
 		
-		JMenuItem mntmQuesto = new JMenuItem("Quest\u00E3o...");
-		tableMenu.add(mntmQuesto);
+		JMenuItem questionMenuItem = new JMenuItem("Quest\u00E3o...");
+		tableMenu.add(questionMenuItem);
 		
-		JMenuItem mntmAtividade = new JMenuItem("Atividade...");
-		tableMenu.add(mntmAtividade);
+		JMenuItem activityMenuItem = new JMenuItem("Atividade...");
+		tableMenu.add(activityMenuItem);
 		
 		JSeparator separator = new JSeparator();
 		tableMenu.add(separator);
 		
-		JMenuItem mntmSada = new JMenuItem("Sa\u00EDda");
-		tableMenu.add(mntmSada);
+		JMenuItem exitMenuItem = new JMenuItem("Sa\u00EDda");
+		tableMenu.add(exitMenuItem);
 		
 		JMenu runMenu = new JMenu("Teste");
 		menuBar.add(runMenu);
@@ -216,15 +216,9 @@ public class QTestMainWindow {
 		toolBar.add(btnPerfil);
 		
 		JButton btnUtilizador = new JButton("Utilizador");
-		btnUtilizador.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DynamicTableModel dtm = new DynamicTableModel(User.class);
-				dtm.setTblTitle(new String[] {"ID", "Login", "Password", "Profile"});
-				dtm.setTblFields(new String[] {"pk", "login", "password", "profile"});
-				UserDataPanel udp = new UserDataPanel(dtm);
-				setCurrentPanel(udp);			}
-		});
+		btnUtilizador.addActionListener(getUserActionListener());
 		toolBar.add(btnUtilizador);
+		userMenuItem.addActionListener(getUserActionListener());
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setMaximumSize(new Dimension(10, 30));
@@ -315,6 +309,17 @@ public class QTestMainWindow {
 				ActivityAreaDataPanel cdp = new ActivityAreaDataPanel(dtm);
 				setCurrentPanel(cdp);
 			}
+		};		
+	}
+	
+	public ActionListener getUserActionListener() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(User.class);
+				dtm.setTblTitle(new String[] {"ID", "Login", "Password", "Profile"});
+				dtm.setTblFields(new String[] {"pk", "login", "password", "profile"});
+				UserDataPanel udp = new UserDataPanel(dtm);
+				setCurrentPanel(udp);			}
 		};		
 	}
 	
