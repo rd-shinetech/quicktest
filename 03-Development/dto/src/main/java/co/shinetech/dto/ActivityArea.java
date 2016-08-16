@@ -13,7 +13,7 @@ public class ActivityArea implements Domain {
 	private long id;
 	private String name;
 
-	private ActivityArea(long id) {
+	public ActivityArea(long id) {
 		this.id = id;
 	}
 	

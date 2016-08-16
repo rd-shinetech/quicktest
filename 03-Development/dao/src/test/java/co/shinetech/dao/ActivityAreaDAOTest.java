@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dao.factory.PersistenceProviderFactory;
+import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.User;
 
 /**
@@ -23,10 +24,8 @@ import co.shinetech.dto.User;
  */
 public class ActivityAreaDAOTest {
 	@SuppressWarnings("unchecked")
-	private static final DAOProvider<User> userDao = (DAOProvider<User>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_ACTIVITY_AREA);
-	private static long id;
-	private static String name;
-	private static User u;
+	private static final DAOProvider<ActivityArea> activityAreaDao = (DAOProvider<ActivityArea>) PersistenceProviderFactory.getPersistenceProvider(PersistenceProviderFactory.PERSISTENCE_SERIALIZED).getDAOProvider(PersistenceProvider.TABLE_ACTIVITY_AREA);
+	private long id;
 	
 	@Before
 	public void setup() throws PersistenceException {
@@ -34,12 +33,12 @@ public class ActivityAreaDAOTest {
 	}
 	
 	public void testCreateUser() throws PersistenceException {
-		ArrayList<User> userList = new ArrayList<>();
-		User u1 = new User(id = userDao.nextId());
-		u1.setLogin("Ricardo");
+		ArrayList<ActivityArea> userList = new ArrayList<>();
+		ActivityArea a1 = new ActivityArea(id = activityAreaDao.nextId());
+		a1.setName("Activity Test");
 		
-		userDao.create(u1);
-		userList.add(u1);		
+		activityAreaDao.create(a1);
+		userList.add(a1);		
 	}
 	
 	@Test
