@@ -15,7 +15,6 @@ import org.junit.Test;
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dao.factory.PersistenceProviderFactory;
 import co.shinetech.dto.ActivityArea;
-import co.shinetech.dto.User;
 
 /**
  * @author Ricardo
@@ -29,59 +28,58 @@ public class ActivityAreaDAOTest {
 	
 	@Before
 	public void setup() throws PersistenceException {
-		testCreateUser();
+		testCreateActivityArea();
 	}
 	
-	public void testCreateUser() throws PersistenceException {
-		ArrayList<ActivityArea> userList = new ArrayList<>();
+	public void testCreateActivityArea() throws PersistenceException {
+		ArrayList<ActivityArea> activityAreaList = new ArrayList<>();
 		ActivityArea a1 = new ActivityArea(id = activityAreaDao.nextId());
 		a1.setName("Activity Test");
 		
 		activityAreaDao.create(a1);
-		userList.add(a1);		
+		activityAreaList.add(a1);		
 	}
-/*	
+
 	@Test
-	public void testUpdateUser() throws PersistenceException {
-		if (!userExists())
-			testCreateUser();
-		User u1 = userDao.retrieveByID(id);
-		userDao.update(u1);
-		assertTrue(userExists());
+	public void testUpdateActivityArea() throws PersistenceException {
+		if (!activityAreaExists())
+			testCreateActivityArea();
+		ActivityArea a1 = activityAreaDao.retrieveByID(id);
+		activityAreaDao.update(a1);
+		assertTrue(activityAreaExists());
 	}
 	
 	@Test
-	public void testDeleteUser() throws PersistenceException {
-		if (!userExists())
-			testCreateUser();
-		int a = userDao.count();
-		userDao.delete(id);
-		int b = userDao.count();
+	public void testDeleteActivityArea() throws PersistenceException {
+		if (!activityAreaExists())
+			testCreateActivityArea();
+		int a = activityAreaDao.count();
+		activityAreaDao.delete(id);
+		int b = activityAreaDao.count();
 		assertTrue(b < a);
 	}
 	
 	@Test
-	public void retriveAllUsers() throws PersistenceException {
-		List<User> l = userDao.retrieveAll();
-		int a = userDao.count();
+	public void retriveAllActivityArea() throws PersistenceException {
+		List<ActivityArea> l = activityAreaDao.retrieveAll();
+		int a = activityAreaDao.count();
 		assertEquals(l.size(), a);
 	}
 
 	@Test
-	public void retriveByIdUser() throws PersistenceException {
-		if (!userExists())
-			testCreateUser();
-		User u1 = userDao.retrieveByID(id);
-		assertEquals(u, u1);
+	public void retriveByIdActivityArea() throws PersistenceException {
+		if (!activityAreaExists())
+			testCreateActivityArea();
+		ActivityArea a1 = activityAreaDao.retrieveByID(id);
+		assertEquals(id, a1);
 	}
 
-	public void nextUserId() throws PersistenceException{
-		long n = userDao.nextId();
+	public void nextId() throws PersistenceException{
+		long n = activityAreaDao.nextId();
 		assertTrue(n > id);
 	}
 	
-	private boolean userExists() throws PersistenceException {
-		return userDao.retrieveByID(id) != null;
+	private boolean activityAreaExists() throws PersistenceException {
+		return activityAreaDao.retrieveByID(id) != null;
 	}
-*/
 }

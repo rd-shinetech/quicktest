@@ -29,6 +29,7 @@ import co.shinetech.dto.Activity;
 import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Group;
 import co.shinetech.dto.Profile;
+import co.shinetech.dto.QuestionType;
 import co.shinetech.dto.User;
 import co.shinetech.gui.activity.ActivityDataPanel;
 import co.shinetech.gui.activityarea.ActivityAreaDataPanel;
@@ -93,10 +94,16 @@ public class QTestMainWindow {
 		tableMenu.add(groupMenuItem);
 		
 		JMenuItem questionMenuItem = new JMenuItem("Quest\u00E3o...");
+		groupMenuItem.addActionListener(getQuestionTypeActionListener());
 		tableMenu.add(questionMenuItem);
 		
 		JMenuItem activityMenuItem = new JMenuItem("Atividade...");
+		groupMenuItem.addActionListener(getActivityActionListener());
 		tableMenu.add(activityMenuItem);
+		
+		JMenuItem activityAreaMenuItem = new JMenuItem("\u00C1reas de actividade...");
+		groupMenuItem.addActionListener(getActivityAreaActionListener());
+		tableMenu.add(activityAreaMenuItem);
 		
 		JSeparator separator = new JSeparator();
 		tableMenu.add(separator);
@@ -184,9 +191,13 @@ public class QTestMainWindow {
 		});
 		
 		JButton activityAreaButton = new JButton("\u00C1reas de Atividade");
+		activityAreaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		toolBar.add(activityAreaButton);
 		activityAreaButton.addActionListener(getActivityAreaActionListener());
-		
+				
 		toolBar.add(activityButton);
 		
 		toolBar.addSeparator();
@@ -299,10 +310,36 @@ public class QTestMainWindow {
 		};
 	}
 	
+	private ActionListener getQuestionTypeActionListener() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(QuestionType.class);
+				
+				dtm.setTblTitle(new String[] {"Código","Tipo de Questão"});		// Table columns header		
+				dtm.setTblFields(new String[]{"pk","name"});
+				ActivityAreaDataPanel aadp = new ActivityAreaDataPanel(dtm);
+				setCurrentPanel(aadp);
+			}
+		};		
+	} 
+	
 	private ActionListener getActivityAreaActionListener() {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(ActivityArea.class);
+				
+				dtm.setTblTitle(new String[] {"Código","Nome da Área"});		// Table columns header		
+				dtm.setTblFields(new String[]{"pk","name"});
+				ActivityAreaDataPanel aadp = new ActivityAreaDataPanel(dtm);
+				setCurrentPanel(aadp);
+			}
+		};		
+	}
+	
+	private ActionListener getActivityActionListener() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DynamicTableModel dtm = new DynamicTableModel(Activity.class);
 				
 				dtm.setTblTitle(new String[] {"Código","Nome da Área"});		// Table columns header		
 				dtm.setTblFields(new String[]{"pk","name"});
