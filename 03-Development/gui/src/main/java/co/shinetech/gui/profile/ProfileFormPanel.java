@@ -1,3 +1,6 @@
+/*
+ * ProfileFormPanel.java
+ */
 package co.shinetech.gui.profile;
 
 import javax.swing.JPanel;
@@ -22,7 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * 
+ * Form GUI for Profile.
  * @author Robin
  * @date 03/08/2016
  */
@@ -45,7 +48,7 @@ public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 
 		JLabel lblNome = new JLabel("Nome:");
 		GridBagConstraints gbc_lblNome = new GridBagConstraints();
-		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNome.insets = new Insets(10, 5, 10, 5);
 		gbc_lblNome.anchor = GridBagConstraints.EAST;
 		gbc_lblNome.gridx = 0;
 		gbc_lblNome.gridy = 0;
@@ -56,12 +59,14 @@ public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 		textField.setMinimumSize(new Dimension(150, 20));
 		textField.setMaximumSize(new Dimension(150, 20));
 		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.weighty = 1.0;
+		gbc_textField.weightx = 1.0;
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
+		gbc_textField.insets = new Insets(10, 5, 10, 5);
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 0;
 		panel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		textField.setColumns(40);
 
 		JPanel panel_1 = new JPanel();
 		add(panel_1, BorderLayout.SOUTH);

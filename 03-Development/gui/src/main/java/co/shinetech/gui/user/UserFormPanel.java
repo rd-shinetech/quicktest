@@ -54,19 +54,19 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 		JLabel lblLogin = new JLabel("Login:");
 		GridBagConstraints gbc_lblLogin = new GridBagConstraints();
 		gbc_lblLogin.anchor = GridBagConstraints.EAST;
-		gbc_lblLogin.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLogin.insets = new Insets(10, 5, 10, 5);
 		gbc_lblLogin.gridx = 0;
 		gbc_lblLogin.gridy = 0;
 		panel.add(lblLogin, gbc_lblLogin);
 
 		textFieldLogin = new JTextField();
 		textFieldLogin.setMaximumSize(new Dimension(150, 20));
-		textFieldLogin.setColumns(30);
+		textFieldLogin.setColumns(35);
 		textFieldLogin.setMinimumSize(new Dimension(150, 20));
 		textFieldLogin.setPreferredSize(new Dimension(150, 20));
 		GridBagConstraints gbc_textFieldLogin = new GridBagConstraints();
 		gbc_textFieldLogin.anchor = GridBagConstraints.WEST;
-		gbc_textFieldLogin.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldLogin.insets = new Insets(10, 5, 10, 5);
 		gbc_textFieldLogin.gridx = 1;
 		gbc_textFieldLogin.gridy = 0;
 		panel.add(textFieldLogin, gbc_textFieldLogin);
@@ -74,18 +74,18 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 		JLabel lblPassword = new JLabel("Password:");
 		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
 		gbc_lblPassword.anchor = GridBagConstraints.EAST;
-		gbc_lblPassword.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPassword.insets = new Insets(0, 5, 10, 5);
 		gbc_lblPassword.gridx = 0;
 		gbc_lblPassword.gridy = 1;
 		panel.add(lblPassword, gbc_lblPassword);
 
 		passwordField = new JPasswordField();
-		passwordField.setColumns(15);
+		passwordField.setColumns(20);
 		passwordField.setMinimumSize(new Dimension(150, 20));
 		passwordField.setPreferredSize(new java.awt.Dimension(50, 20));
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
 		gbc_passwordField.anchor = GridBagConstraints.WEST;
-		gbc_passwordField.insets = new Insets(0, 0, 5, 0);
+		gbc_passwordField.insets = new Insets(0, 5, 10, 5);
 		gbc_passwordField.gridx = 1;
 		gbc_passwordField.gridy = 1;
 		panel.add(passwordField, gbc_passwordField);
@@ -93,15 +93,15 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 		JLabel lblNewLabel = new JLabel("Profile:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.insets = new Insets(0, 5, 10, 5);
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 2;
 		panel.add(lblNewLabel, gbc_lblNewLabel);
 
 		comboBox = new JComboBox<>();
-		comboBox.setMaximumSize(new Dimension(200, 20));
-		comboBox.setMinimumSize(new Dimension(150, 20));
-		comboBox.setPreferredSize(new Dimension(150, 20));
+		comboBox.setMaximumSize(new Dimension(250, 20));
+		comboBox.setMinimumSize(new Dimension(250, 20));
+		comboBox.setPreferredSize(new Dimension(250, 20));
 
 		ProfileService ps = ServiceFactory.getService(ProfileService.class);
 		try {
@@ -112,7 +112,8 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 		}
 
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_comboBox.weightx = 1.0;
+		gbc_comboBox.insets = new Insets(0, 5, 10, 5);
 		gbc_comboBox.anchor = GridBagConstraints.WEST;
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 2;
