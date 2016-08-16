@@ -44,8 +44,7 @@ public class ProfileDataPanel extends GridDataPanel {
 				QTestMainWindow.processEnd();
 			} catch (PersistenceException e) {
 				JOptionPane.showMessageDialog(mySelf, "Error loading data from database.");
-			}
-			catch (InterruptedException e) {
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -59,7 +58,7 @@ public class ProfileDataPanel extends GridDataPanel {
 			JDialog d = new JDialog(f,"Inclusão do perfil");
 			d.setModal(true);
 			d.add(new ProfileFormPanel(d));
-			d.pack(); // redimention the JDialog to the JPanel size
+			d.pack(); // redimension the JDialog to the JPanel size
 			d.setResizable(false);
 			GUIUtils.centerOnParent(d, true);
 			d.setVisible(true);
@@ -76,7 +75,7 @@ public class ProfileDataPanel extends GridDataPanel {
 			d.setModal(true);
 			d.setResizable(false);
 			d.add(new ProfileFormPanel(d));
-			d.pack(); // redimention the JDialog to the JPanel size
+			d.pack(); // redimension the JDialog to the JPanel size
 			GUIUtils.centerOnParent(d, true);
 			d.setVisible(true);
 			//loadData();
@@ -93,7 +92,7 @@ public class ProfileDataPanel extends GridDataPanel {
 			d.setModal(true);
 			d.setResizable(false);
 			d.add(pfp = new ProfileFormPanel(d));
-			d.pack(); // redimention the JDialog to the JPanel size
+			d.pack(); // redimension the JDialog to the JPanel size
 
 			if (table.getSelectedRow() < 0) {
 				JOptionPane.showMessageDialog(mySelf, "Seleciona um perfil");
@@ -124,9 +123,7 @@ public class ProfileDataPanel extends GridDataPanel {
 					ps.delete((int)p.getPk());
 					loadData();
 				}
-
-			}
-			catch (PersistenceException e1) {
+			}catch (PersistenceException e1) {
 				JOptionPane.showMessageDialog(mySelf, "Não foi possível apagar o Perfil");
 				e1.printStackTrace();
 			}

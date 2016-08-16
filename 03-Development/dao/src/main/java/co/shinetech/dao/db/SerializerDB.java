@@ -39,7 +39,7 @@ public class SerializerDB {
     
     // Table Storage
     private static final HashMap<String,HashMap> tablesMap;
-    
+        
     // Table Constants
     public static final String TABLE_ACTIVITY = "Activity";
     public static final String TABLE_PROFILE  = "Profile";
@@ -52,6 +52,7 @@ public class SerializerDB {
     public static String DB_PATH;
     
     static {
+    	
         try {
             try (InputStream fis = SerializerDB.class.getClassLoader().getResourceAsStream("qtest.properties")) {
                 Properties p = new Properties();
@@ -92,9 +93,7 @@ public class SerializerDB {
     private static void load() {
         FileInputStream fi;
         ObjectInputStream oi;
-        //Iterator<String> it = tablesMap.keySet().iterator();
         Object o;
-        //String tableName;
         File dir = new File(DB_PATH);
         File f;
         
@@ -116,31 +115,7 @@ public class SerializerDB {
 		} catch (IOException e) {
 		} catch (ClassNotFoundException e) {
 		}
-        
-        // Get data from storage
-/*        while( it.hasNext() )
-        {
-            tableName = it.next();
-            try {
-                if( ! dir.exists() )
-                    dir.mkdirs();
-                
-                f = new File(DB_PATH + "/" + tableName + TABLE_EXTENSION);
-                if( ! f.exists() )
-                	continue;
-                fi = new FileInputStream(f);
-                oi = new ObjectInputStream(fi);
-                o = oi.readObject();
-                if( o != null )
-                    tablesMap.get(tableName).putAll((HashMap<?, ?>) o);
-                oi.close();
-                fi.close();
-                
-            } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        }        
-*/    }
+    }
     
     private static void write(String tableName) throws PersistenceException {
         FileOutputStream fo;
@@ -150,9 +125,9 @@ public class SerializerDB {
         try {
             if( ! dir.exists() )
                 dir.mkdirs();
-            fo = new FileOutputStream(DB_PATH +"/"+/* "/" +  tableName + */TABLE_EXTENSION);
+            fo = new FileOutputStream(DB_PATH +"/"+TABLE_EXTENSION);
             oo = new ObjectOutputStream(fo);
-            oo.writeObject(tablesMap/*.get(tableName)*/);
+            oo.writeObject(tablesMap);
             oo.flush();
             oo.close();
             fo.close();
@@ -171,7 +146,6 @@ public class SerializerDB {
         write(TABLE_ID_CONTROL);
         return id;
     }
-    
     
     @SuppressWarnings("unchecked")
 	public static void insert(String table,Domain value) throws PersistenceException {
@@ -194,10 +168,13 @@ public class SerializerDB {
     
     public static void delete(String table,long id) throws PersistenceException {
         Domain d = (Domain) tablesMap.get(table).get(id);
-        
-        if( d == null )
-            throw new PersistenceException("Object "+table+".ID="+id+" not found in database.");
 
+        if( d == null ){
+            throw new PersistenceException("Object "+table+".ID="+id+" not found in database.");        	
+        }
+        if( ! checkIntegrity(table,id) ) {
+        	throw new PersistenceException("Referencial integrity violation. The selected item is being used in other entity.");
+        }
         tablesMap.get(table).remove(id);
         write(table);
     }
@@ -219,5 +196,31 @@ public class SerializerDB {
     
     public static int count(String table) {
         return tablesMap.get(table).values().size();
+    }
+    
+    /**
+     * Method to check database integrity.
+     * @param table
+     * @param ID
+     * @return
+     */
+    private static boolean checkIntegrity(String table,long id) {
+    	boolean r = true;
+    	
+    	switch( table ) { 
+    		case TABLE_PROFILE: {
+    			HashMap<Long,User> users = tablesMap.get(TABLE_USER);
+    			
+    			for( User u : users.values() ) {
+    				if( u.getProfile().getPk() == id ) {
+    					r = false;
+    					break;
+    				}
+    			}
+    			break;
+    		}
+    	}
+    	
+    	return r;
     }
 }
