@@ -67,16 +67,16 @@ public class GroupPanel extends JPanel implements DomainGetter<Group>{
 		panel.add(nameTextField, gbc_nameTextField);
 		nameTextField.setColumns(50);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		add(panel_1, BorderLayout.SOUTH);
+		JPanel controlPanel = new JPanel();
+		controlPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		add(controlPanel, BorderLayout.SOUTH);
 		
 		JButton okButton = new JButton("Ok");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		panel_1.add(okButton);
+		controlPanel.add(okButton);
 		
 		JButton cancelButton = new JButton("Cancelar");
 		cancelButton.addActionListener(new ActionListener() {
@@ -84,7 +84,7 @@ public class GroupPanel extends JPanel implements DomainGetter<Group>{
 				parent.dispose();
 			}
 		});
-		panel_1.add(cancelButton);
+		controlPanel.add(cancelButton);
 
 	}
 

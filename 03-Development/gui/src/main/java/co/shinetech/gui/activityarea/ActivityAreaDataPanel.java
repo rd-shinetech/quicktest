@@ -53,7 +53,6 @@ public class ActivityAreaDataPanel extends GridDataPanel{
 					} catch (PersistenceException e) {
 						JOptionPane.showMessageDialog(mySelf, "Error loading data from database." );
 					} catch (InterruptedException e) {
-						
 					}
 				}
 				});
