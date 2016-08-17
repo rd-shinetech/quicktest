@@ -22,6 +22,7 @@ import co.shinetech.dto.Group;
 import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.GroupService;
+import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
 public class GroupPanel extends JPanel implements DomainGetter<Group>{
@@ -39,7 +40,7 @@ public class GroupPanel extends JPanel implements DomainGetter<Group>{
 		setLayout(new BorderLayout(0, 0));
 		this.parent = parent;
 		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBorder(new TitledBorder(null, "Classes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] {100, 250, 0};
@@ -68,7 +69,7 @@ public class GroupPanel extends JPanel implements DomainGetter<Group>{
 		nameTextField.setColumns(50);
 		
 		JPanel controlPanel = new JPanel();
-		controlPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(controlPanel, BorderLayout.SOUTH);
 		
 		JButton okButton = new JButton("Ok");

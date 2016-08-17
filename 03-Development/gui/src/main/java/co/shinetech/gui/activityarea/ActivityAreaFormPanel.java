@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -23,6 +24,7 @@ import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityAreaService;
 import co.shinetech.service.impl.ProfileService;
+import javax.swing.border.TitledBorder;
 
 /**
  * Form gui for activity area.
@@ -31,13 +33,16 @@ import co.shinetech.service.impl.ProfileService;
  */
 @SuppressWarnings("serial")
 public class ActivityAreaFormPanel extends JPanel implements DomainGetter<ActivityArea> {
-	private JTextField textField;
+	private JTextField nameTextField;
 	private ActivityArea activityArea;
-
+	private JButton cancelButton;
+	private JDialog parent;
+	
 	public ActivityAreaFormPanel(JDialog parent) {
 		setLayout(new BorderLayout(0, 0));
-
+		this.parent = parent;
 		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "\u00C1rea de Atividade", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] {0};
@@ -54,26 +59,27 @@ public class ActivityAreaFormPanel extends JPanel implements DomainGetter<Activi
 		gbc_lblNome.gridy = 0;
 		panel.add(lblNome, gbc_lblNome);
 
-		textField = new JTextField();
-		textField.setPreferredSize(new Dimension(300, 20));
-		textField.setMinimumSize(new Dimension(300, 20));
-		textField.setMaximumSize(new Dimension(300, 20));
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.weighty = 1.0;
-		gbc_textField.weightx = 1.0;
-		gbc_textField.anchor = GridBagConstraints.EAST;
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(10, 5, 10, 10);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 0;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(30);
+		nameTextField = new JTextField();
+		nameTextField.setPreferredSize(new Dimension(300, 20));
+		nameTextField.setMinimumSize(new Dimension(300, 20));
+		nameTextField.setMaximumSize(new Dimension(300, 20));
+		GridBagConstraints gbc_nameTextField = new GridBagConstraints();
+		gbc_nameTextField.weighty = 1.0;
+		gbc_nameTextField.weightx = 1.0;
+		gbc_nameTextField.anchor = GridBagConstraints.EAST;
+		gbc_nameTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nameTextField.insets = new Insets(10, 5, 10, 10);
+		gbc_nameTextField.gridx = 1;
+		gbc_nameTextField.gridy = 0;
+		panel.add(nameTextField, gbc_nameTextField);
+		nameTextField.setColumns(30);
 
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(controlPanel, BorderLayout.SOUTH);
 
-		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ActivityAreaService as = ServiceFactory.getService(ActivityAreaService.class);
 				ActivityArea p = getDomainModel();
@@ -84,27 +90,26 @@ public class ActivityAreaFormPanel extends JPanel implements DomainGetter<Activi
 						as.create(p);
 				}
 				catch (PersistenceException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(parent, "Erro ao escrever na base de dados.", "Erro de Persistencia", JOptionPane.ERROR_MESSAGE);
 				}
 				parent.dispose();
 			}
 		});
-		controlPanel.add(btnOk);
+		controlPanel.add(okButton);
 
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
+		cancelButton = new JButton("Cancelar");
+		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parent.dispose();
 			}
 		});
-		controlPanel.add(btnCancel);
+		controlPanel.add(cancelButton);
 	}
 
 	@Override
 	public void setDomainModel(ActivityArea domainData) {
 		this.activityArea = domainData;
-		textField.setText(this.activityArea.getName());
+		nameTextField.setText(this.activityArea.getName());
 	}
 
 	@Override
@@ -113,16 +118,18 @@ public class ActivityAreaFormPanel extends JPanel implements DomainGetter<Activi
 
 		try {
 			if( this.activityArea == null ) {
-				this.activityArea = new ActivityArea(ps.nextId(), textField.getText());
+				this.activityArea = new ActivityArea(ps.nextId(), nameTextField.getText());
 			}
 			else
-				this.activityArea.setName(textField.getText());
+				this.activityArea.setName(nameTextField.getText());
 
 		} catch (PersistenceException e) {
-			// TODO: show a dialog message
+			JOptionPane.showMessageDialog(parent, "Error a carregar da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 		}
-
 		return this.activityArea;
 	}
 
+	public JButton getCancelButton() {
+		return cancelButton;
+	}
 }

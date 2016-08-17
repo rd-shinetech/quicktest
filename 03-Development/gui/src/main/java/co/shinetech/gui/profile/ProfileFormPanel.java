@@ -23,6 +23,7 @@ import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.TitledBorder;
 
 /**
  * Form GUI for Profile.
@@ -38,6 +39,7 @@ public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Perfil de Utilizador", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] {0};
@@ -68,8 +70,9 @@ public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 		panel.add(textField, gbc_textField);
 		textField.setColumns(40);
 
-		JPanel panel_1 = new JPanel();
-		add(panel_1, BorderLayout.SOUTH);
+		JPanel controlPanel = new JPanel();
+		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		add(controlPanel, BorderLayout.SOUTH);
 
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
@@ -89,15 +92,15 @@ public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 				parent.dispose();
 			}
 		});
-		panel_1.add(btnOk);
+		controlPanel.add(btnOk);
 
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton("Cancelar");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parent.dispose();
 			}
 		});
-		panel_1.add(btnCancel);
+		controlPanel.add(btnCancel);
 	}
 
 	@Override

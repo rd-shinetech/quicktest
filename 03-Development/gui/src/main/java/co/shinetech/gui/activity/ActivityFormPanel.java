@@ -1,3 +1,6 @@
+/*
+ * ActivityFormPanel.java
+ */
 package co.shinetech.gui.activity;
 
 import java.awt.BorderLayout;
@@ -29,7 +32,15 @@ import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityService;
 import co.shinetech.service.impl.GroupService;
 import co.shinetech.service.impl.UserService;
+import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
+import java.awt.Color;
 
+/**
+ * GUI class for Activity entity.
+ * @author rdinis
+ * @since 2016-08
+ */
 @SuppressWarnings("serial")
 public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> {
 	private JTextField nameTextField_1;
@@ -37,16 +48,15 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 	private JTextField endTimeTextField;
 	private JTextField startTimeTextField;
 	private JTextField endDayTextField;
-	@SuppressWarnings("unused")
 	private JDialog parent;
 	private Activity activity;
-	private JComboBox teacherComboBox;
-	private JComboBox activityTypeComboBox;
-	private JComboBox groupComboBox;
+	private JComboBox<User> teacherComboBox;
+	private JComboBox<ActivityType> activityTypeComboBox;
+	private JComboBox<Group> groupComboBox;
+	
 	/**
 	 * Create the panel.
 	 */
-	@SuppressWarnings("unchecked")
 	public ActivityFormPanel(JDialog parent) {
 		GroupService gs = ServiceFactory.getService(GroupService.class); 
 		UserService us = ServiceFactory.getService(UserService.class);
@@ -58,6 +68,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Atividades", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{79, 192, 0, 0};
@@ -163,7 +174,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblTeacher.gridy = 6;
 		panel.add(lblTeacher, gbc_lblTeacher);
 		
-		teacherComboBox = new JComboBox();
+		teacherComboBox = new JComboBox<User>();
 		teacherComboBox.setMinimumSize(new Dimension(100, 20));
 		GridBagConstraints gbc_teacherComboBox = new GridBagConstraints();
 		gbc_teacherComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -171,11 +182,10 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_teacherComboBox.gridx = 1;
 		gbc_teacherComboBox.gridy = 6;
 		panel.add(teacherComboBox, gbc_teacherComboBox);
-		DefaultComboBoxModel<String> dcbml = new DefaultComboBoxModel<String>();
+		DefaultComboBoxModel<User> dcbml = new DefaultComboBoxModel<User>();
 		try {
-			us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(o -> dcbml.addElement(o.getLogin()));
+			us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(o -> dcbml.addElement(o));
 		} catch (PersistenceException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		teacherComboBox.setModel(dcbml);
@@ -188,15 +198,15 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblActivitytype.gridy = 7;
 		panel.add(lblActivitytype, gbc_lblActivitytype);
 		
-		activityTypeComboBox = new JComboBox();
+		activityTypeComboBox = new JComboBox<ActivityType>();
 		GridBagConstraints gbc_activityTypeComboBox = new GridBagConstraints();
 		gbc_activityTypeComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_activityTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_activityTypeComboBox.gridx = 1;
 		gbc_activityTypeComboBox.gridy = 7;
 		panel.add(activityTypeComboBox, gbc_activityTypeComboBox);
-		DefaultComboBoxModel<String> cbm = new DefaultComboBoxModel<String>();
-		Arrays.asList(ActivityType.values()).forEach(o -> cbm.addElement(o.getType()));
+		DefaultComboBoxModel<ActivityType> cbm = new DefaultComboBoxModel<ActivityType>();
+		Arrays.asList(ActivityType.values()).forEach(o -> cbm.addElement(o));
 		activityTypeComboBox.setModel(cbm);
 		
 		JLabel lblGroup = new JLabel("Group:");
@@ -207,16 +217,16 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblGroup.gridy = 8;
 		panel.add(lblGroup, gbc_lblGroup);
 		
-		groupComboBox = new JComboBox();
+		groupComboBox = new JComboBox<Group>();
 		GridBagConstraints gbc_groupComboBox = new GridBagConstraints();
 		gbc_groupComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_groupComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_groupComboBox.gridx = 1;
 		gbc_groupComboBox.gridy = 8;
 		panel.add(groupComboBox, gbc_groupComboBox);
-		DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<String>();
+		DefaultComboBoxModel<Group> dcbm = new DefaultComboBoxModel<Group>();
 		try {
-			gs.retrieveAll().forEach(o -> dcbm.addElement(o.getName()));
+			gs.retrieveAll().forEach(o -> dcbm.addElement(o));
 		} catch (PersistenceException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -224,6 +234,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		groupComboBox.setModel(dcbm);
 			
 		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.add(panel_2, BorderLayout.SOUTH);
 		
 		JButton okButton = new JButton("OK");
@@ -270,9 +281,9 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 			this.activity.setActivityType((ActivityType) activityTypeComboBox.getSelectedItem());
 			this.activity.setGroup((Group)groupComboBox.getSelectedItem());			
 		} catch (DateTimeParseException e ) {
-			JOptionPane.showConfirmDialog(null, "Formato de data ou hora não válido. (dd/MM/yyyy HH:mm:SS)");
+			JOptionPane.showConfirmDialog(parent, "Formato de data ou hora não válido. (dd/MM/yyyy HH:mm:SS)");
 		} catch (PersistenceException e) {
-			// TODO: show a dialog message
+			JOptionPane.showMessageDialog(parent, "Não foi possível apagar o Perfil");
 		}
 
 		return this.activity;

@@ -23,6 +23,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.TitledBorder;
 
 /**
  * 
@@ -44,6 +45,7 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Utilizadores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{98, 244, 0};
@@ -118,6 +120,7 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 2;
 		panel.add(comboBox, gbc_comboBox);
+		panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(panel_1, BorderLayout.SOUTH);
 
 		JButton btnOk = new JButton("OK");
