@@ -314,10 +314,12 @@ public class QTestMainWindow {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(User.class);
+				
 				dtm.setTblTitle(new String[] {"ID", "Login", "Profile"});
 				dtm.setTblFields(new String[] {"pk", "login","profile"});
 				UserDataPanel udp = new UserDataPanel(dtm);
-				setCurrentPanel(udp);			}
+				setCurrentPanel(udp);
+			}
 		};		
 	}
 	
@@ -325,6 +327,7 @@ public class QTestMainWindow {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Profile.class);
+				
 				dtm.setTblTitle(new String[] {"ID", "Name"});
 				dtm.setTblFields(new String[] {"pk", "name"});
 				ProfileDataPanel pdp = new ProfileDataPanel(dtm);
@@ -341,6 +344,7 @@ public class QTestMainWindow {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Activity.class);
+				
 				dtm.setTblTitle(new String[] {"ID", "Name", "StartTime", "EndTime", "Teacher", "ActivityType", "Group"});
 				dtm.setTblFields(new String[] {"pk", "name", "startTime", "endTime", "teacher", "activityType", "group"});
 				ActivityDataPanel adp = new ActivityDataPanel(dtm);

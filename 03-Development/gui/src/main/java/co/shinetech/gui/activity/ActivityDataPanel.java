@@ -14,10 +14,8 @@ import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Activity;
-import co.shinetech.dto.Group;
 import co.shinetech.gui.GUIUtils;
 import co.shinetech.gui.QTestMainWindow;
-import co.shinetech.gui.group.GroupPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
@@ -56,11 +54,9 @@ public class ActivityDataPanel extends GridDataPanel{
 						
 					}
 				}
-				});
-				t.start();
+		});
+		t.start();
 	}
-		
-		
 	
 	@Override
 	public ActionListener getCreateListener() {
@@ -96,7 +92,6 @@ public class ActivityDataPanel extends GridDataPanel{
 				d.setVisible(true);
 			}
 		};		
-	
 	}
 
 	@Override
@@ -120,7 +115,6 @@ public class ActivityDataPanel extends GridDataPanel{
 				d.setVisible(true);
 			}
 		};
-		
 	}
 
 	@Override
