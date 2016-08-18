@@ -42,8 +42,6 @@ public class ActivityAreaDAOTest {
 
 	@Test
 	public void testUpdateActivityArea() throws PersistenceException {
-		if (!activityAreaExists())
-			testCreateActivityArea();
 		ActivityArea a1 = activityAreaDao.retrieveByID(id);
 		activityAreaDao.update(a1);
 		assertTrue(activityAreaExists());
@@ -71,7 +69,7 @@ public class ActivityAreaDAOTest {
 		if (!activityAreaExists())
 			testCreateActivityArea();
 		ActivityArea a1 = activityAreaDao.retrieveByID(id);
-		assertEquals(id, a1);
+		assertEquals(a1.getName(), "Activity Test");
 	}
 
 	public void nextId() throws PersistenceException{

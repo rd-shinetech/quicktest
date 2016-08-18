@@ -107,7 +107,7 @@ public class ActivityAreaDataPanel extends GridDataPanel{
 					List<ActivityArea> list;
 					
 					if( fp.getFieldComboBox().getSelectedItem().equals("ID") ) {
-						list = (List<ActivityArea>) tableModel.getData().stream().filter(o -> ((ActivityArea) o).getPk() == Integer.valueOf(fp.getTipTextField().getText())).collect(Collectors.toList());
+						list = (List<ActivityArea>) tableModel.getData().stream().filter(o -> ((ActivityArea) o).getPk() == Long.valueOf(fp.getTipTextField().getText())).collect(Collectors.toList());
 					} else {
 						list = (List<ActivityArea>) tableModel.getData().stream().filter(o -> ((ActivityArea) o).getName().contains(fp.getTipTextField().getText())).collect(Collectors.toList());
 					}					
