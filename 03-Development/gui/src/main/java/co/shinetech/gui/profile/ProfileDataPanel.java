@@ -1,7 +1,11 @@
 package co.shinetech.gui.profile;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -9,9 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Profile;
+import co.shinetech.gui.FilterPanel;
 import co.shinetech.gui.GUIUtils;
 import co.shinetech.gui.QTestMainWindow;
+import co.shinetech.gui.activityarea.ActivityAreaFormPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
@@ -65,23 +72,38 @@ public class ProfileDataPanel extends GridDataPanel {
 			loadData();
 		};
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public ActionListener getRetrieveListener() {
 		return e -> {
 			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
 			JDialog d = new JDialog(f,"Pesquisar perfil");
-
+			FilterPanel fp = new FilterPanel(d);
+			DefaultComboBoxModel<String> cbm = new DefaultComboBoxModel<>();
+			cbm.addElement("ID");
+			cbm.addElement("Nome");
+			fp.setFieldComboBoxModel(cbm);
 			d.setModal(true);
 			d.setResizable(false);
 			d.add(new ProfileFormPanel(d));
 			d.pack(); // redimension the JDialog to the JPanel size
 			GUIUtils.centerOnParent(d, true);
 			d.setVisible(true);
-			//loadData();
+			if (! fp.isCancelled()) {
+				List<Profile> list;
+				if (fp.getFieldComboBox().getSelectedItem().equals("ID")) {
+					list = (List<Profile>) tableModel.getData().stream().filter(o -> ((Profile) o).getPk() == Integer.valueOf(fp.getTipTextField().getText())).collect(Collectors.toList());
+				} else {
+					list = (List<Profile>) tableModel.getData().stream().filter(o -> ((Profile) o).getName().contains(fp.getTipTextField().getText())).collect(Collectors.toList());
+				}
+				tableModel.setData(list);
+				tableModel.fireTableDataChanged();
+				table.repaint();
+			}
 		};
 	}
-
+	
 	@Override
 	public ActionListener getUpdateListener() {
 		return e -> {
@@ -112,7 +134,7 @@ public class ProfileDataPanel extends GridDataPanel {
 	public ActionListener getDeleteListener() {
 		return e -> {
 			if (table.getSelectedRow() < 0) {
-				JOptionPane.showMessageDialog(mySelf, "Seleciona um perfil");
+				JOptionPane.showMessageDialog(mySelf, "Por favor, selecione um Perfil","Aviso",JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 			Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
@@ -124,7 +146,7 @@ public class ProfileDataPanel extends GridDataPanel {
 					loadData();
 				}
 			}catch (PersistenceException e1) {
-				JOptionPane.showMessageDialog(mySelf, "Não foi possível apagar o Perfil");
+				JOptionPane.showMessageDialog(mySelf, "Não foi possível apagar o Perfil","Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
 		};
