@@ -1,6 +1,8 @@
+/*
+ * ProfileDataPanel.java
+ */
 package co.shinetech.gui.profile;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,12 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
-import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Profile;
 import co.shinetech.gui.FilterPanel;
 import co.shinetech.gui.GUIUtils;
 import co.shinetech.gui.QTestMainWindow;
-import co.shinetech.gui.activityarea.ActivityAreaFormPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
@@ -32,15 +32,15 @@ import co.shinetech.service.impl.ProfileService;
 @SuppressWarnings("serial")
 public class ProfileDataPanel extends GridDataPanel {
 	private JPanel mySelf;
+	private ProfileService ps = ServiceFactory.getService(ProfileService.class);
 
 	public ProfileDataPanel(DynamicTableModel tm) {
-		super(tm);
+		super(tm,"Catálogo de Perfis de Utilizadores");
 		mySelf = this;
 		loadData();
 	}
 
 	public void loadData() {
-		ProfileService ps = ServiceFactory.getService(ProfileService.class);
 		new Thread(() -> {
 			try {
 				QTestMainWindow.processStart();
@@ -50,10 +50,8 @@ public class ProfileDataPanel extends GridDataPanel {
 				table.repaint();
 				QTestMainWindow.processEnd();
 			} catch (PersistenceException e) {
-				JOptionPane.showMessageDialog(mySelf, "Error loading data from database.");
+				JOptionPane.showMessageDialog(mySelf, "Erro ao carregar da base de dados.", "Erro de Persistencia",JOptionPane.ERROR_MESSAGE);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}).start();
 	}
@@ -78,22 +76,23 @@ public class ProfileDataPanel extends GridDataPanel {
 	public ActionListener getRetrieveListener() {
 		return e -> {
 			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-			JDialog d = new JDialog(f,"Pesquisar perfil");
+			JDialog d = new JDialog(f,"Pesquisar Perfil de Utilizador");
 			FilterPanel fp = new FilterPanel(d);
 			DefaultComboBoxModel<String> cbm = new DefaultComboBoxModel<>();
+			
 			cbm.addElement("ID");
 			cbm.addElement("Nome");
 			fp.setFieldComboBoxModel(cbm);
 			d.setModal(true);
 			d.setResizable(false);
-			d.add(new ProfileFormPanel(d));
+			d.add(fp);
 			d.pack(); // redimension the JDialog to the JPanel size
 			GUIUtils.centerOnParent(d, true);
 			d.setVisible(true);
 			if (! fp.isCancelled()) {
 				List<Profile> list;
 				if (fp.getFieldComboBox().getSelectedItem().equals("ID")) {
-					list = (List<Profile>) tableModel.getData().stream().filter(o -> ((Profile) o).getPk() == Integer.valueOf(fp.getTipTextField().getText())).collect(Collectors.toList());
+					list = (List<Profile>) tableModel.getData().stream().filter(o -> ((Profile) o).getPk() == Long.valueOf(fp.getTipTextField().getText())).collect(Collectors.toList());
 				} else {
 					list = (List<Profile>) tableModel.getData().stream().filter(o -> ((Profile) o).getName().contains(fp.getTipTextField().getText())).collect(Collectors.toList());
 				}
@@ -108,7 +107,7 @@ public class ProfileDataPanel extends GridDataPanel {
 	public ActionListener getUpdateListener() {
 		return e -> {
 			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-			JDialog d = new JDialog(f,"Atualização do perfil");
+			JDialog d = new JDialog(f,"Atualização do Perfil");
 			ProfileFormPanel pfp;
 
 			d.setModal(true);
@@ -117,10 +116,9 @@ public class ProfileDataPanel extends GridDataPanel {
 			d.pack(); // redimension the JDialog to the JPanel size
 
 			if (table.getSelectedRow() < 0) {
-				JOptionPane.showMessageDialog(mySelf, "Seleciona um perfil");
+				JOptionPane.showMessageDialog(mySelf, "Por favor, Selecione um Perfil","Aviso",JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-
 			Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
 
 			pfp.setDomainModel(p);
@@ -138,7 +136,6 @@ public class ProfileDataPanel extends GridDataPanel {
 				return;
 			}
 			Profile p = (Profile) tableModel.getData().get(table.getSelectedRow());
-			ProfileService ps = ServiceFactory.getService(ProfileService.class);
 			try {
 				int i = JOptionPane.showConfirmDialog(mySelf, "Quer mesmo apagar o Perfil selecionado?", "Confirmação", JOptionPane.YES_NO_OPTION);
 				if (i == JOptionPane.YES_OPTION) {
@@ -152,4 +149,10 @@ public class ProfileDataPanel extends GridDataPanel {
 		};
 	}
 
+	@Override
+	public ActionListener getReloadListener() {
+		return e -> {
+			loadData();
+		};
+	}
 }

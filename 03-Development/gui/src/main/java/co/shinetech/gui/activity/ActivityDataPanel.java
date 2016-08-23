@@ -30,7 +30,7 @@ public class ActivityDataPanel extends GridDataPanel{
 	private JPanel mySelf;
 
 	public ActivityDataPanel(DynamicTableModel tm) {
-		super(tm);
+		super(tm,"Catálogo de Actividades");
 		mySelf = this;
 		loadData();
 	}
@@ -121,5 +121,12 @@ public class ActivityDataPanel extends GridDataPanel{
 	public ActionListener getDeleteListener() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ActionListener getReloadListener() {
+		return e -> {
+			loadData();
+		};
 	}
 }

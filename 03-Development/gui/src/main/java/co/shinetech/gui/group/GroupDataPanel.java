@@ -5,7 +5,10 @@ package co.shinetech.gui.group;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Group;
+import co.shinetech.gui.FilterPanel;
 import co.shinetech.gui.GUIUtils;
 import co.shinetech.gui.QTestMainWindow;
 import co.shinetech.gui.table.DynamicTableModel;
@@ -29,15 +33,15 @@ import co.shinetech.service.impl.GroupService;
 @SuppressWarnings("serial")
 public class GroupDataPanel extends GridDataPanel {
 	private JPanel mySelf;
+	private GroupService gps = ServiceFactory.getService(GroupService.class);
 	
 	public GroupDataPanel(DynamicTableModel tm) {
-		super(tm);
+		super(tm,"Catálogo de Turmas");
 		mySelf = this;
 		loadData();
 	}
 
 	private void loadData() {
-		GroupService gps = ServiceFactory.getService(GroupService.class);
 		Thread t = new Thread(
 			new Runnable() {			
 			@Override
@@ -75,6 +79,7 @@ public class GroupDataPanel extends GridDataPanel {
 				d.pack(); // redimention the JDialog to the JPanel size
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
+				loadData();
 			}
 		};
 	}
@@ -88,14 +93,32 @@ public class GroupDataPanel extends GridDataPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Inclusão de Turma");
-
+				JDialog d = new JDialog(f,"Pesquisar Turma");
+				FilterPanel fp = new FilterPanel(d);
+				DefaultComboBoxModel<String> cbm = new DefaultComboBoxModel<>();
+				
+				cbm.addElement("ID");
+				cbm.addElement("Nome");
+				fp.setFieldComboBoxModel(cbm);
 				d.setModal(true);
 				d.setResizable(false);
-				d.add(new GroupPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
+				d.add(fp);
+				d.pack(); // redimension the JDialog to the JPanel size
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
+				
+				if( ! fp.isCancelled() ) {
+					List<Group> list;
+					
+					if( fp.getFieldComboBox().getSelectedItem().equals("ID") ) {
+						list = (List<Group>) tableModel.getData().stream().filter(o -> ((Group) o).getPk() == Long.valueOf(fp.getTipTextField().getText())).collect(Collectors.toList());
+					} else {
+						list = (List<Group>) tableModel.getData().stream().filter(o -> ((Group) o).getName().contains(fp.getTipTextField().getText())).collect(Collectors.toList());
+					}					
+					tableModel.setData(list);
+					tableModel.fireTableDataChanged();
+					table.repaint();						
+				}
 			}
 		};
 	}
@@ -109,7 +132,7 @@ public class GroupDataPanel extends GridDataPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-				JDialog d = new JDialog(f,"Inclusão de Turma");
+				JDialog d = new JDialog(f,"Alteração de Turma");
 				GroupPanel gp;
 
 				d.setModal(true);
@@ -122,6 +145,7 @@ public class GroupDataPanel extends GridDataPanel {
 				gp.setDomainModel(g);
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
+				loadData();
 			}
 		};
 	}
@@ -131,7 +155,28 @@ public class GroupDataPanel extends GridDataPanel {
 	 */
 	@Override
 	public ActionListener getDeleteListener() {
-		// TODO Auto-generated method stub
-		return null;
+		return e -> {
+			if (table.getSelectedRow() < 0) {
+				JOptionPane.showMessageDialog(mySelf, "Por favor, Selecione uma Turma","Aviso",JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			Group g = (Group) tableModel.getData().get(table.getSelectedRow());
+			try {
+				int i = JOptionPane.showConfirmDialog(mySelf, "Quer mesmo apagar a Turma selecionada?", "Confirmação", JOptionPane.YES_NO_OPTION);
+				if (i == JOptionPane.YES_OPTION) {
+					gps.delete((int)g.getPk());
+					loadData();
+				}
+			} catch (PersistenceException e1) {
+				JOptionPane.showMessageDialog(mySelf, "Erro a remover dados da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
+			}
+		};
+	}
+
+	@Override
+	public ActionListener getReloadListener() {
+		return e -> {
+			loadData();
+		};
 	}
 }

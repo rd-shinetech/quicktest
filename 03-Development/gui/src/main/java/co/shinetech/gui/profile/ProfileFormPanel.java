@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 
@@ -34,10 +36,11 @@ import javax.swing.border.TitledBorder;
 public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 	private JTextField textField;
 	private Profile profil;
+	private JDialog parent;
 
 	public ProfileFormPanel(JDialog parent) {
+		this.parent = parent;
 		setLayout(new BorderLayout(0, 0));
-
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Perfil de Utilizador", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(panel, BorderLayout.CENTER);
@@ -86,8 +89,7 @@ public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 						ps.create(p);
 				}
 				catch (PersistenceException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(parent, "Erro ao gravar da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 				}
 				parent.dispose();
 			}
@@ -121,10 +123,9 @@ public class ProfileFormPanel extends JPanel implements DomainGetter<Profile> {
 				this.profil.setName(textField.getText());
 
 		} catch (PersistenceException e) {
-			// TODO: show a dialog message
+			JOptionPane.showMessageDialog(parent, "Erro ao ler da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 		}
 
 		return this.profil;
 	}
-
 }

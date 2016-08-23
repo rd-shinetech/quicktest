@@ -124,7 +124,7 @@ public class ActivityAreaFormPanel extends JPanel implements DomainGetter<Activi
 				this.activityArea.setName(nameTextField.getText());
 
 		} catch (PersistenceException e) {
-			JOptionPane.showMessageDialog(parent, "Error a carregar da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parent, "Erro a carregar da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 		}
 		return this.activityArea;
 	}

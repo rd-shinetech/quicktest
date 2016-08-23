@@ -1,7 +1,13 @@
+/*
+ * UserDataPanel.java
+ */
 package co.shinetech.gui.user;
 
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -10,6 +16,7 @@ import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.User;
+import co.shinetech.gui.FilterPanel;
 import co.shinetech.gui.GUIUtils;
 import co.shinetech.gui.QTestMainWindow;
 import co.shinetech.gui.table.DynamicTableModel;
@@ -27,7 +34,7 @@ public class UserDataPanel extends GridDataPanel{
 	private JPanel mySelf;
 
 	public UserDataPanel(DynamicTableModel tm) {
-		super(tm);
+		super(tm,"Catálogo de Utilizadores");
 		mySelf = this;
 		loadData();
 	}
@@ -43,11 +50,8 @@ public class UserDataPanel extends GridDataPanel{
 				table.repaint();
 				QTestMainWindow.processEnd();
 			} catch (PersistenceException e) {
-				JOptionPane.showMessageDialog(mySelf, "Error loading data from database.");
-			}
-			catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(mySelf, "Erro ao carregar da base de dados.", "Erro de Persistencia",JOptionPane.ERROR_MESSAGE);
+			} catch (InterruptedException e) {
 			}
 		}).start();
 	}
@@ -71,14 +75,30 @@ public class UserDataPanel extends GridDataPanel{
 	public ActionListener getRetrieveListener() {
 		return e -> {
 			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-			JDialog d = new JDialog(f,"Pesquisar utilizador");
-
+			JDialog d = new JDialog(f,"Pesquisar Utilizador");
+			FilterPanel fp = new FilterPanel(d);
+			DefaultComboBoxModel<String> cbm = new DefaultComboBoxModel<>();
+			
+			cbm.addElement("ID");
+			cbm.addElement("Login");
+			fp.setFieldComboBoxModel(cbm);
 			d.setModal(true);
 			d.setResizable(false);
-			d.add(new UserFormPanel(d));
-			d.pack(); // redimention the JDialog to the JPanel size
+			d.add(fp);
+			d.pack(); // redimension the JDialog to the JPanel size
 			GUIUtils.centerOnParent(d, true);
 			d.setVisible(true);
+			if (! fp.isCancelled()) {
+				List<User> list;
+				if (fp.getFieldComboBox().getSelectedItem().equals("ID")) {
+					list = (List<User>) tableModel.getData().stream().filter(o -> ((User) o).getPk() == Long.valueOf(fp.getTipTextField().getText())).collect(Collectors.toList());
+				} else {
+					list = (List<User>) tableModel.getData().stream().filter(o -> ((User) o).getLogin().contains(fp.getTipTextField().getText())).collect(Collectors.toList());
+				}
+				tableModel.setData(list);
+				tableModel.fireTableDataChanged();
+				table.repaint();
+			}
 		};
 	}
 
@@ -95,7 +115,7 @@ public class UserDataPanel extends GridDataPanel{
 			d.pack(); // redimention the JDialog to the JPanel size
 
 			if (table.getSelectedRow() < 0) {
-				JOptionPane.showMessageDialog(mySelf, "Seleciona um utilizador");
+				JOptionPane.showMessageDialog(mySelf, "Por favor, Selecione um Utilizador","Aviso",JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 			User u = (User) tableModel.getData().get(table.getSelectedRow());
@@ -125,10 +145,15 @@ public class UserDataPanel extends GridDataPanel{
 
 			}
 			catch (PersistenceException e1) {
-				JOptionPane.showMessageDialog(mySelf, "Não foi possível apagar o Utilizador");
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(mySelf, "Erro a remover dados da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 			}
 		};
 	}
 
+	@Override
+	public ActionListener getReloadListener() {
+		return e -> {
+			loadData();
+		};
+	}
 }

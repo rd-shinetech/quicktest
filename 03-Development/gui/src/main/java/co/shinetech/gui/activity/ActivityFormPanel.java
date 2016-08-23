@@ -228,8 +228,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		try {
 			gs.retrieveAll().forEach(o -> dcbm.addElement(o));
 		} catch (PersistenceException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(parent, "Erro a carregar dados da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 		}
 		groupComboBox.setModel(dcbm);
 			
@@ -283,7 +282,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		} catch (DateTimeParseException e ) {
 			JOptionPane.showConfirmDialog(parent, "Formato de data ou hora não válido. (dd/MM/yyyy HH:mm:SS)");
 		} catch (PersistenceException e) {
-			JOptionPane.showMessageDialog(parent, "Não foi possível apagar o Perfil");
+			JOptionPane.showMessageDialog(parent, "Erro a carregar dados da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 		}
 
 		return this.activity;

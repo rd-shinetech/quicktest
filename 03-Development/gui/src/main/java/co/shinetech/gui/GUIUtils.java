@@ -7,9 +7,11 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.util.Enumeration;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 /**
  * @author Rodrigo
@@ -44,5 +46,17 @@ public final class GUIUtils {
 	        y /= 2;
 	    }
 	    child.setLocation(x, y);
+	}
+	
+	public static void setUIFont(javax.swing.plaf.FontUIResource f) {
+		Enumeration<Object> keys = UIManager.getDefaults().keys();
+		
+		while (keys.hasMoreElements()) {
+			Object key = keys.nextElement();
+			Object value = UIManager.get(key);
+			if (value != null && value instanceof javax.swing.plaf.FontUIResource){
+				UIManager.put(key, f);				
+			}
+		}
 	}
 }

@@ -12,24 +12,25 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
 
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Group;
 import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.GroupService;
-import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
 
 @SuppressWarnings("serial")
 public class GroupPanel extends JPanel implements DomainGetter<Group>{
 	private JTextField nameTextField;
 	private JDialog parent;
 	private Group group;
+	private GroupService gs = ServiceFactory.getService(GroupService.class);
 
 	/**
 	 * Create the panel.
@@ -41,7 +42,7 @@ public class GroupPanel extends JPanel implements DomainGetter<Group>{
 		setLayout(new BorderLayout(0, 0));
 		this.parent = parent;
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Classes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Turma", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] {100, 250, 0};
@@ -76,6 +77,16 @@ public class GroupPanel extends JPanel implements DomainGetter<Group>{
 		JButton okButton = new JButton("Ok");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Group g = getDomainModel();
+				try {
+					if (gs.retrieveByID((int) g.getPk()) != null)
+						gs.update(g);
+					else
+						gs.create(g);
+				} catch (PersistenceException e1) {
+					JOptionPane.showMessageDialog(parent, "Erro ao escrever na base de dados.", "Erro de Persistencia",JOptionPane.ERROR_MESSAGE);
+				}
+				parent.dispose();
 			}
 		});
 		controlPanel.add(okButton);
@@ -97,16 +108,14 @@ public class GroupPanel extends JPanel implements DomainGetter<Group>{
 	}
 
 	@Override
-	public Group getDomainModel() {
-		GroupService gs = ServiceFactory.getService(GroupService.class);
-		
+	public Group getDomainModel() {		
 		try {
 			if( this.group == null ) {
 				this.group = new Group(gs.nextId());
 			}
 			this.group.setName(nameTextField.getText());
 		} catch (PersistenceException e) {
-			// TODO: show a dialog message
+			JOptionPane.showMessageDialog(parent, "Erro a carregar dados da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 		}
 
 		return this.group;

@@ -2,19 +2,22 @@ package co.shinetech.gui.table;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public abstract class GridDataPanel extends JPanel {
-	private final JPanel panel = new JPanel();
+	private final JPanel controlPanel = new JPanel();
 	private JButton newButton;
 	private JButton searchButton;
 	private JButton editButton;
@@ -23,11 +26,14 @@ public abstract class GridDataPanel extends JPanel {
 	private JPanel mySelf;
 	protected JTable table;
 	protected DynamicTableModel tableModel;
+	private JPanel titlePanel;
+	private JButton reloadButton;
+	private JLabel titleLabel;
 	
 	/**
 	 * Create the panel.
 	 */
-	public GridDataPanel(DynamicTableModel tm) {
+	public GridDataPanel(DynamicTableModel tm,String title) {
 		mySelf = this;
 		table = new JTable();
 		table.setModel(tm);
@@ -38,24 +44,28 @@ public abstract class GridDataPanel extends JPanel {
 		add(scrollPane, BorderLayout.CENTER);
 		
 		scrollPane.setViewportView(table);
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		add(panel, BorderLayout.SOUTH);
+		FlowLayout fl_controlPanel = (FlowLayout) controlPanel.getLayout();
+		add(controlPanel, BorderLayout.SOUTH);
 		
 		newButton = new JButton("Novo...");
 		newButton.addActionListener(getCreateListener());
-		panel.add(newButton);
+		controlPanel.add(newButton);
 		
 		searchButton = new JButton("Buscar...");
 		searchButton.addActionListener(getRetrieveListener());
-		panel.add(searchButton);
+		controlPanel.add(searchButton);
 		
 		editButton = new JButton("Editar...");
 		editButton.addActionListener(getUpdateListener());
-		panel.add(editButton);
+		controlPanel.add(editButton);
 		
 		deleteButton = new JButton("Excluir");
 		deleteButton.addActionListener(getDeleteListener());
-		panel.add(deleteButton);
+		controlPanel.add(deleteButton);
+		
+		reloadButton = new JButton("Recarregar");
+		reloadButton.addActionListener(getReloadListener());
+		controlPanel.add(reloadButton);
 		
 		closeButton = new JButton("Fechar");
 		closeButton.addActionListener(new ActionListener() {
@@ -67,7 +77,20 @@ public abstract class GridDataPanel extends JPanel {
 				f.repaint();
 			}
 		});
-		panel.add(closeButton);
+		controlPanel.add(closeButton);
+		
+		titlePanel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) titlePanel.getLayout();
+		flowLayout.setHgap(20);
+		flowLayout.setVgap(10);
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		add(titlePanel, BorderLayout.NORTH);
+		
+		titleLabel = new JLabel("");
+		titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		titleLabel.setFont(new Font("Arial", titleLabel.getFont().getStyle() | Font.BOLD, 18));
+		titlePanel.add(titleLabel);
+		titleLabel.setText(title);
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 	}
@@ -77,4 +100,5 @@ public abstract class GridDataPanel extends JPanel {
 	public abstract ActionListener getRetrieveListener();
 	public abstract ActionListener getUpdateListener();
 	public abstract ActionListener getDeleteListener();
+	public abstract ActionListener getReloadListener();
 }

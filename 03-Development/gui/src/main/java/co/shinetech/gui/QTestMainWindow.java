@@ -51,6 +51,8 @@ public class QTestMainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		GUIUtils.setUIFont(new javax.swing.plaf.FontUIResource("Arial",Font.PLAIN,12));
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -149,7 +151,7 @@ public class QTestMainWindow {
 		frmQtest.getContentPane().add(topPanel, BorderLayout.NORTH);
 		topPanel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel qTestImageLabel = new JLabel("<html><body>Testing Software Platform<br>QTest version 1.0<br> &nbsp;</body></html>");
+		JLabel qTestImageLabel = new JLabel("<html><body>Plataforma para Actividades Educationais<br>QTest vers\u00E3o 1.0<br> &nbsp;</body></html>");
 		qTestImageLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		qTestImageLabel.setVerticalAlignment(SwingConstants.TOP);
 		qTestImageLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
