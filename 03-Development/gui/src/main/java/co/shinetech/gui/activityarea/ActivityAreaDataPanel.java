@@ -25,7 +25,6 @@ import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityAreaService;
-import co.shinetech.service.impl.ProfileService;
 
 /**
  * @author Rodrigo
@@ -35,15 +34,15 @@ import co.shinetech.service.impl.ProfileService;
 @SuppressWarnings("serial")
 public class ActivityAreaDataPanel extends GridDataPanel{
 	private JPanel mySelf;
+	private ActivityAreaService as = ServiceFactory.getService(ActivityAreaService.class);
 
 	public ActivityAreaDataPanel(DynamicTableModel tm) {
-		super(tm);
+		super(tm,"Catálogo de Áreas de Actividade");
 		mySelf = this;
 		loadData();
 	}
 	
 	private void loadData() {
-		ActivityAreaService as = ServiceFactory.getService(ActivityAreaService.class);
 		Thread t = new Thread(
 				new Runnable() {
 				@Override
@@ -149,16 +148,22 @@ public class ActivityAreaDataPanel extends GridDataPanel{
 				return;
 			}
 			ActivityArea p = (ActivityArea) tableModel.getData().get(table.getSelectedRow());
-			ProfileService ps = ServiceFactory.getService(ProfileService.class);
 			try {
 				int i = JOptionPane.showConfirmDialog(mySelf, "Quer mesmo apagar a Área de Actividade selecionada?", "Confirmação", JOptionPane.YES_NO_OPTION);
 				if (i == JOptionPane.YES_OPTION) {
-					ps.delete((int)p.getPk());
+					as.delete((int)p.getPk());
 					loadData();
 				}
 			}catch (PersistenceException e1) {
 				JOptionPane.showMessageDialog(mySelf, "Erro a remover dados da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 			}
+		};
+	}
+
+	@Override
+	public ActionListener getReloadListener() {
+		return e -> {
+			loadData();
 		};
 	}
 }
