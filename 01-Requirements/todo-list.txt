@@ -6,7 +6,7 @@
 6-Creation of Installer (NSIS)
 7-Version with SQL
 8-Finish Group CRUD - ok
-9-Finish Question CRUD
+9-Finish Question CRUD - RICARDO
 10-Finish Profile CRUD - ok
 11-Finish User CRUD - ok
 12-Create a new entity : Area for questions - ok
