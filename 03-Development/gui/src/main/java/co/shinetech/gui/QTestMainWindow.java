@@ -171,11 +171,10 @@ public class QTestMainWindow {
 		toolBar.add(classButton);
 		
 		JButton questionButton = new JButton("Quest\u00E3o");
-		questionButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		toolBar.add(questionButton);
+		toolBar.add(questionButton);		
+		questionButton.addActionListener(getQuestionTypeActionListener());
+		questionMenuItem.addActionListener(getQuestionTypeActionListener());
+	    toolBar.add(questionButton);
 		
 		JButton activityButton = new JButton("Atividade");
 		activityButton.addActionListener(getActivityActionListener());
@@ -293,7 +292,7 @@ public class QTestMainWindow {
 				
 				dtm.setTblTitle(new String[] {"Código","Tipo de Questão"});		// Table columns header		
 				dtm.setTblFields(new String[]{"pk","name"});
-				ActivityAreaDataPanel aadp = new ActivityAreaDataPanel(dtm);
+				ActivityAreaDataPanel aadp = new ActivityAreaDataPanel(dtm);    
 				setCurrentPanel(aadp);
 			}
 		};		
