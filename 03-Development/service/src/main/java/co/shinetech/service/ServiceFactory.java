@@ -6,6 +6,7 @@ package co.shinetech.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.shinetech.dto.QuestionType;
 import co.shinetech.service.impl.ActivityAreaService;
 import co.shinetech.service.impl.ActivityService;
 import co.shinetech.service.impl.GroupService;
@@ -26,7 +27,7 @@ public final class ServiceFactory {
 		serviceMap.put(UserService.class, new UserService());
 		serviceMap.put(ActivityService.class, new ActivityService());
 		serviceMap.put(ProfileService.class, new ProfileService());
-		serviceMap.put(ActivityAreaService.class, new ActivityAreaService());
+		serviceMap.put(ActivityAreaService.class, new ActivityAreaService());		
 	}
 	
 	private ServiceFactory() {}
