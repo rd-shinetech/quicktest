@@ -52,7 +52,6 @@ public class SerializerDB {
     public static String DB_PATH;
     
     static {
-    	
         try {
             try (InputStream fis = SerializerDB.class.getClassLoader().getResourceAsStream("qtest.properties")) {
                 Properties p = new Properties();

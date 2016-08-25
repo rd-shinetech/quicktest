@@ -5,12 +5,16 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.SplashScreen;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -40,18 +44,44 @@ import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.gui.user.UserDataPanel;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class QTestMainWindow {
 	private JFrame frmQtest;
 	private JPanel currentPanel;
 	private static JProgressBar progressBar = new JProgressBar();
-	private static JLabel processingLabel = new JLabel("Processing...");
+	private static JLabel processingLabel = new JLabel("A Processar...");
+	private static Properties sysProperties;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		GUIUtils.setUIFont(new javax.swing.plaf.FontUIResource("Arial",Font.PLAIN,12));
+		GUIUtils.setUIFont(new javax.swing.plaf.FontUIResource("Arial",Font.PLAIN,12));		
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				SplashScreen splash = SplashScreen.getSplashScreen();
+				
+				if( splash != null ) {
+					Graphics2D g2d = splash.createGraphics();
+					
+					for( int i = 0; i < 20; i++ ) {
+						if( i == 0 ) {
+							loadSysProperties();
+						}
+						GUIUtils.renderSplashFrame(g2d,i,sysProperties.getProperty("version", ""));
+						splash.update();
+						try {
+							Thread.sleep(400);
+						} catch (InterruptedException e) {
+						}
+					}
+					splash.close();
+				}				
+			}
+		});
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -59,7 +89,6 @@ public class QTestMainWindow {
 					QTestMainWindow window = new QTestMainWindow();
 					window.frmQtest.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 		});
@@ -81,7 +110,7 @@ public class QTestMainWindow {
 		} catch (Exception e1) {
 		}
 		frmQtest = new JFrame();
-		frmQtest.setTitle("QTest 1.0");
+		frmQtest.setTitle("QuickTest "+sysProperties.getProperty("version"));
 		frmQtest.setBounds(100, 100, 800, 600);
 		frmQtest.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -99,7 +128,7 @@ public class QTestMainWindow {
 		groupMenuItem.addActionListener(getQuestionTypeActionListener());
 		tableMenu.add(questionMenuItem);
 		
-		JMenuItem activityMenuItem = new JMenuItem("Atividade...");
+		JMenuItem activityMenuItem = new JMenuItem("Actividade...");
 		groupMenuItem.addActionListener(getActivityActionListener());
 		tableMenu.add(activityMenuItem);
 		
@@ -142,6 +171,16 @@ public class QTestMainWindow {
 		helpMenu.add(separator_1);
 		
 		JMenuItem mntmSobre = new JMenuItem("Sobre...");
+		mntmSobre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JDialog d = new JDialog();
+				
+				d.add(new AboutPanel(d,sysProperties.getProperty("version","")));
+				d.pack();
+				GUIUtils.centerOnParent(d, true);
+				d.setVisible(true);
+			}
+		});
 		helpMenu.add(mntmSobre);
 		frmQtest.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -151,7 +190,7 @@ public class QTestMainWindow {
 		frmQtest.getContentPane().add(topPanel, BorderLayout.NORTH);
 		topPanel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel qTestImageLabel = new JLabel("<html><body>Plataforma para Actividades Educationais<br>QTest vers\u00E3o 1.0<br> &nbsp;</body></html>");
+		JLabel qTestImageLabel = new JLabel("<html><body>Plataforma para Actividades Educationais<br><br> &nbsp;</body></html>");
 		qTestImageLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		qTestImageLabel.setVerticalAlignment(SwingConstants.TOP);
 		qTestImageLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
@@ -171,11 +210,10 @@ public class QTestMainWindow {
 		toolBar.add(classButton);
 		
 		JButton questionButton = new JButton("Quest\u00E3o");
-		questionButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		toolBar.add(questionButton);
+		toolBar.add(questionButton);		
+		questionButton.addActionListener(getQuestionTypeActionListener());
+		questionMenuItem.addActionListener(getQuestionTypeActionListener());
+	    toolBar.add(questionButton);
 		
 		JButton activityButton = new JButton("Atividade");
 		activityButton.addActionListener(getActivityActionListener());
@@ -293,7 +331,7 @@ public class QTestMainWindow {
 				
 				dtm.setTblTitle(new String[] {"Código","Tipo de Questão"});		// Table columns header		
 				dtm.setTblFields(new String[]{"pk","name"});
-				ActivityAreaDataPanel aadp = new ActivityAreaDataPanel(dtm);
+				ActivityAreaDataPanel aadp = new ActivityAreaDataPanel(dtm);    
 				setCurrentPanel(aadp);
 			}
 		};		
@@ -369,5 +407,24 @@ public class QTestMainWindow {
 		currentPanel = cdp;
 		frmQtest.getContentPane().add(cdp, BorderLayout.CENTER); // adding the new panel to the frame		
 		frmQtest.revalidate(); // invalidate the frame to paint again with new panel added.	
+	}
+	
+	private static void loadSysProperties() {
+		InputStream input = QTestMainWindow.class.getClassLoader().getResourceAsStream("qtest.properties");
+		
+		sysProperties = new Properties();
+		
+		if( QTestMainWindow.class.getPackage().getImplementationVersion() != null ) {
+			sysProperties.setProperty("version", QTestMainWindow.class.getPackage().getImplementationVersion());
+		}
+		if (input == null) {
+			return;
+		}
+
+		// load a properties file from class path, inside static method
+		try {
+			sysProperties.load(input);
+		} catch (IOException e) {
+		}
 	}
 }

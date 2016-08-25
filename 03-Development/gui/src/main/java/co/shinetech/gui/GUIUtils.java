@@ -3,7 +3,10 @@
  */
 package co.shinetech.gui;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -58,5 +61,15 @@ public final class GUIUtils {
 				UIManager.put(key, f);				
 			}
 		}
+	}
+	
+	static void renderSplashFrame(Graphics2D g, int frame, String version) {
+		final String[] comps = { "A carregar o aplicativo...","Aguarde..."};
+		g.setComposite(AlphaComposite.Clear);
+		g.fillRect(120, 230, 200, 40);
+		g.setPaintMode();
+		g.setColor(Color.BLACK);
+		g.drawString(comps[(frame / 5) % 2], 120, 240);
+		g.drawString(version, 10, 250);
 	}
 }

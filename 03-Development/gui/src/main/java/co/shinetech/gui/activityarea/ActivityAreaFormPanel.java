@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.ActivityArea;
@@ -24,7 +25,6 @@ import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityAreaService;
 import co.shinetech.service.impl.ProfileService;
-import javax.swing.border.TitledBorder;
 
 /**
  * Form gui for activity area.
