@@ -47,6 +47,7 @@ public class SerializerDB {
     public static final String TABLE_ID_CONTROL = "Id_Control";
     public static final String TABLE_GROUP = "Group";
     public static final String TABLE_ACTIVITY_AREA = "Activity_Area";
+    public static final String TABLE_QUESTION = "Question";
     
     public static final String TABLE_EXTENSION  = "qtest.db";
     public static String DB_PATH;
