@@ -92,6 +92,7 @@ public class QTestMainWindow {
 					QTestMainWindow window = new QTestMainWindow();
 					window.frmQtest.setVisible(true);
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});

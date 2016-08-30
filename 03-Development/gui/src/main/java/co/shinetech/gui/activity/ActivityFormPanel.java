@@ -38,6 +38,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * GUI class for Activity entity.
@@ -107,9 +108,9 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		JPanel supportPanel = new JPanel();
 		mainPanel.add(supportPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_supportPanel = new GridBagLayout();
-		gbl_supportPanel.columnWidths = new int[]{614, 0};
+		gbl_supportPanel.columnWidths = new int[]{614, 0, 0};
 		gbl_supportPanel.rowHeights = new int[]{216, 216, 0};
-		gbl_supportPanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_supportPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_supportPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		supportPanel.setLayout(gbl_supportPanel);
 		
@@ -118,7 +119,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_dataPanel.weighty = 1.0;
 		gbc_dataPanel.weightx = 1.0;
 		gbc_dataPanel.fill = GridBagConstraints.BOTH;
-		gbc_dataPanel.insets = new Insets(0, 0, 5, 0);
+		gbc_dataPanel.insets = new Insets(0, 0, 5, 5);
 		gbc_dataPanel.gridx = 0;
 		gbc_dataPanel.gridy = 0;
 		supportPanel.add(dataPanel, gbc_dataPanel);
@@ -274,6 +275,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		JPanel questionsPanel = new JPanel();
 		questionsPanel.setBorder(new TitledBorder(null, "Quest\u00F5es da Actividade", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_questionsPanel = new GridBagConstraints();
+		gbc_questionsPanel.insets = new Insets(0, 0, 0, 5);
 		gbc_questionsPanel.weighty = 1.0;
 		gbc_questionsPanel.weightx = 1.0;
 		gbc_questionsPanel.fill = GridBagConstraints.BOTH;
@@ -286,6 +288,18 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		questionsPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column"
+			}
+		));
 		scrollPane.setViewportView(table);
 		
 		JPanel panel = new JPanel();
