@@ -13,16 +13,13 @@ public class Question implements Domain {
 	private long id;
 	private String question;
 	private String answer;
+	private QuestionType type;
+	private ActivityArea activityArea;
 	
 	public Question(long id) {
 		this.id = id;
 	}
 	
-	public Question(long id, String question, String answer) {
-		this.id = id;
-		this.question = question;
-		this.answer = answer;
-	}
 	// getters and setters
 	public long getPk() {
 		return id;
@@ -49,8 +46,37 @@ public class Question implements Domain {
 	}
 
 	public void setAnswer(String answer) {
-		this.answer = answer;
+		this.answer = answer;		
 	}
+	
+	/**
+	 * @return the type
+	 */
+	public QuestionType getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(QuestionType type) {
+		this.type = type;
+	}
+
+	/**
+	 * @return the activityArea
+	 */
+	public ActivityArea getActivityArea() {
+		return activityArea;
+	}
+
+	/**
+	 * @param activityArea the activityArea to set
+	 */
+	public void setActivityArea(ActivityArea activityArea) {
+		this.activityArea = activityArea;
+	}
+
 	// hashCode
 	@Override
 	public int hashCode() {
