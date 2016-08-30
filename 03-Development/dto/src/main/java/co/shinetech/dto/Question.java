@@ -100,8 +100,10 @@ public class Question implements Domain {
 		return true;
 	}
 	// toString
+
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", question=" + question + ", answer=" + answer + "]";
-	}	
+		return "Question [id=" + id + ", question=" + question + ", answer=" + answer + ", type=" + type
+				+ ", activityArea=" + activityArea + "]";
+	}
 }

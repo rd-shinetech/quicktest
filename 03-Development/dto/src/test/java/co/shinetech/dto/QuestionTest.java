@@ -15,17 +15,21 @@ import org.junit.Test;
 public class QuestionTest {
 	@Test
 	public void TestQuestion() {
-		Profile prf = new Profile(1L, "Teste");
-		assertNotNull(prf);
+		Question qst = new Question(1L);
+		assertNotNull(qst);
 	}
+	
 	@Test
 	public void testEqualAndHashCode() {
-		Profile prf1 = new Profile(1L, "Teste");
-		Profile prf2 = new Profile(1L, "Teste");
-		assertEquals(prf1, prf2);
-		assertEquals(prf1.hashCode(), prf2.hashCode());
-		assertEquals(prf1.toString(), prf2.toString());
-		System.out.println(prf1.toString());
-		System.out.println(prf2.toString());
+		Question qst1 = new Question(1L);
+		Question qst2 = new Question(1L);
+		assertEquals(qst1, qst2);
+		assertEquals(qst1, qst1);
+		assertEquals(qst1.hashCode(), qst2.hashCode());
+		assertEquals(qst1.toString(), qst1.toString());
+		qst1.setAnswer("answer");
+		assertEquals(qst1.getAnswer(), "answer");
+		System.out.println(qst1.toString());
+		System.out.println(qst1.toString());
 	}
 }
