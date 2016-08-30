@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
@@ -44,6 +45,8 @@ import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.gui.user.UserDataPanel;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -112,8 +115,17 @@ public class QTestMainWindow {
 		frmQtest = new JFrame();
 		frmQtest.setTitle("QuickTest "+sysProperties.getProperty("version"));
 		frmQtest.setBounds(100, 100, 800, 600);
-		frmQtest.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmQtest.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
+		frmQtest.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);
+				if( exitConfirmation() == 0 ) {
+					System.exit(0);
+				}
+			}
+		});
 		JMenuBar menuBar = new JMenuBar();
 		frmQtest.setJMenuBar(menuBar);
 		
@@ -140,6 +152,7 @@ public class QTestMainWindow {
 		tableMenu.add(separator);
 		
 		JMenuItem exitMenuItem = new JMenuItem("Sa\u00EDda");
+		exitMenuItem.addActionListener(getExitActionListener());
 		tableMenu.add(exitMenuItem);
 		
 		JMenu runMenu = new JMenu("Teste");
@@ -175,7 +188,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				JDialog d = new JDialog();
 				
-				d.add(new AboutPanel(d,sysProperties.getProperty("version","")));
+				d.getContentPane().add(new AboutPanel(d,sysProperties.getProperty("version","")));
 				d.pack();
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
@@ -329,7 +342,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(QuestionType.class);
 				
-				dtm.setTblTitle(new String[] {"Código","Tipo de Questão"});		// Table columns header		
+				dtm.setTblTitle(new String[] {"Código","Tipo"});		// Table columns header		
 				dtm.setTblFields(new String[]{"pk","name"});
 				ActivityAreaDataPanel aadp = new ActivityAreaDataPanel(dtm);    
 				setCurrentPanel(aadp);
@@ -342,7 +355,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(ActivityArea.class);
 				
-				dtm.setTblTitle(new String[] {"Código","Nome da Área"});		// Table columns header		
+				dtm.setTblTitle(new String[] {"Código","Nome"});		// Table columns header		
 				dtm.setTblFields(new String[]{"pk","name"});
 				ActivityAreaDataPanel aadp = new ActivityAreaDataPanel(dtm);
 				setCurrentPanel(aadp);
@@ -355,7 +368,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(User.class);
 				
-				dtm.setTblTitle(new String[] {"ID", "Login", "Profile"});
+				dtm.setTblTitle(new String[] {"ID", "Login", "Perfil"});
 				dtm.setTblFields(new String[] {"pk", "login","profile"});
 				UserDataPanel udp = new UserDataPanel(dtm);
 				setCurrentPanel(udp);
@@ -368,7 +381,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Profile.class);
 				
-				dtm.setTblTitle(new String[] {"ID", "Name"});
+				dtm.setTblTitle(new String[] {"ID", "Nome"});
 				dtm.setTblFields(new String[] {"pk", "name"});
 				ProfileDataPanel pdp = new ProfileDataPanel(dtm);
 				if (currentPanel != null)
@@ -385,7 +398,7 @@ public class QTestMainWindow {
 			public void actionPerformed(ActionEvent e) {
 				DynamicTableModel dtm = new DynamicTableModel(Activity.class);
 				
-				dtm.setTblTitle(new String[] {"ID", "Name", "StartTime", "EndTime", "Teacher", "ActivityType", "Group"});
+				dtm.setTblTitle(new String[] {"ID", "Nome", "Hora Inicial", "Hora Final", "Professor", "Tipo", "Grupo Execução"});
 				dtm.setTblFields(new String[] {"pk", "name", "startTime", "endTime", "teacher", "activityType", "group"});
 				ActivityDataPanel adp = new ActivityDataPanel(dtm);
 				if (currentPanel != null)
@@ -393,6 +406,17 @@ public class QTestMainWindow {
 				currentPanel = adp;
 				frmQtest.getContentPane().add(adp, BorderLayout.CENTER);
 				frmQtest.revalidate();				
+			}
+		};
+	}
+	
+	private ActionListener getExitActionListener() {
+		return new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if( exitConfirmation() == 0 ) {
+					System.exit(0);
+				}
 			}
 		};
 	}
@@ -426,5 +450,10 @@ public class QTestMainWindow {
 			sysProperties.load(input);
 		} catch (IOException e) {
 		}
+	}
+	
+	private int exitConfirmation() {
+		Object[] options = { "Sim", "Não" }; 
+        return JOptionPane.showOptionDialog(frmQtest, "Deseja mesmo sair da aplicação?","Confirmação", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);		
 	}
 }

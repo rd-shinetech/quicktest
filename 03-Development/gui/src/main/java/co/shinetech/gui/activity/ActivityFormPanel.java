@@ -35,6 +35,9 @@ import co.shinetech.service.impl.UserService;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.GridLayout;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 /**
  * GUI class for Activity entity.
@@ -43,7 +46,7 @@ import java.awt.Color;
  */
 @SuppressWarnings("serial")
 public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> {
-	private JTextField nameTextField_1;
+	private JTextField nameTextField;
 	private JTextField startDayTextField;
 	private JTextField endTimeTextField;
 	private JTextField startTimeTextField;
@@ -53,6 +56,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 	private JComboBox<User> teacherComboBox;
 	private JComboBox<ActivityType> activityTypeComboBox;
 	private JComboBox<Group> groupComboBox;
+	private JTable table;
 	
 	/**
 	 * Create the panel.
@@ -63,19 +67,68 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		
 		setLayout(new BorderLayout(0, 0));
 		this.parent = parent;		
-		JPanel panel_1 = new JPanel();
-		add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		JPanel mainPanel = new JPanel();
+		add(mainPanel, BorderLayout.CENTER);
+		mainPanel.setLayout(new BorderLayout(0, 0));
+		DefaultComboBoxModel<User> dcbml = new DefaultComboBoxModel<User>();
+		try {
+			us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(o -> dcbml.addElement(o));
+		} catch (PersistenceException e2) {
+			e2.printStackTrace();
+		}
+		DefaultComboBoxModel<ActivityType> cbm = new DefaultComboBoxModel<ActivityType>();
+		Arrays.asList(ActivityType.values()).forEach(o -> cbm.addElement(o));
+		DefaultComboBoxModel<Group> dcbm = new DefaultComboBoxModel<Group>();
+		try {
+			gs.retrieveAll().forEach(o -> dcbm.addElement(o));
+		} catch (PersistenceException e1) {
+			JOptionPane.showMessageDialog(parent, "Erro a carregar dados da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
+		}
+			
+		JPanel controlPanel = new JPanel();
+		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		mainPanel.add(controlPanel, BorderLayout.SOUTH);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Atividades", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.add(panel, BorderLayout.CENTER);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{79, 192, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		controlPanel.add(okButton);
+		
+		JButton cancelButton = new JButton("Cancelar");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parent.dispose();
+			}
+		});
+		controlPanel.add(cancelButton);
+		
+		JPanel supportPanel = new JPanel();
+		mainPanel.add(supportPanel, BorderLayout.CENTER);
+		GridBagLayout gbl_supportPanel = new GridBagLayout();
+		gbl_supportPanel.columnWidths = new int[]{614, 0};
+		gbl_supportPanel.rowHeights = new int[]{216, 216, 0};
+		gbl_supportPanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_supportPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		supportPanel.setLayout(gbl_supportPanel);
+		
+		JPanel dataPanel = new JPanel();
+		GridBagConstraints gbc_dataPanel = new GridBagConstraints();
+		gbc_dataPanel.weighty = 1.0;
+		gbc_dataPanel.weightx = 1.0;
+		gbc_dataPanel.fill = GridBagConstraints.BOTH;
+		gbc_dataPanel.insets = new Insets(0, 0, 5, 0);
+		gbc_dataPanel.gridx = 0;
+		gbc_dataPanel.gridy = 0;
+		supportPanel.add(dataPanel, gbc_dataPanel);
+		dataPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Actividade", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		GridBagLayout gbl_dataPanel = new GridBagLayout();
+		gbl_dataPanel.columnWidths = new int[]{79, 192, 0, 0};
+		gbl_dataPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_dataPanel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_dataPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		dataPanel.setLayout(gbl_dataPanel);
 		
 		JLabel lblName = new JLabel("Name:");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
@@ -83,16 +136,16 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblName.gridx = 0;
 		gbc_lblName.gridy = 1;
-		panel.add(lblName, gbc_lblName);
+		dataPanel.add(lblName, gbc_lblName);
 		
-		nameTextField_1 = new JTextField();
-		GridBagConstraints gbc_nameTextField_1 = new GridBagConstraints();
-		gbc_nameTextField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_nameTextField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_nameTextField_1.gridx = 1;
-		gbc_nameTextField_1.gridy = 1;
-		panel.add(nameTextField_1, gbc_nameTextField_1);
-		nameTextField_1.setColumns(10);
+		nameTextField = new JTextField();
+		GridBagConstraints gbc_nameTextField = new GridBagConstraints();
+		gbc_nameTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_nameTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nameTextField.gridx = 1;
+		gbc_nameTextField.gridy = 1;
+		dataPanel.add(nameTextField, gbc_nameTextField);
+		nameTextField.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Start Day:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -100,7 +153,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 2;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
+		dataPanel.add(lblNewLabel, gbc_lblNewLabel);
 		
 		startDayTextField = new JTextField();
 		startDayTextField.setMinimumSize(new Dimension(100, 20));
@@ -109,7 +162,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_startDayTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_startDayTextField.gridx = 1;
 		gbc_startDayTextField.gridy = 2;
-		panel.add(startDayTextField, gbc_startDayTextField);
+		dataPanel.add(startDayTextField, gbc_startDayTextField);
 		startDayTextField.setColumns(10);
 		
 		JLabel lblStarttime = new JLabel("Start Time:");
@@ -118,7 +171,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblStarttime.insets = new Insets(0, 0, 5, 5);
 		gbc_lblStarttime.gridx = 0;
 		gbc_lblStarttime.gridy = 3;
-		panel.add(lblStarttime, gbc_lblStarttime);
+		dataPanel.add(lblStarttime, gbc_lblStarttime);
 		
 		startTimeTextField = new JTextField();
 		startTimeTextField.setMinimumSize(new Dimension(100, 20));
@@ -127,7 +180,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_startTimeTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_startTimeTextField.gridx = 1;
 		gbc_startTimeTextField.gridy = 3;
-		panel.add(startTimeTextField, gbc_startTimeTextField);
+		dataPanel.add(startTimeTextField, gbc_startTimeTextField);
 		startTimeTextField.setColumns(10);
 		
 		JLabel lblEndday = new JLabel("End Day:");
@@ -136,7 +189,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblEndday.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEndday.gridx = 0;
 		gbc_lblEndday.gridy = 4;
-		panel.add(lblEndday, gbc_lblEndday);
+		dataPanel.add(lblEndday, gbc_lblEndday);
 		
 		endDayTextField = new JTextField();
 		endDayTextField.setMinimumSize(new Dimension(100, 20));
@@ -145,7 +198,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_endDAyTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_endDAyTextField.gridx = 1;
 		gbc_endDAyTextField.gridy = 4;
-		panel.add(endDayTextField, gbc_endDAyTextField);
+		dataPanel.add(endDayTextField, gbc_endDAyTextField);
 		endDayTextField.setColumns(10);
 		
 		JLabel lblEndtime = new JLabel("End Time:");
@@ -154,7 +207,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblEndtime.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEndtime.gridx = 0;
 		gbc_lblEndtime.gridy = 5;
-		panel.add(lblEndtime, gbc_lblEndtime);
+		dataPanel.add(lblEndtime, gbc_lblEndtime);
 		
 		endTimeTextField = new JTextField();
 		endTimeTextField.setMinimumSize(new Dimension(100, 20));
@@ -163,7 +216,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_endTimeTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_endTimeTextField.gridx = 1;
 		gbc_endTimeTextField.gridy = 5;
-		panel.add(endTimeTextField, gbc_endTimeTextField);
+		dataPanel.add(endTimeTextField, gbc_endTimeTextField);
 		endTimeTextField.setColumns(10);
 		
 		JLabel lblTeacher = new JLabel("Teacher:");
@@ -172,7 +225,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblTeacher.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTeacher.gridx = 0;
 		gbc_lblTeacher.gridy = 6;
-		panel.add(lblTeacher, gbc_lblTeacher);
+		dataPanel.add(lblTeacher, gbc_lblTeacher);
 		
 		teacherComboBox = new JComboBox<User>();
 		teacherComboBox.setMinimumSize(new Dimension(100, 20));
@@ -181,13 +234,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_teacherComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_teacherComboBox.gridx = 1;
 		gbc_teacherComboBox.gridy = 6;
-		panel.add(teacherComboBox, gbc_teacherComboBox);
-		DefaultComboBoxModel<User> dcbml = new DefaultComboBoxModel<User>();
-		try {
-			us.retrieveAll().stream().filter(o-> o.getProfile().getName().equals("Professor")).forEach(o -> dcbml.addElement(o));
-		} catch (PersistenceException e2) {
-			e2.printStackTrace();
-		}
+		dataPanel.add(teacherComboBox, gbc_teacherComboBox);
 		teacherComboBox.setModel(dcbml);
 		
 		JLabel lblActivitytype = new JLabel("Activity Type:");
@@ -196,7 +243,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblActivitytype.insets = new Insets(0, 0, 5, 5);
 		gbc_lblActivitytype.gridx = 0;
 		gbc_lblActivitytype.gridy = 7;
-		panel.add(lblActivitytype, gbc_lblActivitytype);
+		dataPanel.add(lblActivitytype, gbc_lblActivitytype);
 		
 		activityTypeComboBox = new JComboBox<ActivityType>();
 		GridBagConstraints gbc_activityTypeComboBox = new GridBagConstraints();
@@ -204,9 +251,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_activityTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_activityTypeComboBox.gridx = 1;
 		gbc_activityTypeComboBox.gridy = 7;
-		panel.add(activityTypeComboBox, gbc_activityTypeComboBox);
-		DefaultComboBoxModel<ActivityType> cbm = new DefaultComboBoxModel<ActivityType>();
-		Arrays.asList(ActivityType.values()).forEach(o -> cbm.addElement(o));
+		dataPanel.add(activityTypeComboBox, gbc_activityTypeComboBox);
 		activityTypeComboBox.setModel(cbm);
 		
 		JLabel lblGroup = new JLabel("Group:");
@@ -215,7 +260,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblGroup.insets = new Insets(0, 0, 0, 5);
 		gbc_lblGroup.gridx = 0;
 		gbc_lblGroup.gridy = 8;
-		panel.add(lblGroup, gbc_lblGroup);
+		dataPanel.add(lblGroup, gbc_lblGroup);
 		
 		groupComboBox = new JComboBox<Group>();
 		GridBagConstraints gbc_groupComboBox = new GridBagConstraints();
@@ -223,33 +268,28 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_groupComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_groupComboBox.gridx = 1;
 		gbc_groupComboBox.gridy = 8;
-		panel.add(groupComboBox, gbc_groupComboBox);
-		DefaultComboBoxModel<Group> dcbm = new DefaultComboBoxModel<Group>();
-		try {
-			gs.retrieveAll().forEach(o -> dcbm.addElement(o));
-		} catch (PersistenceException e1) {
-			JOptionPane.showMessageDialog(parent, "Erro a carregar dados da base de dados.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
-		}
+		dataPanel.add(groupComboBox, gbc_groupComboBox);
 		groupComboBox.setModel(dcbm);
-			
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.add(panel_2, BorderLayout.SOUTH);
 		
-		JButton okButton = new JButton("OK");
-		okButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		panel_2.add(okButton);
+		JPanel questionsPanel = new JPanel();
+		questionsPanel.setBorder(new TitledBorder(null, "Quest\u00F5es da Actividade", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_questionsPanel = new GridBagConstraints();
+		gbc_questionsPanel.weighty = 1.0;
+		gbc_questionsPanel.weightx = 1.0;
+		gbc_questionsPanel.fill = GridBagConstraints.BOTH;
+		gbc_questionsPanel.gridx = 0;
+		gbc_questionsPanel.gridy = 1;
+		supportPanel.add(questionsPanel, gbc_questionsPanel);
+		questionsPanel.setLayout(new BorderLayout(0, 0));
 		
-		JButton cancelButton = new JButton("Cancelar");
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				parent.dispose();
-			}
-		});
-		panel_2.add(cancelButton);
+		JScrollPane scrollPane = new JScrollPane();
+		questionsPanel.add(scrollPane, BorderLayout.CENTER);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		JPanel panel = new JPanel();
+		questionsPanel.add(panel, BorderLayout.NORTH);
 
 	}
 	public void setDomainModel(Activity domainData) {
@@ -257,7 +297,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		String s;
 		
 		this.activity = domainData;
-		nameTextField_1.setText(this.activity.getName());
+		nameTextField.setText(this.activity.getName());
 		s = dtf.format(this.activity.getStartTime());
 		startDayTextField.setText(s.substring(0, 10));
 		startTimeTextField.setText(s.substring(10, 18));
@@ -273,7 +313,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 			if( this.activity == null ) {
 				this.activity = new Activity(as.nextId()) ;  
 			}
-			this.activity.setName(nameTextField_1.getText());
+			this.activity.setName(nameTextField.getText());
 			this.activity.setStartTime(LocalDateTime.parse(startDayTextField.getText()+startTimeTextField,dtf));
 			this.activity.setEndTime(LocalDateTime.parse(endDayTextField.getText()+endTimeTextField, dtf));
 			this.activity.setTeacher((User)teacherComboBox.getSelectedItem());			
