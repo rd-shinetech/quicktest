@@ -21,6 +21,7 @@ import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Domain;
 import co.shinetech.dto.Group;
 import co.shinetech.dto.Profile;
+import co.shinetech.dto.Question;
 import co.shinetech.dto.User;
 
 /**
@@ -36,6 +37,7 @@ public class SerializerDB {
     private final static HashMap<Long,User> userData;
     private final static HashMap<String,Long> idControlMapData;
     private final static HashMap<Long, Group> groupData;
+    private final static HashMap<Long,Question> questionData;
     
     // Table Storage
     private static final HashMap<String,HashMap> tablesMap;
@@ -72,6 +74,8 @@ public class SerializerDB {
         userData = new HashMap<>();
         idControlMapData = new HashMap<>();
         groupData = new HashMap<>();
+        questionData = new HashMap<>();
+
         tablesMap = new HashMap<>();
         // Fill ID control table starting with zeros
         idControlMapData.put(TABLE_ACTIVITY,0L);
@@ -79,13 +83,15 @@ public class SerializerDB {
         idControlMapData.put(TABLE_USER, 0L);
         idControlMapData.put(TABLE_GROUP, 0L);
         idControlMapData.put(TABLE_ACTIVITY_AREA, 0L);
+        idControlMapData.put(TABLE_QUESTION, 0L);
         
-        tablesMap.put(TABLE_ACTIVITY, activityData);
         tablesMap.put(TABLE_ID_CONTROL,idControlMapData);
+        tablesMap.put(TABLE_ACTIVITY, activityData);
         tablesMap.put(TABLE_PROFILE, profileData);
         tablesMap.put(TABLE_USER, userData);
         tablesMap.put(TABLE_GROUP, groupData);
         tablesMap.put(TABLE_ACTIVITY_AREA, activityAreaData);
+        tablesMap.put(TABLE_QUESTION, questionData);
         load();
     }
 

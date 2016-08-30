@@ -12,6 +12,7 @@ import co.shinetech.dao.impl.ActivityAreaDAOImp;
 import co.shinetech.dao.impl.ActivityDAOImp;
 import co.shinetech.dao.impl.GroupDAOImp;
 import co.shinetech.dao.impl.ProfileDAOImp;
+import co.shinetech.dao.impl.QuestionDAOImp;
 import co.shinetech.dao.impl.UserDAOImp;
 
 /**
@@ -28,6 +29,7 @@ public class SerializerDBProviderFactory implements PersistenceProvider {
 		tableMap.put(PersistenceProvider.TABLE_GROUP, new GroupDAOImp());
 		tableMap.put(PersistenceProvider.TABLE_PROFILE, new ProfileDAOImp());
 		tableMap.put(PersistenceProvider.TABLE_ACTIVITY_AREA, new ActivityAreaDAOImp());
+		tableMap.put(PersistenceProvider.TABLE_QUESTION, new QuestionDAOImp());
 	}
 
 	@Override
