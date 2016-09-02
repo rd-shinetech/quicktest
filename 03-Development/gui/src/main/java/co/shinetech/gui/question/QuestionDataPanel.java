@@ -31,6 +31,7 @@ import co.shinetech.service.impl.QuestionService;
  * @author Ricardo
  * @since 2016-08
  */
+@SuppressWarnings("serial")
 public class QuestionDataPanel extends GridDataPanel {
 	private JPanel mySelf;
 	private QuestionService qs = ServiceFactory.getService(QuestionService.class);
@@ -83,6 +84,7 @@ public class QuestionDataPanel extends GridDataPanel {
 	@Override
 	public ActionListener getRetrieveListener() {
 		return new ActionListener() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
@@ -114,29 +116,7 @@ public class QuestionDataPanel extends GridDataPanel {
 					table.repaint();						
 				}
 			}
-		};
-		
-		@Override
-		public ActionListener getUpdateListener() {
-			return new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
-					JDialog d = new JDialog(f,"Editar Questão");
-					QuestionFormPanel qfp;
-
-					d.setModal(true);
-					d.setResizable(false);
-					d.add(qfp = new QuestionFormPanel(d));
-					d.pack(); // redimension the JDialog to the JPanel size				
-					Question q = (Question) tableModel.getData().get(table.getSelectedRow());				
-					qfp.setDomainModel(q);
-					GUIUtils.centerOnParent(d, true);
-					d.setVisible(true);
-					loadData();
-				}
-			};		
-		}
+		};	
 	}
 	@Override
 	public ActionListener getDeleteListener() {
@@ -162,6 +142,27 @@ public class QuestionDataPanel extends GridDataPanel {
 	public ActionListener getReloadListener() {
 		return e -> {
 			loadData();
+		};
+	}
+
+	@Override
+	public ActionListener getUpdateListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
+				JDialog d = new JDialog(f,"Editar Questão");
+				QuestionFormPanel qfp;
+				d.setModal(true);
+				d.setResizable(false);
+				d.add(qfp = new QuestionFormPanel());
+				d.pack(); // redimension the JDialog to the JPanel size				
+				Question q = (Question) tableModel.getData().get(table.getSelectedRow());				
+				qfp.setDomainModel(q);
+				GUIUtils.centerOnParent(d, true);
+				d.setVisible(true);
+				loadData();
+			}
 		};
 	}
 } 
