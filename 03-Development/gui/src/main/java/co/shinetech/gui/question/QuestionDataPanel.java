@@ -152,13 +152,13 @@ public class QuestionDataPanel extends GridDataPanel {
 			public void actionPerformed(ActionEvent e) {
 				JFrame f = (JFrame) SwingUtilities.getWindowAncestor(mySelf);
 				JDialog d = new JDialog(f,"Editar Questão");
-				QuestionFormPanel qfp;
+				//QuestionFormPanel qfp;
 				d.setModal(true);
 				d.setResizable(false);
-				d.add(qfp = new QuestionFormPanel());
+				//d.add(qfp = new QuestionFormPanel());
 				d.pack(); // redimension the JDialog to the JPanel size				
 				Question q = (Question) tableModel.getData().get(table.getSelectedRow());				
-				qfp.setDomainModel(q);
+				//qfp.setDomainModel(q);
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
 				loadData();

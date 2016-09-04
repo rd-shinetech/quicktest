@@ -37,6 +37,7 @@ public abstract class GridDataPanel extends JPanel {
 		mySelf = this;
 		table = new JTable();
 		table.setModel(tm);
+		table.setDefaultRenderer(Object.class, new ZebraTableCellRenderer());
 		this.tableModel = tm;
 
 		setLayout(new BorderLayout(0, 0));
@@ -91,10 +92,10 @@ public abstract class GridDataPanel extends JPanel {
 		titleLabel.setFont(new Font("Arial", titleLabel.getFont().getStyle() | Font.BOLD, 18));
 		titlePanel.add(titleLabel);
 		titleLabel.setText(title);
-		
+				
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 	}
-		
+			
 	/** Abstract methods to be implemented by child classes **/
 	public abstract ActionListener getCreateListener();
 	public abstract ActionListener getRetrieveListener();

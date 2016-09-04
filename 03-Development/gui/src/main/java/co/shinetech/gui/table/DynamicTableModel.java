@@ -116,8 +116,9 @@ public class DynamicTableModel extends AbstractTableModel {
         if( tblData.get(r) != null ) {
             tblData.set(r,dm);
         }
-        else
+        else { 
             tblData.set(r, "");
+        }
     }
 	
     /* (non-Javadoc)
