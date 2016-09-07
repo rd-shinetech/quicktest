@@ -76,7 +76,7 @@ public class GroupDataPanel extends GridDataPanel {
 				d.setModal(true);
 				d.setResizable(false);
 				d.add(new GroupPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
+				d.pack(); // redimension the JDialog to the JPanel size
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
 				loadData();
@@ -138,7 +138,7 @@ public class GroupDataPanel extends GridDataPanel {
 				d.setModal(true);
 				d.setResizable(false);
 				d.add(gp = new GroupPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
+				d.pack(); // redimension the JDialog to the JPanel size
 				
 				Group g = (Group) tableModel.getData().get(table.getSelectedRow());
 				

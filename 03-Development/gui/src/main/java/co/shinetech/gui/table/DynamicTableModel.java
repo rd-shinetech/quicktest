@@ -262,7 +262,7 @@ public class DynamicTableModel extends AbstractTableModel {
     
     @Override
     public boolean isCellEditable(int row, int col){
-        boolean r = false;
+        boolean r;
 
         if( editableRows == null )
             r = ( editable == null ? false : editable[col] );

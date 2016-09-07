@@ -2,6 +2,7 @@ package co.shinetech.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -9,6 +10,11 @@ import java.awt.Graphics2D;
 import java.awt.SplashScreen;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
@@ -38,17 +44,12 @@ import co.shinetech.dto.QuestionType;
 import co.shinetech.dto.User;
 import co.shinetech.gui.activity.ActivityDataPanel;
 import co.shinetech.gui.activityarea.ActivityAreaDataPanel;
+import co.shinetech.gui.auth.AuthPanel;
 import co.shinetech.gui.group.GroupDataPanel;
 import co.shinetech.gui.profile.ProfileDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.gui.user.UserDataPanel;
-import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class QTestMainWindow {
 	private JFrame frmQtest;
@@ -85,14 +86,30 @@ public class QTestMainWindow {
 				}				
 			}
 		});
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					QTestMainWindow window = new QTestMainWindow();
-					window.frmQtest.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+				JDialog d = new JDialog();
+				d.setTitle("Autenticação de Utilizador");
+				AuthPanel authPanel = new AuthPanel(d);
+				
+				d.setModal(true);
+				d.setResizable(false);
+				d.add(authPanel);
+				d.pack(); 
+				GUIUtils.centerOnParent(d, true);
+				d.setVisible(true);
+		
+				if( ! authPanel.isCancelled() ) {
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								QTestMainWindow window = new QTestMainWindow();
+								window.frmQtest.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
 				}
 			}
 		});
