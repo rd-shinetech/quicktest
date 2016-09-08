@@ -11,10 +11,10 @@ package co.shinetech.dto;
 @SuppressWarnings("serial")
 public class Question implements Domain {
 	private long id;
-	private String question;
-	private String answer;
 	private QuestionType type;
 	private ActivityArea activityArea;
+	private String question;
+	private String answer;
 	
 	public Question(long id) {
 		this.id = id;

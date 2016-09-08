@@ -40,6 +40,7 @@ import co.shinetech.dto.Activity;
 import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Group;
 import co.shinetech.dto.Profile;
+import co.shinetech.dto.Question;
 import co.shinetech.dto.QuestionType;
 import co.shinetech.dto.User;
 import co.shinetech.gui.activity.ActivityDataPanel;
@@ -47,6 +48,7 @@ import co.shinetech.gui.activityarea.ActivityAreaDataPanel;
 import co.shinetech.gui.auth.AuthPanel;
 import co.shinetech.gui.group.GroupDataPanel;
 import co.shinetech.gui.profile.ProfileDataPanel;
+import co.shinetech.gui.question.QuestionDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.gui.user.UserDataPanel;
@@ -155,7 +157,6 @@ public class QTestMainWindow {
 		tableMenu.add(groupMenuItem);
 		
 		JMenuItem questionMenuItem = new JMenuItem("Quest\u00E3o...");
-		groupMenuItem.addActionListener(getQuestionTypeActionListener());
 		tableMenu.add(questionMenuItem);
 		
 		JMenuItem activityMenuItem = new JMenuItem("Actividade...");
@@ -242,8 +243,8 @@ public class QTestMainWindow {
 		
 		JButton questionButton = new JButton("Quest\u00E3o");
 		toolBar.add(questionButton);		
-		questionButton.addActionListener(getQuestionTypeActionListener());
-		questionMenuItem.addActionListener(getQuestionTypeActionListener());
+		questionButton.addActionListener(getQuestionActionListener());
+		questionMenuItem.addActionListener(getQuestionActionListener());
 	    toolBar.add(questionButton);
 		
 		JButton activityButton = new JButton("Atividade");
@@ -355,19 +356,19 @@ public class QTestMainWindow {
 		};
 	}
 	
-	private ActionListener getQuestionTypeActionListener() {
+	private ActionListener getQuestionActionListener() {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DynamicTableModel dtm = new DynamicTableModel(QuestionType.class);
+				DynamicTableModel dtm = new DynamicTableModel(Question.class);
 				
-				dtm.setTblTitle(new String[] {"Código","Tipo"});		// Table columns header		
-				dtm.setTblFields(new String[]{"pk","name"});
-				ActivityAreaDataPanel aadp = new ActivityAreaDataPanel(dtm);    
+				dtm.setTblTitle(new String[] {"Código","Tipo","Tema","Questão","Resposta"});		// Table columns header		
+				dtm.setTblFields(new String[]{"pk","type","activityArea","question","answer"});
+				QuestionDataPanel aadp = new QuestionDataPanel(dtm);    
 				setCurrentPanel(aadp);
 			}
 		};		
 	} 
-	
+
 	private ActionListener getActivityAreaActionListener() {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

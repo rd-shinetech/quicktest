@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import co.shinetech.dao.db.PersistenceException;
-import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Question;
 import co.shinetech.gui.FilterPanel;
 import co.shinetech.gui.GUIUtils;

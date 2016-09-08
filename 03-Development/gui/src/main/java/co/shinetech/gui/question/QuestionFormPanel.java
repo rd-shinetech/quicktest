@@ -1,5 +1,5 @@
 /**
- * 
+ * QuestionFormPanel.java
  */
 package co.shinetech.gui.question;
 
@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -22,12 +23,11 @@ import javax.swing.border.TitledBorder;
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Question;
+import co.shinetech.dto.QuestionType;
 import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
-import co.shinetech.service.impl.ActivityAreaService;
-import co.shinetech.service.impl.ProfileService;
 import co.shinetech.service.impl.QuestionService;
-import java.awt.Panel;
+import javax.swing.JComboBox;
 
 /**
  * Form gui for question.
@@ -38,10 +38,13 @@ import java.awt.Panel;
 public class QuestionFormPanel extends JPanel implements DomainGetter<Question> {
 	private JTextField questionTextField;
 	private JTextField answerTextField;
-	private Question question;
+	private JComboBox<String> questionTypeComboBox;
+	private JComboBox<ActivityArea> activityAreaComboBox;
 	private JButton cancelButton;
 	private JDialog parent;
+	private Question question;
 	
+	@SuppressWarnings("unchecked")
 	public QuestionFormPanel(JDialog parent) {
 		
 		setLayout(new BorderLayout(0, 0));
@@ -50,21 +53,57 @@ public class QuestionFormPanel extends JPanel implements DomainGetter<Question> 
 		panel.setBorder(new TitledBorder(null, "Catálogo de Questões", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] {0};
-		gbl_panel.rowHeights = new int[] {0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0};
-		gbl_panel.rowWeights = new double[]{0.0};
+		gbl_panel.columnWidths = new int[] {0, 1, 0};
+		gbl_panel.rowHeights = new int[] {0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		panel.setLayout(gbl_panel);
 		
-		// JPanel panel = new JPanel();
-		// add(panel);
-				
-		JLabel lblQuestion = new JLabel("Quest\u00E3o");
+		JLabel lblTipoDaQuesto = new JLabel("Tipo:");
+		GridBagConstraints gbc_lblTipoDaQuesto = new GridBagConstraints();
+		gbc_lblTipoDaQuesto.anchor = GridBagConstraints.EAST;
+		gbc_lblTipoDaQuesto.insets = new Insets(5, 5, 5, 5);
+		gbc_lblTipoDaQuesto.gridx = 1;
+		gbc_lblTipoDaQuesto.gridy = 0;
+		panel.add(lblTipoDaQuesto, gbc_lblTipoDaQuesto);
+		
+		questionTypeComboBox = new JComboBox<String>();
+		DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<String>(new String[] {QuestionType.MULTIPLE_CHOICE.getName(),
+																						   QuestionType.TEXTUAL.getName()});
+		questionTypeComboBox.setModel(dcbm);
+		questionTypeComboBox.setMinimumSize(new Dimension(250, 20));
+		questionTypeComboBox.setPreferredSize(new Dimension(250, 20));
+		GridBagConstraints gbc_questionTypeComboBox = new GridBagConstraints();
+		gbc_questionTypeComboBox.anchor = GridBagConstraints.WEST;
+		gbc_questionTypeComboBox.insets = new Insets(5, 0, 5, 10);
+		gbc_questionTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_questionTypeComboBox.gridx = 2;
+		gbc_questionTypeComboBox.gridy = 0;
+		panel.add(questionTypeComboBox, gbc_questionTypeComboBox);
+		
+		JLabel lblTemaDaQuesto = new JLabel("Tema:");
+		GridBagConstraints gbc_lblTemaDaQuesto = new GridBagConstraints();
+		gbc_lblTemaDaQuesto.anchor = GridBagConstraints.EAST;
+		gbc_lblTemaDaQuesto.insets = new Insets(5, 5, 5, 5);
+		gbc_lblTemaDaQuesto.gridx = 1;
+		gbc_lblTemaDaQuesto.gridy = 1;
+		panel.add(lblTemaDaQuesto, gbc_lblTemaDaQuesto);
+		
+		activityAreaComboBox = new JComboBox();
+		GridBagConstraints gbc_questionAreaComboBox = new GridBagConstraints();
+		gbc_questionAreaComboBox.anchor = GridBagConstraints.WEST;
+		gbc_questionAreaComboBox.insets = new Insets(5, 0, 5, 10);
+		gbc_questionAreaComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_questionAreaComboBox.gridx = 2;
+		gbc_questionAreaComboBox.gridy = 1;
+		panel.add(activityAreaComboBox, gbc_questionAreaComboBox);
+		
+		JLabel lblQuestion = new JLabel("Quest\u00E3o:");
 		GridBagConstraints gbc_lblQuestion = new GridBagConstraints();
-		gbc_lblQuestion.insets = new Insets(10, 10, 10, 5);
+		gbc_lblQuestion.insets = new Insets(5, 5, 5, 5);
 		gbc_lblQuestion.anchor = GridBagConstraints.EAST;
-		gbc_lblQuestion.gridx = 0;
-		gbc_lblQuestion.gridy = 0;
+		gbc_lblQuestion.gridx = 1;
+		gbc_lblQuestion.gridy = 2;
 		panel.add(lblQuestion, gbc_lblQuestion);
 		
 		questionTextField = new JTextField();		
@@ -72,26 +111,38 @@ public class QuestionFormPanel extends JPanel implements DomainGetter<Question> 
 		questionTextField.setMinimumSize(new Dimension(300, 20));
 		questionTextField.setMaximumSize(new Dimension(300, 20));
 		GridBagConstraints gbc_questionTextField = new GridBagConstraints();
-		gbc_questionTextField.weighty = 1.0;
 		gbc_questionTextField.weightx = 1.0;
+		gbc_questionTextField.gridwidth = 2;
 		gbc_questionTextField.anchor = GridBagConstraints.EAST;
 		gbc_questionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_questionTextField.insets = new Insets(10, 5, 10, 10);
-		gbc_questionTextField.gridx = 1;
-		gbc_questionTextField.gridy = 0;
+		gbc_questionTextField.insets = new Insets(5, 0, 5, 10);
+		gbc_questionTextField.gridx = 2;
+		gbc_questionTextField.gridy = 2;
 		panel.add(questionTextField, gbc_questionTextField);
 		questionTextField.setColumns(30);
 		
-		JLabel lblAnswer = new JLabel("Resposta");
-		panel.add(lblAnswer);
+		JLabel lblAnswer = new JLabel("Resposta:");
+		GridBagConstraints gbc_lblAnswer = new GridBagConstraints();
+		gbc_lblAnswer.anchor = GridBagConstraints.EAST;
+		gbc_lblAnswer.insets = new Insets(5, 5, 0, 5);
+		gbc_lblAnswer.gridx = 1;
+		gbc_lblAnswer.gridy = 3;
+		panel.add(lblAnswer, gbc_lblAnswer);
 		
 		answerTextField = new JTextField();
-		panel.add(answerTextField);
+		GridBagConstraints gbc_answerTextField = new GridBagConstraints();
+		gbc_answerTextField.gridwidth = 2;
+		gbc_answerTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_answerTextField.anchor = GridBagConstraints.WEST;
+		gbc_answerTextField.insets = new Insets(5, 0, 0, 10);
+		gbc_answerTextField.gridx = 2;
+		gbc_answerTextField.gridy = 3;
+		panel.add(answerTextField, gbc_answerTextField);
 		answerTextField.setColumns(10);
 		
 		JPanel controlPanel = new JPanel();
 		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		add(controlPanel);
+		add(controlPanel, BorderLayout.SOUTH);
 		
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
@@ -124,8 +175,8 @@ public class QuestionFormPanel extends JPanel implements DomainGetter<Question> 
 	@Override
 	public void setDomainModel(Question domainData) {
 		this.question = domainData;
-		questionTextField.setText(this.question.getQuestion());
-		answerTextField.setText(this.question.getAnswer());		
+		questionTextField.setText(domainData.getQuestion());
+		answerTextField.setText(domainData.getAnswer());		
 	}
 
 	@Override
@@ -144,5 +195,5 @@ public class QuestionFormPanel extends JPanel implements DomainGetter<Question> 
 		}
 		return this.question;
 	}
-	}
+}
 	
