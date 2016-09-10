@@ -363,8 +363,8 @@ public class QTestMainWindow {
 				
 				dtm.setTblTitle(new String[] {"Código","Tipo","Tema","Questão","Resposta"});		// Table columns header		
 				dtm.setTblFields(new String[]{"pk","type","activityArea","question","answer"});
-				QuestionDataPanel aadp = new QuestionDataPanel(dtm);    
-				setCurrentPanel(aadp);
+				QuestionDataPanel qdp = new QuestionDataPanel(dtm);    
+				setCurrentPanel(qdp);
 			}
 		};		
 	} 
