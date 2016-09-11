@@ -89,11 +89,11 @@ public class QuestionFormPanel extends JPanel implements DomainGetter<Question> 
 		gbc_lblTemaDaQuesto.gridy = 1;
 		panel.add(lblTemaDaQuesto, gbc_lblTemaDaQuesto);
 		
-		// TODO
 		activityAreaComboBox = new JComboBox<ActivityArea>();
-		//DefaultComboBoxModel<ActivityArea> dcbm = new DefaultComboBoxModel<ActivityArea>(new ActivityArea[] {)
-		
-		
+		DefaultComboBoxModel<ActivityArea> dcbmaa = new DefaultComboBoxModel<ActivityArea>(new ActivityArea[] {});
+		activityAreaComboBox.setModel(dcbmaa);
+		activityAreaComboBox.setMinimumSize(new Dimension(250, 20));
+		activityAreaComboBox.setPreferredSize(new Dimension(250, 20));		
 		GridBagConstraints gbc_questionAreaComboBox = new GridBagConstraints();
 		gbc_questionAreaComboBox.anchor = GridBagConstraints.WEST;
 		gbc_questionAreaComboBox.insets = new Insets(5, 0, 5, 10);

@@ -368,7 +368,7 @@ public class QTestMainWindow {
 			}
 		};		
 	} 
-
+	
 	private ActionListener getActivityAreaActionListener() {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
