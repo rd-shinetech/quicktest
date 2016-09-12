@@ -26,6 +26,8 @@ import co.shinetech.dto.Question;
 import co.shinetech.dto.QuestionType;
 import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
+import co.shinetech.service.impl.ActivityAreaService;
+import co.shinetech.service.impl.ProfileService;
 import co.shinetech.service.impl.QuestionService;
 import javax.swing.JComboBox;
 
@@ -44,7 +46,6 @@ public class QuestionFormPanel extends JPanel implements DomainGetter<Question> 
 	private JDialog parent;
 	private Question question;
 	
-	@SuppressWarnings("unchecked")
 	public QuestionFormPanel(JDialog parent) {
 		
 		setLayout(new BorderLayout(0, 0));
@@ -89,11 +90,17 @@ public class QuestionFormPanel extends JPanel implements DomainGetter<Question> 
 		gbc_lblTemaDaQuesto.gridy = 1;
 		panel.add(lblTemaDaQuesto, gbc_lblTemaDaQuesto);
 		
-		activityAreaComboBox = new JComboBox<ActivityArea>();
-		DefaultComboBoxModel<ActivityArea> dcbmaa = new DefaultComboBoxModel<ActivityArea>(new ActivityArea[] {});
-		activityAreaComboBox.setModel(dcbmaa);
+		activityAreaComboBox = new JComboBox<>();
 		activityAreaComboBox.setMinimumSize(new Dimension(250, 20));
 		activityAreaComboBox.setPreferredSize(new Dimension(250, 20));		
+		ActivityAreaService aas = ServiceFactory.getService(ActivityAreaService.class);
+		try {
+			aas.retrieveAll().forEach(p -> activityAreaComboBox.addItem(p));
+		}
+		catch (PersistenceException e) {
+			e.printStackTrace();
+		}	
+		
 		GridBagConstraints gbc_questionAreaComboBox = new GridBagConstraints();
 		gbc_questionAreaComboBox.anchor = GridBagConstraints.WEST;
 		gbc_questionAreaComboBox.insets = new Insets(5, 0, 5, 10);
