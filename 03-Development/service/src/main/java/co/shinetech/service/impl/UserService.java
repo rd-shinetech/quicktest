@@ -1,9 +1,10 @@
 /**
- * 
+ * UserService.java
  */
 package co.shinetech.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import co.shinetech.dao.DAOProvider;
 import co.shinetech.dao.PersistenceProvider;
@@ -14,7 +15,7 @@ import co.shinetech.service.ServiceProvider;
 
 /**
  * @author Robin
- *
+ * @since 2016
  */
 public class UserService implements ServiceProvider<User>{
 	@SuppressWarnings("unchecked")
@@ -50,5 +51,13 @@ public class UserService implements ServiceProvider<User>{
 	public long nextId() throws PersistenceException {
 		return userDao.nextId();
 	}
-
+	
+	public User retrieveByLogin(final String login) throws PersistenceException {
+		List<User> list = retrieveAll().stream().filter(u -> u.getLogin().equals(login)).collect(Collectors.toList());
+		
+		if( list.size() > 0 )
+			return list.get(0);
+		else
+			return null;
+	}
 }

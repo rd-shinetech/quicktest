@@ -36,12 +36,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.ActivityArea;
 import co.shinetech.dto.Group;
 import co.shinetech.dto.Profile;
 import co.shinetech.dto.Question;
-import co.shinetech.dto.QuestionType;
 import co.shinetech.dto.User;
 import co.shinetech.gui.activity.ActivityDataPanel;
 import co.shinetech.gui.activityarea.ActivityAreaDataPanel;
@@ -52,6 +52,9 @@ import co.shinetech.gui.question.QuestionDataPanel;
 import co.shinetech.gui.table.DynamicTableModel;
 import co.shinetech.gui.table.GridDataPanel;
 import co.shinetech.gui.user.UserDataPanel;
+import co.shinetech.service.ServiceFactory;
+import co.shinetech.service.impl.ProfileService;
+import co.shinetech.service.impl.UserService;
 
 public class QTestMainWindow {
 	private JFrame frmQtest;
@@ -68,6 +71,10 @@ public class QTestMainWindow {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				} catch (Exception e1) {
+				}
 				SplashScreen splash = SplashScreen.getSplashScreen();
 				
 				if( splash != null ) {
@@ -90,6 +97,12 @@ public class QTestMainWindow {
 		});
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				try {
+					createInitialUserAccount();
+				} catch (PersistenceException e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao inicializar utilizador.\nPor favor pedir atendimento técnico.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
+					System.exit(0);
+				}
 				JDialog d = new JDialog();
 				d.setTitle("Autenticação de Utilizador");
 				AuthPanel authPanel = new AuthPanel(d);
@@ -128,10 +141,6 @@ public class QTestMainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e1) {
-		}
 		frmQtest = new JFrame();
 		frmQtest.setTitle("QuickTest "+sysProperties.getProperty("version"));
 		frmQtest.setBounds(100, 100, 800, 600);
@@ -474,5 +483,22 @@ public class QTestMainWindow {
 	private int exitConfirmation() {
 		Object[] options = { "Sim", "Não" }; 
         return JOptionPane.showOptionDialog(frmQtest, "Deseja mesmo sair da aplicação?","Confirmação", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);		
+	}
+	
+	/**
+	 * Method to start up the users creating the root account with default password.
+	 * @throws PersistenceException
+	 */
+	private static void createInitialUserAccount() throws PersistenceException {
+		ProfileService ps = ServiceFactory.getService(ProfileService.class);
+		UserService us = ServiceFactory.getService(UserService.class);
+		
+		if( ps.count() == 0 ) {
+			Profile p = new Profile(ps.nextId(), "Administrator");
+			ps.create(p);
+			
+			User u = new User(us.nextId(),"root","qwe123".toCharArray(),p);
+			us.create(u);
+		}
 	}
 }

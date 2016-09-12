@@ -1,42 +1,52 @@
+/*
+ * AuthPanel.java
+ */
 package co.shinetech.gui.auth;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.RenderingHints;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextField;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
+import co.shinetech.dao.db.PersistenceException;
+import co.shinetech.dto.User;
+import co.shinetech.service.ServiceFactory;
+import co.shinetech.service.impl.UserService;
+
+@SuppressWarnings("serial")
+/**
+ * Panel to authenticate users.
+ * @author rodrigo
+ * @since 2016
+ *
+ */
 public class AuthPanel extends JPanel {
-	private JTextField textField;
+	private JTextField loginTextField;
 	private JPasswordField passwordField;
-	private JDialog parent;
 	private boolean cancelled;
+	private int loginCount;
 
 	/**
 	 * Create the panel.
 	 */
 	public AuthPanel(JDialog parent) {
-		this.parent = parent;
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel controlPanel = new JPanel();
@@ -46,8 +56,26 @@ public class AuthPanel extends JPanel {
 		JButton okButton = new JButton("Ok");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO: checks the user authentication 
-				parent.dispose();
+				UserService us = ServiceFactory.getService(UserService.class);
+				User u;
+				try {
+					u = us.retrieveByLogin(loginTextField.getText());
+					if( u == null || ! Arrays.equals(passwordField.getPassword(), u.getPassword()) ) {
+						JOptionPane.showMessageDialog(parent, "Erro ao autenticar-se no aplicativo. Tente novamente.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+						loginTextField.requestFocus();
+						loginCount++;
+						if( loginCount == 3 ) {
+							JOptionPane.showMessageDialog(parent, "Erro ao autenticar-se.\nPor favor pedir atendimento técnico.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+							System.exit(0);							
+						}
+					} else {
+						parent.dispose();						
+					}
+					
+				} catch (PersistenceException e1) {
+					JOptionPane.showMessageDialog(parent, "Erro ao inicializar utilizador.\nPor favor pedir atendimento técnico.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
+					System.exit(0);					
+				}												
 			}
 		});
 		controlPanel.add(okButton);
@@ -109,14 +137,14 @@ public class AuthPanel extends JPanel {
 		gbc_lblUsurio.gridy = 0;
 		centerPanel.add(lblUsurio, gbc_lblUsurio);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.anchor = GridBagConstraints.WEST;
-		gbc_textField.insets = new Insets(40, 0, 5, 15);
-		gbc_textField.gridx = 3;
-		gbc_textField.gridy = 0;
-		centerPanel.add(textField, gbc_textField);
-		textField.setColumns(20);
+		loginTextField = new JTextField();
+		GridBagConstraints gbc_loginTextField = new GridBagConstraints();
+		gbc_loginTextField.anchor = GridBagConstraints.WEST;
+		gbc_loginTextField.insets = new Insets(40, 0, 5, 15);
+		gbc_loginTextField.gridx = 3;
+		gbc_loginTextField.gridy = 0;
+		centerPanel.add(loginTextField, gbc_loginTextField);
+		loginTextField.setColumns(20);
 		
 		JLabel lblPalavraPasse = new JLabel("Palavra Passe:");
 		GridBagConstraints gbc_lblPalavraPasse = new GridBagConstraints();
