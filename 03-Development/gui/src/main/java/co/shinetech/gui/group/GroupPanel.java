@@ -71,6 +71,7 @@ public class GroupPanel extends JPanel implements DomainGetter<Group>{
 		nameTextField.setColumns(50);
 		
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBackground(Color.LIGHT_GRAY);
 		controlPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		add(controlPanel, BorderLayout.SOUTH);
 		

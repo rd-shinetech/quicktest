@@ -85,6 +85,7 @@ public class FilterPanel extends JPanel {
 		tipTextField.setColumns(40);
 		
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBackground(Color.LIGHT_GRAY);
 		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(controlPanel, BorderLayout.SOUTH);
 		

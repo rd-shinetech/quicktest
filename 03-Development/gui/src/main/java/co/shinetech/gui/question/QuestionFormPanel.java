@@ -30,6 +30,7 @@ import co.shinetech.service.impl.ActivityAreaService;
 import co.shinetech.service.impl.ProfileService;
 import co.shinetech.service.impl.QuestionService;
 import javax.swing.JComboBox;
+import java.awt.Color;
 
 /**
  * Form gui for question.
@@ -152,6 +153,7 @@ public class QuestionFormPanel extends JPanel implements DomainGetter<Question> 
 		answerTextField.setColumns(10);
 		
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBackground(Color.LIGHT_GRAY);
 		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(controlPanel, BorderLayout.SOUTH);
 		

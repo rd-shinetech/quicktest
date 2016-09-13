@@ -29,6 +29,7 @@ import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.User;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.UserService;
+import java.awt.Color;
 
 @SuppressWarnings("serial")
 /**
@@ -50,6 +51,7 @@ public class AuthPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBackground(Color.LIGHT_GRAY);
 		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(controlPanel, BorderLayout.SOUTH);
 		

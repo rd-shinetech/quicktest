@@ -24,6 +24,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+import java.awt.Color;
 
 /**
  * 
@@ -120,6 +121,7 @@ public class UserFormPanel extends JPanel implements DomainGetter<User>{
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 2;
 		panel.add(comboBox, gbc_comboBox);
+		panel_1.setBackground(Color.LIGHT_GRAY);
 		panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(panel_1, BorderLayout.SOUTH);
 

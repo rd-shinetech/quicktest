@@ -4,6 +4,7 @@
 package co.shinetech.gui.activity;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,7 +23,13 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
 import co.shinetech.dao.db.PersistenceException;
 import co.shinetech.dto.Activity;
 import co.shinetech.dto.ActivityType;
@@ -32,13 +40,6 @@ import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityService;
 import co.shinetech.service.impl.GroupService;
 import co.shinetech.service.impl.UserService;
-import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
-import java.awt.Color;
-import java.awt.GridLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * GUI class for Activity entity.
@@ -87,6 +88,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		}
 			
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBackground(Color.LIGHT_GRAY);
 		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		mainPanel.add(controlPanel, BorderLayout.SOUTH);
 		
@@ -108,9 +110,9 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		JPanel supportPanel = new JPanel();
 		mainPanel.add(supportPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_supportPanel = new GridBagLayout();
-		gbl_supportPanel.columnWidths = new int[]{614, 0, 0};
+		gbl_supportPanel.columnWidths = new int[]{614, 0};
 		gbl_supportPanel.rowHeights = new int[]{216, 216, 0};
-		gbl_supportPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_supportPanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_supportPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		supportPanel.setLayout(gbl_supportPanel);
 		
@@ -119,7 +121,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_dataPanel.weighty = 1.0;
 		gbc_dataPanel.weightx = 1.0;
 		gbc_dataPanel.fill = GridBagConstraints.BOTH;
-		gbc_dataPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_dataPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_dataPanel.gridx = 0;
 		gbc_dataPanel.gridy = 0;
 		supportPanel.add(dataPanel, gbc_dataPanel);
@@ -275,7 +277,6 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		JPanel questionsPanel = new JPanel();
 		questionsPanel.setBorder(new TitledBorder(null, "Quest\u00F5es da Actividade", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_questionsPanel = new GridBagConstraints();
-		gbc_questionsPanel.insets = new Insets(0, 0, 0, 5);
 		gbc_questionsPanel.weighty = 1.0;
 		gbc_questionsPanel.weightx = 1.0;
 		gbc_questionsPanel.fill = GridBagConstraints.BOTH;

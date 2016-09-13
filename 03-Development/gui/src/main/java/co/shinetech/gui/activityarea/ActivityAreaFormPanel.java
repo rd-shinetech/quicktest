@@ -25,6 +25,7 @@ import co.shinetech.gui.DomainGetter;
 import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityAreaService;
 import co.shinetech.service.impl.ProfileService;
+import java.awt.Color;
 
 /**
  * Form gui for activity area.
@@ -75,6 +76,7 @@ public class ActivityAreaFormPanel extends JPanel implements DomainGetter<Activi
 		nameTextField.setColumns(30);
 
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBackground(Color.LIGHT_GRAY);
 		controlPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(controlPanel, BorderLayout.SOUTH);
 

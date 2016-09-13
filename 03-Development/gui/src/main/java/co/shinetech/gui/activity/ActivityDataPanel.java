@@ -1,5 +1,5 @@
 /**
- * 
+ * ActivityDataPanel.java
  */
 package co.shinetech.gui.activity;
 
@@ -23,6 +23,7 @@ import co.shinetech.service.impl.ActivityService;
 
 /**
  * @author Ricardo
+ * @since 2016
  *
  */
 @SuppressWarnings("serial")
@@ -69,7 +70,7 @@ public class ActivityDataPanel extends GridDataPanel{
 				d.setModal(true);
 				d.setResizable(false);
 				d.add(new ActivityFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
+				d.pack(); // redimension the JDialog to the JPanel size
 				GUIUtils.centerOnParent(d, true);
 				d.setVisible(true);
 			}
@@ -87,7 +88,7 @@ public class ActivityDataPanel extends GridDataPanel{
 				d.setModal(true);
 				d.setResizable(false);
 				d.add(new ActivityFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
+				d.pack(); // redimension the JDialog to the JPanel size
 				GUIUtils.centerOnParent(d, false);
 				d.setVisible(true);
 			}
@@ -106,7 +107,7 @@ public class ActivityDataPanel extends GridDataPanel{
 				d.setModal(true);
 				d.setResizable(false);
 				d.add(afp = new ActivityFormPanel(d));
-				d.pack(); // redimention the JDialog to the JPanel size
+				d.pack(); // redimentson the JDialog to the JPanel size
 				
 				Activity a = (Activity) tableModel.getData().get(table.getSelectedRow());
 				
