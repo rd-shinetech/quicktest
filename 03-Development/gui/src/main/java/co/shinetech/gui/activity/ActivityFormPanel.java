@@ -40,6 +40,7 @@ import co.shinetech.service.ServiceFactory;
 import co.shinetech.service.impl.ActivityService;
 import co.shinetech.service.impl.GroupService;
 import co.shinetech.service.impl.UserService;
+import javax.swing.JFormattedTextField;
 
 /**
  * GUI class for Activity entity.
@@ -50,15 +51,14 @@ import co.shinetech.service.impl.UserService;
 public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> {
 	private JTextField nameTextField;
 	private JTextField startDayTextField;
-	private JTextField endTimeTextField;
 	private JTextField startTimeTextField;
-	private JTextField endDayTextField;
 	private JDialog parent;
 	private Activity activity;
 	private JComboBox<User> teacherComboBox;
 	private JComboBox<ActivityType> activityTypeComboBox;
 	private JComboBox<Group> groupComboBox;
 	private JTable table;
+	private JTextField findQuestionTextField;
 	
 	/**
 	 * Create the panel.
@@ -127,13 +127,13 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		supportPanel.add(dataPanel, gbc_dataPanel);
 		dataPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Actividade", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		GridBagLayout gbl_dataPanel = new GridBagLayout();
-		gbl_dataPanel.columnWidths = new int[]{79, 192, 0, 0};
+		gbl_dataPanel.columnWidths = new int[]{79, 192, 0, 85, 0};
 		gbl_dataPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_dataPanel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_dataPanel.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_dataPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		dataPanel.setLayout(gbl_dataPanel);
 		
-		JLabel lblName = new JLabel("Name:");
+		JLabel lblName = new JLabel("Nome:");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.anchor = GridBagConstraints.EAST;
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
@@ -150,7 +150,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		dataPanel.add(nameTextField, gbc_nameTextField);
 		nameTextField.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Start Day:");
+		JLabel lblNewLabel = new JLabel("Data In\u00EDcio:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
@@ -167,6 +167,22 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_startDayTextField.gridy = 2;
 		dataPanel.add(startDayTextField, gbc_startDayTextField);
 		startDayTextField.setColumns(10);
+		
+		JLabel label = new JLabel("Data In\u00EDcio:");
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.anchor = GridBagConstraints.EAST;
+		gbc_label.gridx = 2;
+		gbc_label.gridy = 2;
+		dataPanel.add(label, gbc_label);
+		
+		JFormattedTextField formattedTextField = new JFormattedTextField();
+		GridBagConstraints gbc_formattedTextField = new GridBagConstraints();
+		gbc_formattedTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_formattedTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_formattedTextField.gridx = 3;
+		gbc_formattedTextField.gridy = 2;
+		dataPanel.add(formattedTextField, gbc_formattedTextField);
 		
 		JLabel lblStarttime = new JLabel("Start Time:");
 		GridBagConstraints gbc_lblStarttime = new GridBagConstraints();
@@ -186,48 +202,36 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		dataPanel.add(startTimeTextField, gbc_startTimeTextField);
 		startTimeTextField.setColumns(10);
 		
-		JLabel lblEndday = new JLabel("End Day:");
-		GridBagConstraints gbc_lblEndday = new GridBagConstraints();
-		gbc_lblEndday.anchor = GridBagConstraints.EAST;
-		gbc_lblEndday.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEndday.gridx = 0;
-		gbc_lblEndday.gridy = 4;
-		dataPanel.add(lblEndday, gbc_lblEndday);
-		
-		endDayTextField = new JTextField();
-		endDayTextField.setMinimumSize(new Dimension(100, 20));
-		GridBagConstraints gbc_endDAyTextField = new GridBagConstraints();
-		gbc_endDAyTextField.anchor = GridBagConstraints.WEST;
-		gbc_endDAyTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_endDAyTextField.gridx = 1;
-		gbc_endDAyTextField.gridy = 4;
-		dataPanel.add(endDayTextField, gbc_endDAyTextField);
-		endDayTextField.setColumns(10);
-		
 		JLabel lblEndtime = new JLabel("End Time:");
 		GridBagConstraints gbc_lblEndtime = new GridBagConstraints();
 		gbc_lblEndtime.anchor = GridBagConstraints.EAST;
 		gbc_lblEndtime.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEndtime.gridx = 0;
-		gbc_lblEndtime.gridy = 5;
+		gbc_lblEndtime.gridx = 2;
+		gbc_lblEndtime.gridy = 3;
 		dataPanel.add(lblEndtime, gbc_lblEndtime);
 		
-		endTimeTextField = new JTextField();
-		endTimeTextField.setMinimumSize(new Dimension(100, 20));
-		GridBagConstraints gbc_endTimeTextField = new GridBagConstraints();
-		gbc_endTimeTextField.anchor = GridBagConstraints.WEST;
-		gbc_endTimeTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_endTimeTextField.gridx = 1;
-		gbc_endTimeTextField.gridy = 5;
-		dataPanel.add(endTimeTextField, gbc_endTimeTextField);
-		endTimeTextField.setColumns(10);
+		JFormattedTextField formattedTextField_1 = new JFormattedTextField();
+		GridBagConstraints gbc_formattedTextField_1 = new GridBagConstraints();
+		gbc_formattedTextField_1.insets = new Insets(0, 0, 5, 0);
+		gbc_formattedTextField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_formattedTextField_1.gridx = 3;
+		gbc_formattedTextField_1.gridy = 3;
+		dataPanel.add(formattedTextField_1, gbc_formattedTextField_1);
+		
+		JFormattedTextField formattedTextField_2 = new JFormattedTextField();
+		GridBagConstraints gbc_formattedTextField_2 = new GridBagConstraints();
+		gbc_formattedTextField_2.insets = new Insets(0, 0, 5, 0);
+		gbc_formattedTextField_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_formattedTextField_2.gridx = 3;
+		gbc_formattedTextField_2.gridy = 4;
+		dataPanel.add(formattedTextField_2, gbc_formattedTextField_2);
 		
 		JLabel lblTeacher = new JLabel("Teacher:");
 		GridBagConstraints gbc_lblTeacher = new GridBagConstraints();
 		gbc_lblTeacher.anchor = GridBagConstraints.EAST;
 		gbc_lblTeacher.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTeacher.gridx = 0;
-		gbc_lblTeacher.gridy = 6;
+		gbc_lblTeacher.gridy = 5;
 		dataPanel.add(lblTeacher, gbc_lblTeacher);
 		
 		teacherComboBox = new JComboBox<User>();
@@ -236,7 +240,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_teacherComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_teacherComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_teacherComboBox.gridx = 1;
-		gbc_teacherComboBox.gridy = 6;
+		gbc_teacherComboBox.gridy = 5;
 		dataPanel.add(teacherComboBox, gbc_teacherComboBox);
 		teacherComboBox.setModel(dcbml);
 		
@@ -245,7 +249,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_lblActivitytype.anchor = GridBagConstraints.EAST;
 		gbc_lblActivitytype.insets = new Insets(0, 0, 5, 5);
 		gbc_lblActivitytype.gridx = 0;
-		gbc_lblActivitytype.gridy = 7;
+		gbc_lblActivitytype.gridy = 6;
 		dataPanel.add(lblActivitytype, gbc_lblActivitytype);
 		
 		activityTypeComboBox = new JComboBox<ActivityType>();
@@ -253,24 +257,24 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_activityTypeComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_activityTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_activityTypeComboBox.gridx = 1;
-		gbc_activityTypeComboBox.gridy = 7;
+		gbc_activityTypeComboBox.gridy = 6;
 		dataPanel.add(activityTypeComboBox, gbc_activityTypeComboBox);
 		activityTypeComboBox.setModel(cbm);
 		
 		JLabel lblGroup = new JLabel("Group:");
 		GridBagConstraints gbc_lblGroup = new GridBagConstraints();
 		gbc_lblGroup.anchor = GridBagConstraints.EAST;
-		gbc_lblGroup.insets = new Insets(0, 0, 0, 5);
+		gbc_lblGroup.insets = new Insets(0, 0, 5, 5);
 		gbc_lblGroup.gridx = 0;
-		gbc_lblGroup.gridy = 8;
+		gbc_lblGroup.gridy = 7;
 		dataPanel.add(lblGroup, gbc_lblGroup);
 		
 		groupComboBox = new JComboBox<Group>();
 		GridBagConstraints gbc_groupComboBox = new GridBagConstraints();
-		gbc_groupComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_groupComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_groupComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_groupComboBox.gridx = 1;
-		gbc_groupComboBox.gridy = 8;
+		gbc_groupComboBox.gridy = 7;
 		dataPanel.add(groupComboBox, gbc_groupComboBox);
 		groupComboBox.setModel(dcbm);
 		
@@ -284,6 +288,38 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		gbc_questionsPanel.gridy = 1;
 		supportPanel.add(questionsPanel, gbc_questionsPanel);
 		questionsPanel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		questionsPanel.add(panel, BorderLayout.NORTH);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{155, 326, 46, 0};
+		gbl_panel.rowHeights = new int[]{14, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Buscar Quest\u00E3o:");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.insets = new Insets(5, 5, 0, 5);
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.NORTHEAST;
+		gbc_lblNewLabel_1.gridx = 0;
+		gbc_lblNewLabel_1.gridy = 0;
+		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		findQuestionTextField = new JTextField();
+		GridBagConstraints gbc_findQuestionTextField = new GridBagConstraints();
+		gbc_findQuestionTextField.insets = new Insets(0, 0, 0, 5);
+		gbc_findQuestionTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_findQuestionTextField.gridx = 1;
+		gbc_findQuestionTextField.gridy = 0;
+		panel.add(findQuestionTextField, gbc_findQuestionTextField);
+		findQuestionTextField.setColumns(10);
+		
+//		JButton btnBuscar = new JButton("Buscar...");
+		GridBagConstraints gbc_btnBuscar = new GridBagConstraints();
+		gbc_btnBuscar.gridx = 2;
+		gbc_btnBuscar.gridy = 0;
+//		panel.add(btnBuscar, gbc_btnBuscar);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		questionsPanel.add(scrollPane, BorderLayout.CENTER);
@@ -302,9 +338,6 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 			}
 		));
 		scrollPane.setViewportView(table);
-		
-		JPanel panel = new JPanel();
-		questionsPanel.add(panel, BorderLayout.NORTH);
 
 	}
 	public void setDomainModel(Activity domainData) {
@@ -316,8 +349,8 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 		s = dtf.format(this.activity.getStartTime());
 		startDayTextField.setText(s.substring(0, 10));
 		startTimeTextField.setText(s.substring(10, 18));
-		endDayTextField.setText(s.substring(0, 10));
-		endTimeTextField.setText(s.substring(10, 18));		
+		//endDayTextField.setText(s.substring(0, 10));
+		//endTimeTextField.setText(s.substring(10, 18));		
 	}
 
 	public Activity getDomainModel() {
@@ -330,7 +363,7 @@ public class ActivityFormPanel extends JPanel implements DomainGetter<Activity> 
 			}
 			this.activity.setName(nameTextField.getText());
 			this.activity.setStartTime(LocalDateTime.parse(startDayTextField.getText()+startTimeTextField,dtf));
-			this.activity.setEndTime(LocalDateTime.parse(endDayTextField.getText()+endTimeTextField, dtf));
+			//this.activity.setEndTime(LocalDateTime.parse(endDayTextField.getText()+endTimeTextField, dtf));
 			this.activity.setTeacher((User)teacherComboBox.getSelectedItem());			
 			this.activity.setActivityType((ActivityType) activityTypeComboBox.getSelectedItem());
 			this.activity.setGroup((Group)groupComboBox.getSelectedItem());			
